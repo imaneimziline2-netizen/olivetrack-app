@@ -3,6 +3,8 @@ import { create, list, getOne, update, remove } from "../controllers/parcelleCon
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 import { checkOwnership } from "../middlewares/ownershipMiddleware.js";
 import Parcelle from "../models/parcelle.model.js";
+import { create as createRecolte, list as listRecoltes  } from "../controllers/recolteController.js";
+
 
 const router = Router();
 
@@ -11,5 +13,7 @@ router.get("/", authMiddleware, list);
 router.get("/:id", authMiddleware, checkOwnership(Parcelle), getOne);
 router.put("/:id", authMiddleware, checkOwnership(Parcelle), update);
 router.delete("/:id", authMiddleware, checkOwnership(Parcelle), remove);
+router.post("/:parcelleId/recoltes", authMiddleware,createRecolte );
+router.get("/:parcelleId/recoltes", authMiddleware, listRecoltes);
 
 export default router;
