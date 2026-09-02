@@ -1,5 +1,5 @@
-import { registerValidator, loginValidator } from "../validator/userValidator.js";
-import { registerUser, loginUser } from "../services/authService.js";
+import { registerValidator, loginValidator } from "../users/userValidator.js";
+import { registerUser, loginUser } from "../auth/authService.js";
 
 export async function register(req, res) {
     try {

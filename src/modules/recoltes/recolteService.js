@@ -1,5 +1,5 @@
-import Recolte from "../models/recolte.model.js";
-import Parcelle from "../models/parcelle.model.js";
+import Recolte from "./recolte.model.js";
+import Parcelle from "../parcelles/parcelle.model.js";
 
 const checkParcelleAccess = async (parcelleId, userId, userRole) => {
     const parcelle = await Parcelle.findById(parcelleId);

@@ -1,5 +1,5 @@
-import { getPrifile, updateProfile } from "../services/userService.js";
-import { updateProfileValidator } from "../validator/userValidator.js";
+import { getPrifile, updateProfile } from "./userService.js";
+import { updateProfileValidator } from "./userValidator.js";
 
 export async function myProfile(req, res) {
     try {

@@ -4,11 +4,11 @@ import {
     getParcelleById,
     updateParcelle,
     deleteParcelle,
-} from "../services/parcelleService.js";
+} from "./parcelleService.js";
 import {
     createParcelleValidator,
     updateParcelleValidator,
-} from "../validator/parcelleValidator.js";
+} from "./parcelleValidator.js";
 
 export async function create(req, res) {
     try {

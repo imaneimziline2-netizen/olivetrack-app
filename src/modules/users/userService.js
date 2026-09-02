@@ -1,4 +1,4 @@
-import User from "../models/user.model.js";
+import User from "./user.model.js";
 
 export const getPrifile = async (userId) => {
     const user = await User.findById(userId).select("-motDePasse");

@@ -1,4 +1,4 @@
-import Parcelle from "../models/parcelle.model.js";
+import Parcelle from "./parcelle.model.js";
 
 export const createParcelle = async (userId, data) => {
     return Parcelle.create({ ...data, userId });

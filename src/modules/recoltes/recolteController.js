@@ -4,11 +4,11 @@ import {
     getRecolteById,
     updateRecolte,
     deleteRecolte,
-} from "../services/recolteService.js";
+} from "./recolteService.js";
 import {
     createRecolteValidator,
     updateRecolteValidator,
-} from "../validator/recolteValidator.js";
+} from "./recolteValidator.js";
 
 export async function create(req, res) {
     try {

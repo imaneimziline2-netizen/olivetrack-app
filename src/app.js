@@ -1,8 +1,8 @@
 import express from "express";
-import authRoutes from "./routes/authRoutes.js";
-import userRoutes from "../src/routes/userRoutes.js"
-import parcelleRoutes from "./routes/parcelleRoutes.js";
-import recolteRoutes from "./routes/recolteRoutes.js";
+import authRoutes from "../src/modules/auth/authRoutes.js";
+import userRoutes from "../src/modules/users/userRoutes.js"
+import parcelleRoutes from "../src/modules/parcelles/parcelleRoutes.js";
+import recolteRoutes from "../src/modules/recoltes/recolteRoutes.js";
 
 
 const app = express();

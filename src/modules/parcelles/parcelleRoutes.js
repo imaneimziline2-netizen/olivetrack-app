@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { create, list, getOne, update, remove } from "../controllers/parcelleController.js";
-import { authMiddleware } from "../middlewares/authMiddleware.js";
-import { checkOwnership } from "../middlewares/ownershipMiddleware.js";
-import Parcelle from "../models/parcelle.model.js";
-import { create as createRecolte, list as listRecoltes  } from "../controllers/recolteController.js";
+import { create, list, getOne, update, remove } from "./parcelleController.js";
+import { authMiddleware } from "../../middlewares/authMiddleware.js";
+import { checkOwnership } from "../../middlewares/ownershipMiddleware.js";
+import Parcelle from "./parcelle.model.js";
+import { create as createRecolte, list as listRecoltes  } from "../recoltes/recolteController.js";
 
 
 const router = Router();

@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getOne, update, remove } from "../controllers/recolteController.js";
-import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { getOne, update, remove } from "./recolteController.js";
+import { authMiddleware } from "../../middlewares/authMiddleware.js";
 
 const router = Router();
 
