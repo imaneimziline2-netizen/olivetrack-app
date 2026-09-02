@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
         enum: ["agriculteur", "admin"],
         default: "agriculteur",
     },
-    statut: { type: String, enum: ["actif", "desactive"], default: "actif" },
+    // statut: { type: String, enum: ["actif", "desactive"], default: "actif" },
 },
 {timestamps: true});
 
