@@ -1,5 +1,6 @@
 import Recolte from "./recolte.model.js";
 import Parcelle from "../parcelles/parcelle.model.js";
+import ParcelleStock from "../parcelles/parcelleStock.model.js";
 
 const checkParcelleAccess = async (parcelleId, userId, userRole) => {
     const parcelle = await Parcelle.findById(parcelleId);
@@ -25,7 +26,20 @@ const checkParcelleAccess = async (parcelleId, userId, userRole) => {
 
 export const createRecolte = async (parcelleId, userId, userRole, data) => {
     await checkParcelleAccess(parcelleId, userId, userRole);
-    return Recolte.create({ ...data, parcelleId });
+
+    const recolte = await Recolte.create({ ...data, parcelleId });
+
+    await ParcelleStock.findOneAndUpdate(
+        { parcelleId },
+        {
+            $inc: {
+                Stock: data.quantiteOlives,
+                quantiteEntrant: data.quantiteOlives,
+            },
+        },
+    );
+
+    return recolte;
 };
 
 export const getRecoltesByParcelle = async (parcelleId, userId, userRole) => {
@@ -52,8 +66,26 @@ export const updateRecolte = async (recolteId, userId, userRole, data) => {
     return recolte;
 };
 
-export const deleteRecolte = async(recolteId, userId, userRole)=>{
-    await getRecolteById(recolteId, userId, userRole);
+export const deleteRecolte = async (recolteId, userId, userRole) => {
+    const recolte = await getRecolteById(recolteId, userId, userRole);
+
+    const stock = await ParcelleStock.findOne({
+        parcelleId: recolte.parcelleId,
+    });
+
+    if (stock && stock.Stock < recolte.quantiteOlives) {
+        const error = new Error(
+            "Impossible de supprimer cette récolte : une partie de sa quantité a déjà été triturée",
+        );
+        error.statusCode = 409;
+        throw error;
+    }
+
+    if (stock) {
+        stock.Stock -= recolte.quantiteOlives;
+        stock.quantiteEntrant -= recolte.quantiteOlives;
+        await stock.save();
+    }
+
     await Recolte.findByIdAndDelete(recolteId)
-    // TODO (Sprint 3) : supprimer en cascade les productions liées une fois ce module créé
-}
+};
