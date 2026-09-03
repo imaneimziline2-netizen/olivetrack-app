@@ -9,6 +9,7 @@ import {
     createParcelleValidator,
     updateParcelleValidator,
 } from "./parcelleValidator.js";
+import ParcelleStock from "./parcelleStock.model.js";
 
 export async function create(req, res) {
     try {
@@ -62,5 +63,18 @@ export async function remove(req, res) {
         res.status(200).json({ message: "Parcelle supprimée" });
     } catch (err) {
         res.status(err.statusCode || 500).json({ message: err.message });
+    }
+}
+
+
+export async function getStock(req, res) {
+    try {
+        const stock = await ParcelleStock.findOne({ parcelleId: req.params.id });
+        if (!stock) {
+            return res.status(404).json({ message: "Stock introuvable" });
+        }
+        res.json(stock);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 }

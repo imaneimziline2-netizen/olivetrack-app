@@ -1,12 +1,21 @@
 import Parcelle from "./parcelle.model.js";
+import ParcelleStock from "./parcelleStock.model.js";
+import Recolte from "../recoltes/recolte.model.js";
 
 export const createParcelle = async (userId, data) => {
-    return Parcelle.create({ ...data, userId });
+    const parcelle = await Parcelle.create({ ...data, userId });
+
+    await ParcelleStock.create({
+        nom: `Stock - ${parcelle.nom}`,
+        parcelleId: parcelle._id,
+    });
+
+    return parcelle;
 };
 
 export const getMyParcelles = async (userId, userRole) => {
     if (userRole === "admin") {
-        return Parcelle.find(); // admin voit tout
+        return Parcelle.find();
     }
     return Parcelle.find({ userId });
 };
@@ -41,6 +50,10 @@ export const deleteParcelle = async (parcelleId) => {
         error.statusCode = 404;
         throw error;
     }
-    // TODO (Sprint 2 suivant) : supprimer en cascade les récoltes et productions liées
+
+    await Recolte.deleteMany({ parcelleId });
+
+    await ParcelleStock.deleteOne({ parcelleId });
+
     return parcelle;
 };

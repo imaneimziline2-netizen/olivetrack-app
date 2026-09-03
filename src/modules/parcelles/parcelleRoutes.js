@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { create, list, getOne, update, remove } from "./parcelleController.js";
+import { create, list, getOne, update, remove, getStock } from "./parcelleController.js";
 import { authMiddleware } from "../../middlewares/authMiddleware.js";
 import { checkOwnership } from "../../middlewares/ownershipMiddleware.js";
 import Parcelle from "./parcelle.model.js";
@@ -15,5 +15,6 @@ router.put("/:id", authMiddleware, checkOwnership(Parcelle), update);
 router.delete("/:id", authMiddleware, checkOwnership(Parcelle), remove);
 router.post("/:parcelleId/recoltes", authMiddleware,createRecolte );
 router.get("/:parcelleId/recoltes", authMiddleware, listRecoltes);
+router.get("/:id/stock", authMiddleware, checkOwnership(Parcelle), getStock);
 
 export default router;
