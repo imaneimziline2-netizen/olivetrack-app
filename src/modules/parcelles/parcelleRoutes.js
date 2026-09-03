@@ -5,6 +5,7 @@ import { checkOwnership } from "../../middlewares/ownershipMiddleware.js";
 import Parcelle from "./parcelle.model.js";
 import { create as createRecolte, list as listRecoltes  } from "../recoltes/recolteController.js";
 import { create as createTrituration, list as listTriturations } from "../triturations/triturationController.js";
+import { create as createVendu, list as listVentes } from "../ventes/venduController.js";
 
 
 const router = Router();
@@ -22,5 +23,9 @@ router.get("/:id/stock", authMiddleware, checkOwnership(Parcelle), getStock);
 
 router.post("/:parcelleId/triturations", authMiddleware, createTrituration);
 router.get("/:parcelleId/triturations", authMiddleware, listTriturations);
+
+
+router.post("/:parcelleId/ventes", authMiddleware, createVendu);
+router.get("/:parcelleId/ventes", authMiddleware, listVentes);
 
 export default router;
