@@ -11,10 +11,10 @@ export async function register(req, res) {
         const result = await registerUser(req.body);
         res.status(201).json(result);
     } catch (err) {
+        console.log("tkhabi9a");
         res.status(err.statusCode || 500).json({ message: err.message });
     }
 }
-
 
 export async function login(req, res) {
     try {
