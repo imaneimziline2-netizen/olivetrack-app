@@ -51,9 +51,15 @@ export const deleteParcelle = async (parcelleId) => {
         throw error;
     }
 
-    await Recolte.deleteMany({ parcelleId });
+    const stock = await ParcelleStock.findOne({ parcelleId });
 
-    await ParcelleStock.deleteOne({ parcelleId });
+    if (stock && stock.quantiteSortante > 0) {
+        const error = new Error(
+            "Impossible de supprimer cette parcelle : des triturations existent déjà (rendement historique à préserver). Supprimez-les manuellement d'abord si nécessaire.",
+        );
+        error.statusCode = 409;
+        throw error;
+    }
 
     return parcelle;
 };
