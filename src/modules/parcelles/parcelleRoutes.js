@@ -6,9 +6,12 @@ import Parcelle from "./parcelle.model.js";
 import { create as createRecolte, list as listRecoltes  } from "../recoltes/recolteController.js";
 import { create as createTrituration, list as listTriturations } from "../triturations/triturationController.js";
 import { create as createVendu, list as listVentes } from "../ventes/venduController.js";
+import { getRendementParcelle } from "../dashboard/dashboardController.js";
 
 
 const router = Router();
+
+
 
 router.post("/", authMiddleware, create);
 router.get("/", authMiddleware, list);
@@ -27,5 +30,8 @@ router.get("/:parcelleId/triturations", authMiddleware, listTriturations);
 
 router.post("/:parcelleId/ventes", authMiddleware, createVendu);
 router.get("/:parcelleId/ventes", authMiddleware, listVentes);
+
+
+router.get("/:id/rendement", authMiddleware, checkOwnership(Parcelle), getRendementParcelle);
 
 export default router;
