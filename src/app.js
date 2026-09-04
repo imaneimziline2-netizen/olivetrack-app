@@ -5,6 +5,7 @@ import parcelleRoutes from "../src/modules/parcelles/parcelleRoutes.js";
 import recolteRoutes from "../src/modules/recoltes/recolteRoutes.js";
 import triturationRoutes from "./modules/triturations/triturationRoutes.js";
 import venduRoutes from "./modules/ventes/venduRoutes.js";
+import dashboardRoutes from "./modules/dashboard/dashboardRoutes.js";
 
 
 const app = express();
@@ -20,5 +21,6 @@ app.use("/api/parcelles", parcelleRoutes);
 app.use("/api/recoltes", recolteRoutes);
 app.use("/api/triturations", triturationRoutes);
 app.use("/api/ventes", venduRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 export default app;
