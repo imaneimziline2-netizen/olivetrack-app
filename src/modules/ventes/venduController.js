@@ -1,3 +1,4 @@
+import { serverErrorResponse } from "../../utils/serverErrorResponse.js";
 import {
     createVendu,
     getVentesByParcelle,
@@ -13,36 +14,43 @@ export async function create(req, res) {
             return res.status(400).json({ message: error.details[0].message });
         }
 
-        const vendu = await createVendu(req.params.parcelleId, req.user.userId, req.user.role, req.body);
+        const vendu = await createVendu(
+            req.params.parcelleId,
+            req.body,
+        );
         res.status(201).json(vendu);
     } catch (err) {
-        res.status(err.statusCode || 500).json({ message: err.message });
+        serverErrorResponse(res, err);
     }
 }
 
 export async function list(req, res) {
     try {
-        const ventes = await getVentesByParcelle(req.params.parcelleId, req.user.userId, req.user.role);
+        const ventes = await getVentesByParcelle(
+            req.params.parcelleId,
+        );
         res.json(ventes);
     } catch (err) {
-        res.status(err.statusCode || 500).json({ message: err.message });
+        serverErrorResponse(res, err);
     }
 }
 
 export async function getOne(req, res) {
     try {
-        const vendu = await getVenduById(req.params.id, req.user.userId, req.user.role);
+        const vendu = await getVenduById(
+            req.params.id,
+        );
         res.json(vendu);
     } catch (err) {
-        res.status(err.statusCode || 500).json({ message: err.message });
+        serverErrorResponse(res, err);
     }
 }
 
 export async function remove(req, res) {
     try {
-        await deleteVendu(req.params.id, req.user.userId, req.user.role);
+        await deleteVendu(req.params.id);
         res.status(200).json({ message: "Vente supprimée, stock restitué" });
     } catch (err) {
-        res.status(err.statusCode || 500).json({ message: err.message });
+        serverErrorResponse(res, err);
     }
 }

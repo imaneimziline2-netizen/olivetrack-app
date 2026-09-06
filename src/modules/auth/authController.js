@@ -1,5 +1,6 @@
 import { registerValidator, loginValidator } from "../users/userValidator.js";
 import { registerUser, loginUser } from "../auth/authService.js";
+import { serverErrorResponse } from "../../utils/serverErrorResponse.js";
 
 export async function register(req, res) {
     try {
@@ -11,7 +12,7 @@ export async function register(req, res) {
         const result = await registerUser(req.body);
         res.status(201).json(result);
     } catch (err) {
-        res.status(err.statusCode || 500).json({ message: err.message });
+        serverErrorResponse(res, err);
     }
 }
 
@@ -25,6 +26,6 @@ export async function login(req, res) {
         const result = await loginUser(req.body);
         res.status(200).json(result);
     } catch (err) {
-        res.status(err.statusCode || 500).json({ message: err.message });
+        serverErrorResponse(res, err);
     }
 }

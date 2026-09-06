@@ -44,7 +44,7 @@ export const updateParcelle = async (parcelleId, data) => {
 };
 
 export const deleteParcelle = async (parcelleId) => {
-    const parcelle = await Parcelle.findByIdAndDelete(parcelleId);
+    const parcelle = await Parcelle.findById(parcelleId);
     if (!parcelle) {
         const error = new Error("Parcelle introuvable");
         error.statusCode = 404;
@@ -55,10 +55,16 @@ export const deleteParcelle = async (parcelleId) => {
 
     if (stock && stock.quantiteSortante > 0) {
         const error = new Error(
-            "Impossible de supprimer cette parcelle : des triturations existent déjà (rendement historique à préserver). Supprimez-les manuellement d'abord si nécessaire.",
+            "Impossible de supprimer cette parcelle : des triturations existent déjà (rendement historique à préserver). Supprimez-les manuellement d'abord si nécessaire."
         );
         error.statusCode = 409;
         throw error;
+    }
+
+    await Parcelle.findByIdAndDelete(parcelleId);
+    await Recolte.deleteMany({ parcelleId });
+    if (stock) {
+        await ParcelleStock.deleteOne({ parcelleId });
     }
 
     return parcelle;
