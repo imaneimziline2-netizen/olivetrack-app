@@ -1,3 +1,5 @@
+import { serverErrorResponse } from "../utils/serverErrorResponse.js";
+
 export const checkOwnership = (Model, paramName = "id") => {
     return async (req, res, next) => {
         try {
@@ -10,14 +12,14 @@ export const checkOwnership = (Model, paramName = "id") => {
             const isOwner = resource.userId?.toString() === req.user.userId;
             const isAdmin = req.user.role === "admin";
 
-            if (!isOwner && !isAdmin) {
+            if (!isOwner) {
                 return res.status(403).json({ message: "Accès refusé : ressource non autorisée" });
             }
 
             req.resource = resource;
             next();
         } catch (error) {
-            return res.status(500).json({ message: error.message });
+            serverErrorResponse(res,error)
         }
     };
 };

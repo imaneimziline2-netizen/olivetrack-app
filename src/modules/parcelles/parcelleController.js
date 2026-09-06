@@ -10,6 +10,7 @@ import {
     updateParcelleValidator,
 } from "./parcelleValidator.js";
 import ParcelleStock from "./parcelleStock.model.js";
+import { serverErrorResponse } from "../../utils/serverErrorResponse.js";
 
 export async function create(req, res) {
     try {
@@ -17,11 +18,10 @@ export async function create(req, res) {
         if (error) {
             return res.status(400).json({ message: error.details[0].message });
         }
-
         const parcelle = await createParcelle(req.user.userId, req.body);
         res.status(201).json(parcelle);
     } catch (err) {
-        res.status(err.statusCode || 500).json({ message: err.message });
+        serverErrorResponse(res, err);
     }
 }
 
@@ -30,7 +30,7 @@ export async function list(req, res) {
         const parcelles = await getMyParcelles(req.user.userId, req.user.role);
         res.json(parcelles);
     } catch (err) {
-        res.status(err.statusCode || 500).json({ message: err.message });
+        serverErrorResponse(res, err);
     }
 }
 
@@ -39,7 +39,7 @@ export async function getOne(req, res) {
         const parcelle = await getParcelleById(req.params.id);
         res.json(parcelle);
     } catch (err) {
-        res.status(err.statusCode || 500).json({ message: err.message });
+        serverErrorResponse(res, err);
     }
 }
 
@@ -53,7 +53,7 @@ export async function update(req, res) {
         const parcelle = await updateParcelle(req.params.id, req.body);
         res.json(parcelle);
     } catch (err) {
-        res.status(err.statusCode || 500).json({ message: err.message });
+        serverErrorResponse(res, err);
     }
 }
 
@@ -62,19 +62,20 @@ export async function remove(req, res) {
         await deleteParcelle(req.params.id);
         res.status(200).json({ message: "Parcelle supprimée" });
     } catch (err) {
-        res.status(err.statusCode || 500).json({ message: err.message });
+        serverErrorResponse(res, err);
     }
 }
 
-
 export async function getStock(req, res) {
     try {
-        const stock = await ParcelleStock.findOne({ parcelleId: req.params.id });
+        const stock = await ParcelleStock.findOne({
+            parcelleId: req.params.id,
+        });
         if (!stock) {
             return res.status(404).json({ message: "Stock introuvable" });
         }
         res.json(stock);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        serverErrorResponse(res, err);
     }
 }

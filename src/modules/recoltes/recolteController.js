@@ -1,3 +1,4 @@
+import { serverErrorResponse } from "../../utils/serverErrorResponse.js";
 import {
     createRecolte,
     getRecoltesByParcelle,
@@ -19,13 +20,11 @@ export async function create(req, res) {
 
         const recolte = await createRecolte(
             req.params.parcelleId,
-            req.user.userId,
-            req.user.role,
             req.body,
         );
         res.status(201).json(recolte);
-    } catch (error) {
-        res.status(err.statusCode || 500).json({ message: err.message });
+    } catch (err) {
+        serverErrorResponse(res, err);
     }
 }
 
@@ -33,21 +32,21 @@ export async function list(req, res) {
     try {
         const recolte = await getRecoltesByParcelle(
             req.params.parcelleId,
-            req.user.userId,
-            req.user.role,
         );
         res.json(recolte);
-    } catch (error) {
-        res.status(error.statusCode || 500).json({ message: error.message });
+    } catch (err) {
+        serverErrorResponse(res, err);
     }
 }
 
 export async function getOne(req, res) {
     try {
-        const recolte = await getRecolteById(req.params.id, req.user.userId, req.user.role);
+        const recolte = await getRecolteById(
+            req.params.id,
+        );
         res.json(recolte);
     } catch (err) {
-        res.status(err.statusCode || 500).json({ message: err.message });
+        serverErrorResponse(res, err);
     }
 }
 
@@ -58,19 +57,21 @@ export async function update(req, res) {
             return res.status(400).json({ message: error.details[0].message });
         }
 
-        const recolte = await updateRecolte(req.params.id, req.user.userId, req.user.role, req.body);
+        const recolte = await updateRecolte(
+            req.params.id,
+            req.body,
+        );
         res.json(recolte);
     } catch (err) {
-        res.status(err.statusCode || 500).json({ message: err.message });
+        serverErrorResponse(res, err);
     }
 }
 
 export async function remove(req, res) {
     try {
-        await deleteRecolte(req.params.id, req.user.userId, req.user.role);
+        await deleteRecolte(req.params.id);
         res.status(200).json({ message: "Récolte supprimée" });
     } catch (err) {
-        res.status(err.statusCode || 500).json({ message: err.message });
+        serverErrorResponse(res, err);
     }
 }
-
