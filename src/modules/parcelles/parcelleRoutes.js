@@ -9,7 +9,7 @@ import {
 } from "./parcelleController.js";
 import { authMiddleware } from "../../middlewares/authMiddleware.js";
 import { checkOwnership } from "../../middlewares/ownershipMiddleware.js";
-import { checkParcelleAccess } from "../../middlewares/parcelleAccessMiddleware.js"; 
+import { checkParcelleAccess } from "./parcelleAccessMiddleware.js";
 import Parcelle from "./parcelle.model.js";
 import {
     create as createRecolte,
@@ -37,16 +37,16 @@ router.put("/:id", paramIdCheck("id"), checkOwnership(Parcelle), update);
 router.delete("/:id", paramIdCheck("id"), checkOwnership(Parcelle), remove);
 
 router.post(
-    "/:parcelleId/recoltes", 
-    paramIdCheck("parcelleId"), 
-    checkParcelleAccess("parcelleId"), 
-    createRecolte
+    "/:parcelleId/recoltes",
+    paramIdCheck("parcelleId"),
+    checkParcelleAccess("parcelleId"),
+    createRecolte,
 );
 router.get(
-    "/:parcelleId/recoltes", 
-    paramIdCheck("parcelleId"), 
-    checkParcelleAccess("parcelleId"), 
-    listRecoltes
+    "/:parcelleId/recoltes",
+    paramIdCheck("parcelleId"),
+    checkParcelleAccess("parcelleId"),
+    listRecoltes,
 );
 
 router.get(
@@ -59,27 +59,27 @@ router.get(
 router.post(
     "/:parcelleId/triturations",
     paramIdCheck("parcelleId"),
-    checkParcelleAccess("parcelleId"), 
+    checkParcelleAccess("parcelleId"),
     createTrituration,
 );
 router.get(
     "/:parcelleId/triturations",
     paramIdCheck("parcelleId"),
-    checkParcelleAccess("parcelleId"), 
+    checkParcelleAccess("parcelleId"),
     listTriturations,
 );
 
 router.post(
-    "/:parcelleId/ventes", 
-    paramIdCheck("parcelleId"),
-    checkParcelleAccess("parcelleId"), 
-    createVendu
-);
-router.get(
-    "/:parcelleId/ventes", 
+    "/:parcelleId/ventes",
     paramIdCheck("parcelleId"),
     checkParcelleAccess("parcelleId"),
-    listVentes
+    createVendu,
+);
+router.get(
+    "/:parcelleId/ventes",
+    paramIdCheck("parcelleId"),
+    checkParcelleAccess("parcelleId"),
+    listVentes,
 );
 
 router.get(
