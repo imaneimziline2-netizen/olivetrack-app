@@ -55,7 +55,7 @@ export const deleteParcelle = async (parcelleId) => {
 
     if (stock && stock.quantiteSortante > 0) {
         const error = new Error(
-            "Impossible de supprimer cette parcelle : des triturations existent déjà (rendement historique à préserver). Supprimez-les manuellement d'abord si nécessaire."
+        "Impossible de supprimer cette parcelle : elle possède un historique de sorties. Supprimez-les d'abord si vous souhaitez continuer."
         );
         error.statusCode = 409;
         throw error;

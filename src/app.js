@@ -6,6 +6,7 @@ import recolteRoutes from "../src/modules/recoltes/recolteRoutes.js";
 import triturationRoutes from "./modules/triturations/triturationRoutes.js";
 import venduRoutes from "./modules/ventes/venduRoutes.js";
 import dashboardRoutes from "./modules/dashboard/dashboardRoutes.js";
+import adminRoutes from "./modules/admin/adminRoutes.js";
 
 
 const app = express();
@@ -22,5 +23,6 @@ app.use("/api/recoltes", recolteRoutes);
 app.use("/api/triturations", triturationRoutes);
 app.use("/api/ventes", venduRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/admin", adminRoutes);
 
 export default app;

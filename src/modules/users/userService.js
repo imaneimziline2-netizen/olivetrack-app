@@ -1,6 +1,6 @@
 import User from "./user.model.js";
 
-export const getPrifile = async (userId) => {
+export const getProfile = async (userId) => {
     const user = await User.findById(userId).select("-motDePasse");
     if (!user) {
         const error = new Error("Utilisateur introuvable");
@@ -12,7 +12,7 @@ export const getPrifile = async (userId) => {
 
 export const updateProfile = async (userId, { nom, email }) => {
     if (email) {
-        const existing = await User.findOne({ email, _id: { $ne: userId } }); //$ne = "not equal" (opérateur Mongoose/MongoDB)
+        const existing = await User.findOne({ email, _id: { $ne: userId } }); 
         if (existing) {
             const error = new Error("Cet email est déjà utilisé");
             error.statusCode = 409;
