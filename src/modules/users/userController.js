@@ -1,10 +1,10 @@
 import { serverErrorResponse } from "../../utils/serverErrorResponse.js";
-import { getPrifile, updateProfile } from "./userService.js";
+import { getProfile, updateProfile } from "./userService.js";
 import { updateProfileValidator } from "./userValidator.js";
 
 export async function myProfile(req, res) {
     try {
-        const user = await getPrifile(req.user.userId);
+        const user = await getProfile(req.user.userId);
         res.json(user);
     } catch (err) {
         serverErrorResponse(res, err);
