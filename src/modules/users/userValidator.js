@@ -4,7 +4,7 @@ export const registerValidator = Joi.object({
     nom: Joi.string().min(2).required(),
     email: Joi.string().email().required(),
     motDePasse: Joi.string().min(8).required(),
-    role: Joi.string().valid("agriculteur", "admin").required(),
+    // role: Joi.string().valid("agriculteur", "admin").required(),
 });
 
 export const loginValidator = Joi.object({

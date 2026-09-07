@@ -36,9 +36,9 @@ export const comparerRendementParcelle = async (parcelleId, anneeActuelle) => {
     const actuel = await rendementAnnuelParcelle(parcelleId, anneeActuelle);
     if (actuel.rendement === null) return actuel;
 
-    const { alerte, ecart, message } = detecterAnomalie(actuel.rendement, historique);
+    const { alerte, ecart, message, moyenneHistorique  } = detecterAnomalie(actuel.rendement, historique);
 
-    return { ...actuel, alerte, ecart, message };
+    return { ...actuel, alerte, ecart, moyenneHistorique, message };
 };
 
 export const rendementToutesParcelles = async (userId, annee) => {

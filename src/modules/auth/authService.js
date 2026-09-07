@@ -2,7 +2,7 @@ import User from "../users/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const registerUser = async ({ nom, email, motDePasse ,role}) => {
+export const registerUser = async ({ nom, email, motDePasse }) => {
     const existing = await User.findOne({ email });
     if (existing) {
         const error = new Error("Email déja utilisé");
@@ -16,7 +16,7 @@ export const registerUser = async ({ nom, email, motDePasse ,role}) => {
         nom,
         email,
         motDePasse: hashedPassword,
-        role: role || "agriculteur"
+        role: "agriculteur", 
     });
 
     const token = jwt.sign(
