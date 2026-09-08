@@ -1,9 +1,6 @@
 import Trituration from "./trituration.model.js";
 import ParcelleStock from "../parcelles/parcelleStock.model.js";
-
-const calculerRendement = (quantitéHuile, quantite) => {
-    return Math.round((quantitéHuile / quantite) * 100 * 10) / 10;
-};
+import { calculerRendement } from "../../utils/rendementCalculator.js";
 
 export const createTrituration = async (parcelleId, data) => {
     
