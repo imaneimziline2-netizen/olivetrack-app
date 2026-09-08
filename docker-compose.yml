@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   api:
-    build: .
+    build: ./back-end
     container_name: olivetrack-backend
     ports:
       - "3000:3000"
