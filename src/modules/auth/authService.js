@@ -16,7 +16,7 @@ export const registerUser = async ({ nom, email, motDePasse }) => {
         nom,
         email,
         motDePasse: hashedPassword,
-        role: "agriculteur",
+        role: "agriculteur", 
     });
 
     const token = jwt.sign(
@@ -33,20 +33,14 @@ export const registerUser = async ({ nom, email, motDePasse }) => {
 export const loginUser = async ({ email, motDePasse }) => {
     const user = await User.findOne({ email }).select("+motDePasse");
     if (!user) {
-        const error = new Error("Invalid credentials");
+        const error = new Error("Email ou mot de passe invalide");
         error.statusCode = 401;
-        throw error;
-    }
-
-    if (user.statut === "desactive") {
-        const error = new Error("Compte désactivé");
-        error.statusCode = 403;
         throw error;
     }
 
     const isMatch = await bcrypt.compare(motDePasse, user.motDePasse);
     if (!isMatch) {
-        const error = new Error("Invalid credentials");
+        const error = new Error("Email ou mot de passe invalide");
         error.statusCode = 401;
         throw error;
     }
@@ -57,5 +51,13 @@ export const loginUser = async ({ email, motDePasse }) => {
         { expiresIn: "1d" },
     );
 
-    return { message: "Login successful", token };
+    return {
+        token,
+        user: {
+            id: user._id,
+            nom: user.nom,
+            email: user.email,
+            role: user.role,
+        },
+    };
 };
