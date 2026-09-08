@@ -12,9 +12,9 @@
 
 Ce projet est une **application web** qui permet de centraliser la gestion des exploitations oléicoles : parcelles, récoltes, stock d'olives/huile, opérations de trituration et ventes.
 
-Il s'adresse principalement aux **agriculteurs oléiculteurs** qui gèrent une ou plusieurs parcelles, ainsi qu'aux **administrateurs** chargés de superviser la plateforme.
+Il s'adresse principalement aux **agriculteurs oléiculteurs** qui gèrent une ou plusieurs parcelles, ainsi qu'à un **administrateur** chargé de superviser la plateforme.
 
-Son objectif principal est de **digitaliser le suivi de la production oléicole** en remplaçant une gestion manuelle et dispersée par une plateforme unique offrant un suivi de stock automatisé, un calcul de rendement par trituration, une comparaison du rendement d'une parcelle d'une année sur l'autre, et un tableau de bord d'indicateurs clés.
+Son objectif principal est de **digitaliser le suivi de la production oléicole** en remplaçant une gestion manuelle et dispersée par une plateforme unique offrant un suivi de stock automatisé, un calcul de rendement par trituration, une comparaison du rendement d'une parcelle d'une année sur l'autre avec détection automatique d'anomalie, et un tableau de bord d'indicateurs clés.
 
 ---
 
@@ -28,17 +28,18 @@ La solution proposée permet d'enregistrer les parcelles et les récoltes (qui a
 
 ## 4. Fonctionnalités principales
 
-- Créer un compte utilisateur (agriculteur)
-- Se connecter à son espace via un système d'authentification sécurisé (JWT)
+- Créer un compte utilisateur (agriculteur uniquement, rôle forcé côté serveur)
+- Se connecter via un système d'authentification sécurisé (JWT)
 - Consulter et modifier son profil personnel
 - Gérer ses parcelles (ajouter, consulter, modifier, supprimer)
 - Enregistrer une récolte, qui alimente automatiquement le stock de la parcelle concernée
 - Enregistrer une opération de trituration (olives → huile) avec calcul automatique du rendement
-- Enregistrer une vente d'huile et suivre le revenu généré
+- Enregistrer une vente d'olives et suivre le revenu généré
 - Consulter le rendement annuel de chaque parcelle et sa comparaison avec les années précédentes
-- Recevoir une alerte automatique en cas de baisse significative du rendement d'une parcelle
-- Consulter un tableau de bord affichant les indicateurs clés de toutes les parcelles de l'exploitation
-- Superviser les comptes utilisateurs (rôle administrateur)
+- Recevoir une alerte automatique en cas de baisse significative du rendement (seuil -20%)
+- Consulter un tableau de bord affichant le rendement de toutes les parcelles de l'exploitation
+- Consulter un guide agronomique mensuel (irrigation, taille, fertilisation, récolte, trituration)
+- Superviser (lecture seule) la liste des utilisateurs — rôle administrateur, unique dans le système
 
 ---
 
@@ -46,63 +47,56 @@ La solution proposée permet d'enregistrer les parcelles et les récoltes (qui a
 
 | Technologie | Utilisation dans le projet |
 |-------------|----------------------------|
-| Node.js & Express.js | Développement du backend et de l'API REST |
-| MongoDB & Mongoose | Stockage des données (utilisateurs, parcelles, récoltes, stock, triturations, ventes) |
-| JWT (jsonwebtoken) | Authentification et gestion des sessions utilisateur |
-| Bcrypt | Hachage sécurisé des mots de passe |
-| Joi | Validation des données entrantes sur chaque endpoint |
-| Postman | Test manuel des endpoints de l'API pendant le développement |
-| Git & GitHub | Versionnement du code et travail collaboratif |
+| Node.js & Express.js | Backend et API REST |
+| MongoDB & Mongoose | Stockage des données |
+| JWT (jsonwebtoken) | Authentification |
+| Bcrypt | Hachage des mots de passe |
+| Joi | Validation des données entrantes |
+| Jest, Supertest, mongodb-memory-server | Tests unitaires et d'intégration |
+| Docker, docker-compose | Conteneurisation de l'API et de MongoDB |
+| GitHub Actions | Intégration continue (lint, tests, build) |
+| Postman | Tests manuels de l'API |
+| Git & GitHub | Versionnement |
 
 ---
 
 ## 6. Modèle de données
 
 ```
-User (nom, email, motDePasse, role)
+User (nom, email, motDePasse, role: agriculteur|admin — un seul admin dans le système)
   └── Parcelle (nom, superficie, localisation, variete, typeIrrigation, modeCulture, nombreArbres, anneePlantation)
-        ├── Recolte (date, quantiteOlives)              → alimente automatiquement ParcelleStock
+        ├── Recolte (date, quantiteOlives)                          → alimente automatiquement ParcelleStock
         └── ParcelleStock (nom, Stock, quantiteEntrant, quantiteSortante)   → 1 par parcelle
               ├── Trituration (date, quantite, quantitéHuile, rendement)    → transforme le stock d'olives en huile
-              └── Vendu (date, quantite, revenu)                            → vente d'huile depuis le stock
+              └── Vendu (date, quantiteVendue, revenu)                      → vente d'olives depuis le stock
 ```
 
-**Rendement** : calculé automatiquement à chaque `Trituration` (`quantitéHuile / quantite × 100`), stocké sur l'enregistrement. Le rendement annuel par parcelle est calculé à la volée (agrégation des triturations de l'année), non stocké, et comparé aux années précédentes pour détecter une baisse significative (seuil configurable, ex. -20%).
+**Rendement** : calculé et stocké à chaque `Trituration`. Le rendement annuel par parcelle est calculé à la volée (agrégation des triturations de l'année), non stocké, et comparé aux 3 années précédentes pour détecter une baisse significative.
+
+**Contrainte single-admin** : garantie au niveau base de données via un index unique partiel MongoDB sur `role: "admin"`, pas seulement au niveau applicatif.
 
 ---
 
 ## 7. Installation et lancement
 
 ### 7.1 Prérequis
-
 - Node.js (version 18 ou supérieure)
-- npm
-- Git
-- MongoDB (local ou instance MongoDB Atlas)
-- Un éditeur de code (VS Code recommandé)
+- npm, Git
+- MongoDB (local ou instance MongoDB Atlas), ou Docker
 
 ### 7.2 Cloner le dépôt
-
 ```bash
 git clone https://github.com/imaneimziline2-netizen/olivetrack-app.git
-```
-
-### 7.3 Ouvrir le dossier
-
-```bash
 cd olivetrack-backend
 ```
 
-### 7.4 Installer les dépendances
-
+### 7.3 Installer les dépendances
 ```bash
 npm install
 ```
 
-### 7.5 Variables d'environnement
-
-Créer un fichier `.env` à la racine du projet, à partir de `.env.example` :
-
+### 7.4 Variables d'environnement
+Créer un fichier `.env` à la racine :
 ```env
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/olivetrack
@@ -110,117 +104,129 @@ JWT_SECRET=votre_secret_jwt
 JWT_EXPIRES_IN=1d
 ```
 
-### 7.6 Lancer le projet
+### 7.5 Lancer le projet
 
+**En local :**
 ```bash
 npm run dev
 ```
 
-### 7.7 Ouvrir le projet
-
+**Avec Docker (API + MongoDB) :**
+```bash
+docker compose up --build
 ```
-http://localhost:5000
-```
 
-Endpoint de vérification :
+### 7.6 Vérifier
 ```
 GET http://localhost:5000/health
 ```
 
-### Point de vigilance
+### 7.7 Lancer les tests
+```bash
+npm test
+```
 
-- Le fichier `.env` ne doit **jamais** être publié sur GitHub (exclu via `.gitignore`).
-- Ne jamais publier de mots de passe, clés API, tokens ou identifiants réels.
+### Point de vigilance
+- `.env` ne doit jamais être publié sur GitHub (exclu via `.gitignore` et `.dockerignore`).
+- Le compte administrateur ne peut pas être créé via `/api/auth/register` — il est créé manuellement (register standard puis bascule du champ `role` en base), garantissant qu'un seul admin existe.
 
 ---
 
-## 8. Endpoints principaux (au fur et à mesure de l'avancement)
+## 8. Endpoints de l'API
 
 | Module | Endpoint | Statut |
 |---|---|---|
 | Auth | POST /api/auth/register, POST /api/auth/login | ✅ Fait |
 | Users | GET/PUT /api/users/me | ✅ Fait |
-| Parcelles | CRUD /api/parcelles | ✅ Fait |
+| Parcelles | CRUD /api/parcelles, GET /:id/stock | ✅ Fait |
 | Récoltes | CRUD /api/parcelles/:id/recoltes, /api/recoltes/:id | ✅ Fait |
-| ParcelleStock | mise à jour automatique via Récolte/Trituration/Vendu | 🚧 En cours |
-| Trituration | CRUD /api/parcelles/:id/triturations, /api/triturations/:id | ⏳ À faire |
-| Vendu | CRUD /api/parcelles/:id/ventes, /api/ventes/:id | ⏳ À faire |
-| Dashboard | GET /api/dashboard?annee=YYYY | ⏳ À faire |
+| Trituration | CRUD /api/parcelles/:id/triturations, /api/triturations/:id | ✅ Fait |
+| Vendu | CRUD /api/parcelles/:id/ventes, /api/ventes/:id | ✅ Fait |
+| Dashboard | GET /api/dashboard?annee=YYYY, GET /api/parcelles/:id/rendement | ✅ Fait |
+| Guide agronomique | GET /api/guide, GET /api/guide/:mois | ✅ Fait |
+| Admin | GET /api/admin/users, GET /api/admin/users/:id (lecture seule) | ✅ Fait |
 
 ---
 
-## 9. Captures d'écran
+## 9. Sécurité
 
-> ⚠️ À compléter avec des captures Postman une fois les modules Trituration/Vendu/Dashboard testés.
+- Mots de passe hachés avec Bcrypt, jamais renvoyés dans les réponses API.
+- Authentification par JWT, middleware dédié sur toutes les routes protégées.
+- Ownership vérifié par des middlewares dédiés pour chaque ressource (Parcelle directe, Récolte/Trituration/Vendu via leur parcelle parente) — un agriculteur ne peut jamais accéder aux données d'un autre.
+- Rôle `admin` non injectable via l'API : toujours forcé à `agriculteur` côté serveur à l'inscription, et un seul compte admin peut exister (contrainte base de données).
+- Validation stricte des entrées (Joi) sur tous les endpoints, rejetant tout champ non attendu.
+- Le rendement n'est jamais accepté depuis le client, toujours recalculé côté serveur.
+
+---
+
+## 10. Tests
+
+8 tests automatisés (`npm test`), couvrant :
+- La contrainte single-admin au niveau base de données (unitaire)
+- Le calcul du rendement, y compris les cas limites (unitaire)
+- L'inscription, le rejet d'email dupliqué, et le forçage du rôle (intégration, via `mongodb-memory-server` + `supertest`)
+
+---
+
+## 11. Captures d'écran
+
+> ⚠️ À compléter avec des captures Postman des principaux flux (register, création parcelle, trituration avec rendement, dashboard).
 
 ### Capture 1
-
 **Titre :** _______________________________________________
-
 ```md
 ![Titre](chemin-vers-image.png)
 ```
-
-**Explication :** Cette capture montre _______________________________________________.
+**Explication :** _______________________________________________
 
 ### Capture 2
-
 **Titre :** _______________________________________________
-
 ```md
 ![Titre](chemin-vers-image.png)
 ```
-
-**Explication :** Cette capture montre _______________________________________________.
+**Explication :** _______________________________________________
 
 ---
 
-## 10. Contribution personnelle
+## 12. Contribution personnelle
 
 > ⚠️ À compléter selon ta situation réelle.
 
 Ma contribution principale a porté sur _______________________________________________.
 
-J'ai également travaillé sur _______________________________________________.
-
-J'ai été responsable de _______________________________________________.
-
 ---
 
-## 11. Difficultés rencontrées
+## 13. Difficultés rencontrées
 
 ### Difficulté 1 — Erreurs de résolution de modules ES Modules (`ERR_MODULE_NOT_FOUND`)
-
-**Problème rencontré :** Le serveur crashait au démarrage avec des erreurs `Cannot find module`, malgré la présence apparente des fichiers concernés.
-
-**Recherches / Tests :** Vérification de l'arborescence avec `dir`, comparaison des chemins d'import avec l'emplacement réel des fichiers.
-
-**Solution :** Le problème venait soit d'un import sans l'extension `.js` (obligatoire en ES Modules), soit d'un fichier non encore sauvegardé.
-
-**Ce que j'ai appris :** En ES Modules, l'extension du fichier importé est obligatoire, et il faut toujours vérifier que le chemin d'import correspond exactement à l'emplacement physique du fichier.
+**Problème rencontré :** Le serveur crashait au démarrage avec des erreurs `Cannot find module`.
+**Solution :** L'extension `.js` est obligatoire dans les imports en ES Modules, et le chemin doit correspondre exactement à l'emplacement physique du fichier.
+**Ce que j'ai appris :** Toujours vérifier extension et chemin avant de chercher un bug plus complexe.
 
 ### Difficulté 2 — Évolution du modèle de données en cours de projet
+**Problème rencontré :** Le modèle initial (`Production` unique) a dû être remplacé par `ParcelleStock`, `Trituration` et `Vendu` après validation d'un nouveau diagramme de classes.
+**Solution :** Grâce à des services découplés avec ownership vérifié par des fonctions dédiées, seul le module Production a été retiré sans impacter Parcelles/Récoltes.
+**Ce que j'ai appris :** L'importance de concevoir des couches indépendantes pour absorber un changement de modèle sans tout casser.
 
-**Problème rencontré :** Le modèle initial (`Production` unique regroupant huile et rendement) a dû être remplacé en cours de développement par une structure plus fidèle au métier réel (`ParcelleStock`, `Trituration`, `Vendu`), après validation d'un nouveau diagramme de classes.
+### Difficulté 3 — Faille de sécurité : ownership manquant sur les ressources imbriquées
+**Problème rencontré :** Les routes `GET/DELETE /api/triturations/:id` et `/api/ventes/:id` ne vérifiaient que l'authentification, pas la propriété réelle de la ressource — un agriculteur pouvait accéder aux données d'un autre.
+**Solution :** Création de middlewares dédiés (`checkRecolteAccess`, `checkTriturationAccess`, `checkVenduAccess`) remontant jusqu'à la parcelle parente pour vérifier le propriétaire réel.
+**Ce que j'ai appris :** Un middleware générique d'ownership ne suffit pas dès qu'une ressource n'a pas de `userId` direct — chaque relation indirecte doit être vérifiée explicitement.
 
-**Recherches / Tests :** Comparaison des deux modèles, analyse des relations et des cascades d'ownership pour chaque nouvelle entité.
-
-**Solution :** Le module Récoltes existant n'a pas eu besoin d'être modifié (relation directe conservée), seul le module Production a été retiré et remplacé par les trois nouvelles entités.
-
-**Ce que j'ai appris :** L'importance de concevoir des services découplés (ownership vérifié via des fonctions dédiées plutôt que codé en dur) pour absorber une évolution du modèle de données sans tout casser.
+### Difficulté 4 — Contrainte "un seul administrateur" non fiable au niveau applicatif
+**Problème rencontré :** Un middleware vérifiant l'unicité de l'admin avant création ne suffisait pas : une modification directe en base (MongoDB Compass) pouvait créer un second admin sans passer par l'API.
+**Solution :** Ajout d'un index unique partiel MongoDB (`partialFilterExpression: { role: "admin" }`) garantissant la contrainte au niveau base de données, quel que soit le point d'entrée de l'écriture.
+**Ce que j'ai appris :** Les règles métier critiques doivent être protégées au niveau le plus bas possible (base de données), pas seulement au niveau applicatif.
 
 ---
 
-## 12. Améliorations possibles
+## 14. Améliorations possibles
 
-Dans une prochaine version, je pourrais :
-
-- ajouter une suite de tests automatisés (unitaires, intégration, API) ;
-- ajouter un middleware de gestion d'erreurs centralisé ;
-- déployer l'application sur un hébergeur cloud avec MongoDB Atlas ;
-- documenter l'API avec Swagger/OpenAPI ;
-- affiner le seuil de détection d'anomalie de rendement selon les retours des agriculteurs testeurs.
+- Étendre la couverture de tests (endpoints Parcelles/Trituration/Vendu, tests de sécurité supplémentaires).
+- Documenter l'API avec Swagger/OpenAPI.
+- Déployer sur un hébergeur cloud avec MongoDB Atlas (configuration prête, déploiement à finaliser).
+- Ajouter des recommandations automatiques (stock dormant, récolte manquante) en complément de l'alerte de rendement.
+- Ajouter un dashboard d'évolution graphique (séries mensuelles) si le besoin se confirme.
 
 ### Conclusion
-
-Ces améliorations permettraient de fiabiliser le projet grâce à des tests automatisés, de faciliter sa maintenance grâce à une documentation claire, et d'affiner la valeur métier de la détection d'anomalies de rendement.
+OliveTrack couvre aujourd'hui l'ensemble du cycle de vie oléicole (parcelle → récolte → stock → trituration/vente → rendement), avec une sécurité par ownership dédiée à chaque ressource et une contrainte d'administration unique garantie au niveau base de données.
