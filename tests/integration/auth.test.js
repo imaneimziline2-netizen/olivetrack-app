@@ -42,7 +42,7 @@ describe("Authentication Integration Tests", () => {
     });
 
     test("POST /api/auth/register - email already used", async () => {
-        await request(app).post("/api/auth/register").send(testUser); // إنشاء مستقل داخل نفس test
+        await request(app).post("/api/auth/register").send(testUser); 
         const response = await request(app).post("/api/auth/register").send(testUser);
         expect(response.status).toBe(409);
         expect(response.body).toHaveProperty("message", "Email déja utilisé");

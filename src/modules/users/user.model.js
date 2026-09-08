@@ -18,4 +18,9 @@ const userSchema = new mongoose.Schema({
 },
 {timestamps: true});
 
+userSchema.index(
+    { role: 1 },
+    { unique: true, partialFilterExpression: { role: "admin" } }
+);
+
 export default mongoose.model("User", userSchema);
