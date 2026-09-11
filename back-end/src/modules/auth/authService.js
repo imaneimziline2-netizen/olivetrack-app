@@ -1,6 +1,6 @@
 import User from "../users/user.model.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { signToken } from "../../utils/jwtOpération.js";
 
 export const registerUser = async ({ nom, email, motDePasse }) => {
     const existing = await User.findOne({ email });
@@ -16,14 +16,10 @@ export const registerUser = async ({ nom, email, motDePasse }) => {
         nom,
         email,
         motDePasse: hashedPassword,
-        role: "agriculteur", 
+        role: "agriculteur",
     });
 
-    const token = jwt.sign(
-        { userId: user._id, role: user.role },
-        process.env.JWT_SECRET,
-        { expiresIn: "1d" },
-    );
+    const token = signToken(user);
 
     const safeUser = await User.findById(user._id).select("-motDePasse");
 
@@ -45,11 +41,7 @@ export const loginUser = async ({ email, motDePasse }) => {
         throw error;
     }
 
-    const token = jwt.sign(
-        { userId: user._id, role: user.role },
-        process.env.JWT_SECRET,
-        { expiresIn: "1d" },
-    );
+    const token = signToken(user);
 
     return {
         token,
@@ -61,3 +53,9 @@ export const loginUser = async ({ email, motDePasse }) => {
         },
     };
 };
+
+// export const logoutUser = (res) => {
+
+
+//     return { message: "Déconnexion réussie" };
+// };
