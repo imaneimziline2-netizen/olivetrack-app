@@ -7,9 +7,12 @@ import triturationRoutes from "./modules/triturations/triturationRoutes.js";
 import venduRoutes from "./modules/ventes/venduRoutes.js";
 import dashboardRoutes from "./modules/dashboard/dashboardRoutes.js";
 import adminRoutes from "./modules/admin/adminRoutes.js";
+import cors from "cors";
 
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
