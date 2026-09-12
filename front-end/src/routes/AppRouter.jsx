@@ -2,20 +2,53 @@ import { Routes, Route } from "react-router-dom";
 import Login from "../pages/auth/Login.jsx";
 import Register from "../pages/auth/Register.jsx";
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
+import Layout from "../components/layout/Layout.jsx";
+
+import Profile from "../pages/profile/Profile.jsx";
+// import Dashboard from "../pages/dashboard/Dashboard.jsx";
+// import ParcellesList from "../pages/parcelles/ParcellesList.jsx";
+// import ParcelleDetail from "../pages/parcelles/ParcelleDetail.jsx";
+// import ParcelleForm from "../pages/parcelles/ParcelleForm.jsx";
+// import RecoltesList from "../pages/recoltes/RecoltesList.jsx";
+// import RecolteForm from "../pages/recoltes/RecolteForm.jsx";
+// import TriturationsList from "../pages/triturations/TriturationsList.jsx";
+// import TriturationForm from "../pages/triturations/TriturationForm.jsx";
+// import VentesList from "../pages/ventes/VentesList.jsx";
+// import VenteForm from "../pages/ventes/VenteForm.jsx";
+// import GuideAgronomique from "../pages/guide/GuideAgronomique.jsx";
+// import UsersList from "../pages/admin/UsersList.jsx";
+
+import NotFound from "../pages/NotFound.jsx";
 
 function AppRouter() {
     return (
         <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+
             <Route
-                path="/"
                 element={
                     <ProtectedRoute>
-                        <h1 className="text-center mt-16">Bienvenue sur OliveTrack 🌿</h1>
+                        <Layout />
                     </ProtectedRoute>
                 }
-            />
+            >
+                {/* <Route path="/" element={<Dashboard />} />
+                <Route path="/parcelles" element={<ParcellesList />} />
+                <Route path="/parcelles/new" element={<ParcelleForm />} />
+                <Route path="/parcelles/:id" element={<ParcelleDetail />} />
+                <Route path="/parcelles/:id/edit" element={<ParcelleForm />} />
+                <Route path="/recoltes" element={<RecoltesList />} />
+                <Route path="/recoltes/new" element={<RecolteForm />} />
+                <Route path="/triturations" element={<TriturationsList />} />
+                <Route path="/triturations/new" element={<TriturationForm />} />
+                <Route path="/ventes" element={<VentesList />} />
+                <Route path="/ventes/new" element={<VenteForm />} />
+                <Route path="/guide" element={<GuideAgronomique />} /> */}
+                {/* <Route path="/admin/users" element={<UsersList />} /> */}
+                <Route path="/profile" element={<Profile />} />
+                <Route path="*" element={<NotFound />} />
+            </Route>
         </Routes>
     );
 }
