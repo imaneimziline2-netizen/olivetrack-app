@@ -149,7 +149,6 @@ function Dashboard() {
                 </Card>
             </div>
 
-            {/* Parcelles Performance Table */}
             <Card
                 title={`Performances des Parcelles (${selectedYear})`}
                 subtitle="Rendement annuel et détection des baisses de performance"

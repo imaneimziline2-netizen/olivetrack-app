@@ -4,14 +4,14 @@ import { fetchUserProfile, updateUserProfile } from "../../../store/slices/authS
 import Modal from "../../components/UI/Modal.jsx";
 import Button from "../../components/UI/Button.jsx";
 import Input from "../../components/UI/Input.jsx";
+import DEFAULT_AVATAR from "../../assets/fermier-avatar.jpg"
 
-const DEFAULT_AVATAR = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80";
+
 
 function Profile() {
     const dispatch = useDispatch();
     const { user, status } = useSelector((state) => state.auth);
 
-    // Additional profile fields persisted in localStorage for presentation
     const [extraDetails, setExtraDetails] = useState(() => {
         try {
             const saved = localStorage.getItem("olivegrove_profile_extra");

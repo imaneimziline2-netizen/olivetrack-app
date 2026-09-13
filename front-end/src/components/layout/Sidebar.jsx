@@ -117,7 +117,6 @@ function Sidebar({ isOpen, onClose }) {
                             <span>Mes Parcelles</span>
                         </NavLink>
 
-                        {/* 3. Opérations (Expandable with Recoltes, Triturations, Ventes) */}
                         <div>
                             <button
                                 type="button"
@@ -194,7 +193,6 @@ function Sidebar({ isOpen, onClose }) {
                             )}
                         </div>
 
-                        {/* 4. Guide Agronomique */}
                         <NavLink
                             to="/guide"
                             onClick={() => onClose?.()}
@@ -221,7 +219,6 @@ function Sidebar({ isOpen, onClose }) {
                             <span>Guide Agronomique</span>
                         </NavLink>
 
-                        {/* 5. Profil */}
                         <NavLink
                             to="/profile"
                             onClick={() => onClose?.()}
@@ -248,7 +245,6 @@ function Sidebar({ isOpen, onClose }) {
                             <span>Profil</span>
                         </NavLink>
 
-                        {/* Admin link if user is admin */}
                         {user?.role === "admin" && (
                             <NavLink
                                 to="/admin/users"
@@ -278,7 +274,6 @@ function Sidebar({ isOpen, onClose }) {
                     </nav>
                 </div>
 
-                {/* Bottom: Log Out */}
                 <div className="p-4 border-t border-gray-100">
                     <button
                         onClick={handleLogout}
@@ -297,7 +292,7 @@ function Sidebar({ isOpen, onClose }) {
                             <polyline points="16 17 21 12 16 7" />
                             <line x1="21" y1="12" x2="9" y2="12" />
                         </svg>
-                        <span>Log Out</span>
+                        <span>Se déconnecter</span>
                     </button>
                 </div>
             </aside>
