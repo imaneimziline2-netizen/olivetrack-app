@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchParcelles } from "../../../store/slices/parcelleSlice.js";
-import { fetchRecoltes, deleteRecolte } from "../../../store/slices/recolteSlice.js";
+import {
+    fetchRecoltes,
+    deleteRecolte,
+} from "../../../store/slices/recolteSlice.js";
 import Card from "../../components/UI/Card.jsx";
 import Button from "../../components/UI/Button.jsx";
+import { fetchParcelles } from "../../../store/slices/parcelleSlice.js";
 
 function RecoltesList() {
     const dispatch = useDispatch();
@@ -16,8 +19,10 @@ function RecoltesList() {
     const [selectedParcelleId, setSelectedParcelleId] = useState("");
     const activeParcelleId = selectedParcelleId || parcelles?.[0]?._id || "";
 
-    useEffect(() => {
-        dispatch(fetchParcelles());
+    const [deleteError, setDeleteError] = useState("");
+
+      useEffect(() => {
+        dispatch(fetchParcelles()); 
     }, [dispatch]);
 
     useEffect(() => {
@@ -28,14 +33,18 @@ function RecoltesList() {
 
     const handleDelete = async (id) => {
         if (window.confirm("Voulez-vous vraiment supprimer cette récolte ?")) {
-            await dispatch(deleteRecolte(id));
-            if (activeParcelleId) {
-                dispatch(fetchRecoltes(activeParcelleId));
+            setDeleteError("");
+            const result = await dispatch(deleteRecolte(id));
+            if (deleteRecolte.rejected.match(result)) {
+                setDeleteError(
+                    result.payload || "Impossible de supprimer cette récolte",
+                );
             }
         }
     };
 
-    const totalRecolte = recoltes?.reduce((sum, r) => sum + (r.quantiteOlives || 0), 0) || 0;
+    const totalRecolte =
+        recoltes?.reduce((sum, r) => sum + (r.quantiteOlives || 0), 0) || 0;
 
     return (
         <div className="space-y-6">
@@ -45,7 +54,8 @@ function RecoltesList() {
                         Suivi des Récoltes 🧺
                     </h1>
                     <p className="text-sm text-gray-500 mt-1">
-                        Consultez et enregistrez les récoltes d'olives qui approvisionnent vos stocks
+                        Consultez et enregistrez les récoltes d'olives qui
+                        approvisionnent vos stocks
                     </p>
                 </div>
 
@@ -55,7 +65,7 @@ function RecoltesList() {
                         navigate(
                             activeParcelleId
                                 ? `/recoltes/new?parcelleId=${activeParcelleId}`
-                                : "/recoltes/new"
+                                : "/recoltes/new",
                         )
                     }
                 >
@@ -63,7 +73,6 @@ function RecoltesList() {
                 </Button>
             </div>
 
-            {/* Parcelle Filter & Summary */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-gray-100 shadow-xs">
                 <div className="flex items-center gap-3">
                     <label className="text-xs font-bold text-gray-700 uppercase">
@@ -90,7 +99,6 @@ function RecoltesList() {
                 </div>
             </div>
 
-            {/* Table */}
             <Card title="Historique des Récoltes">
                 {error && (
                     <div className="p-3 bg-red-50 text-red-700 text-xs rounded-xl mb-4">
@@ -104,26 +112,44 @@ function RecoltesList() {
                     </div>
                 ) : recoltes && recoltes.length > 0 ? (
                     <div className="overflow-x-auto">
+                        {deleteError && (
+                            <div className="p-3 bg-red-50 text-red-700 text-xs rounded-xl mb-4">
+                                {deleteError}
+                            </div>
+                        )}
                         <table className="w-full text-left text-sm">
                             <thead>
                                 <tr className="border-b border-gray-100 text-xs font-semibold text-gray-400 uppercase">
                                     <th className="py-3 px-4">Date</th>
-                                    <th className="py-3 px-4">Quantité d'olives (kg)</th>
-                                    <th className="py-3 px-4 text-right">Actions</th>
+                                    <th className="py-3 px-4">
+                                        Quantité d'olives (kg)
+                                    </th>
+                                    <th className="py-3 px-4 text-right">
+                                        Actions
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-50">
                                 {recoltes.map((r) => (
-                                    <tr key={r._id} className="hover:bg-gray-50/50 transition-colors">
+                                    <tr
+                                        key={r._id}
+                                        className="hover:bg-gray-50/50 transition-colors"
+                                    >
                                         <td className="py-3.5 px-4 font-medium text-gray-800">
-                                            📅 {new Date(r.date).toLocaleDateString("fr-FR")}
+                                            📅{" "}
+                                            {new Date(
+                                                r.date,
+                                            ).toLocaleDateString("fr-FR")}
                                         </td>
                                         <td className="py-3.5 px-4 font-bold text-gray-900">
-                                            {r.quantiteOlives?.toLocaleString()} kg
+                                            {r.quantiteOlives?.toLocaleString()}{" "}
+                                            kg
                                         </td>
                                         <td className="py-3.5 px-4 text-right">
                                             <button
-                                                onClick={() => handleDelete(r._id)}
+                                                onClick={() =>
+                                                    handleDelete(r._id)
+                                                }
                                                 className="text-xs text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
                                             >
                                                 Supprimer
@@ -136,14 +162,16 @@ function RecoltesList() {
                     </div>
                 ) : (
                     <div className="py-12 text-center text-gray-400 text-xs">
-                        <p>🧺 Aucune récolte enregistrée pour cette parcelle.</p>
+                        <p>
+                            🧺 Aucune récolte enregistrée pour cette parcelle.
+                        </p>
                         <Button
                             variant="primary"
                             onClick={() =>
                                 navigate(
                                     activeParcelleId
                                         ? `/recoltes/new?parcelleId=${activeParcelleId}`
-                                        : "/recoltes/new"
+                                        : "/recoltes/new",
                                 )
                             }
                             className="mt-3 text-xs"
