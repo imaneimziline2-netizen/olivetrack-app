@@ -20,7 +20,6 @@ function Dashboard() {
         dispatch(fetchDashboard(selectedYear));
     }, [dispatch, selectedYear]);
 
-    // Calculate aggregated KPIs
     const parcellesCount = stats?.length || 0;
     const totalOlives = stats?.reduce((acc, curr) => acc + (curr.totalOlives || 0), 0) || 0;
     const totalHuile = stats?.reduce((acc, curr) => acc + (curr.totalHuile || 0), 0) || 0;
@@ -33,7 +32,6 @@ function Dashboard() {
 
     return (
         <div className="space-y-6">
-            {/* Header & Year Selector */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
@@ -69,7 +67,6 @@ function Dashboard() {
                 </div>
             </div>
 
-            {/* Anomaly banner if any parcel has an alert */}
             {anomalies.length > 0 && (
                 <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
                     <div className="flex items-start gap-3">
