@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../../store/slices/authSlice.js";
+import DEFAULT_AVATAR from "../../assets/fermier-avatar.jpg"
 
-const DEFAULT_AVATAR = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80";
 
 function Navbar({ onToggleSidebar }) {
     const dispatch = useDispatch();
@@ -15,7 +15,7 @@ function Navbar({ onToggleSidebar }) {
     const [searchQuery, setSearchQuery] = useState("");
 
     const anomaliesCount =
-        stats?.filter((s) => s.alerte === true)?.length ?? 2;
+        stats?.filter((s) => s.alerte === true)?.length ?? 0;
 
     const handleLogout = () => {
         dispatch(logout());
@@ -142,7 +142,7 @@ function Navbar({ onToggleSidebar }) {
                                     }}
                                     className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 flex items-center gap-2 cursor-pointer font-medium"
                                 >
-                                    <span>👤</span> Mon Profil
+                                    Mon Profil
                                 </button>
                                 <button
                                     onClick={() => {
@@ -151,7 +151,7 @@ function Navbar({ onToggleSidebar }) {
                                     }}
                                     className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 flex items-center gap-2 cursor-pointer font-medium"
                                 >
-                                    <span>🌿</span> Mes Parcelles
+                                     Mes Parcelles
                                 </button>
                                 <div className="border-t border-gray-100 my-1"></div>
                                 <button
@@ -161,7 +161,7 @@ function Navbar({ onToggleSidebar }) {
                                     }}
                                     className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 flex items-center gap-2 cursor-pointer font-medium"
                                 >
-                                    <span>🚪</span> Se déconnecter
+                                     Se déconnecter
                                 </button>
                             </div>
                         </>
