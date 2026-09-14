@@ -43,9 +43,9 @@ export const fetchParcelleStock = createAsyncThunk(
 
 export const createParcelle = createAsyncThunk(
     "parcelles/create",
-    async (parcelleData, { rejectWithValue }) => {
+    async (data, { rejectWithValue }) => {
         try {
-            return await createParcelleRequest(parcelleData);
+            return await createParcelleRequest(data);
         } catch (err) {
             return rejectWithValue(err.response?.data?.message || "Erreur lors de la création de la parcelle");
         }
@@ -107,28 +107,73 @@ const parcelleSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+
+            .addCase(fetchParcelleById.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(fetchParcelleById.fulfilled, (state, action) => {
+                state.loading = false;
                 state.currentParcelle = action.payload;
+            })
+            .addCase(fetchParcelleById.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+
+            .addCase(fetchParcelleStock.pending, (state) => {
+                state.error = null;
             })
             .addCase(fetchParcelleStock.fulfilled, (state, action) => {
                 state.currentStock = action.payload;
             })
+            .addCase(fetchParcelleStock.rejected, (state, action) => {
+                state.error = action.payload;
+            })
+
+            .addCase(createParcelle.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(createParcelle.fulfilled, (state, action) => {
+                state.loading = false;
                 state.parcelles.unshift(action.payload);
             })
+            .addCase(createParcelle.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+
+            .addCase(updateParcelle.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(updateParcelle.fulfilled, (state, action) => {
+                state.loading = false;
                 const index = state.parcelles.findIndex((p) => p._id === action.payload._id);
-                if (index !== -1) {
-                    state.parcelles[index] = action.payload;
-                }
+                if (index !== -1) state.parcelles[index] = action.payload;
                 state.currentParcelle = action.payload;
             })
+            .addCase(updateParcelle.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+
+            .addCase(deleteParcelle.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(deleteParcelle.fulfilled, (state, action) => {
+                state.loading = false;
                 state.parcelles = state.parcelles.filter((p) => p._id !== action.payload);
                 if (state.currentParcelle?._id === action.payload) {
                     state.currentParcelle = null;
                     state.currentStock = null;
                 }
+            })
+            .addCase(deleteParcelle.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
             });
     },
 });

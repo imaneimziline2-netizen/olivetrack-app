@@ -175,21 +175,18 @@ function Profile() {
                     </button>
                 </div>
 
-                {/* Profile Information Rows */}
                 <div className="space-y-2.5">
-                    {/* 1. Nom complet */}
                     <div className="bg-[#f8f9fa] rounded-xl px-5 sm:px-6 py-3.5 flex items-center justify-between text-xs sm:text-sm">
                         <span className="text-gray-400 font-normal">Nom complet</span>
                         <span className="text-gray-900 font-semibold">{displayName}</span>
                     </div>
 
-                    {/* 2. Email */}
+                    
                     <div className="bg-[#f8f9fa] rounded-xl px-5 sm:px-6 py-3.5 flex items-center justify-between text-xs sm:text-sm">
                         <span className="text-gray-400 font-normal">Email</span>
                         <span className="text-gray-900 font-semibold">{displayEmail}</span>
                     </div>
 
-                    {/* 3. Téléphone */}
                     <div className="bg-[#f8f9fa] rounded-xl px-5 sm:px-6 py-3.5 flex items-center justify-between text-xs sm:text-sm">
                         <span className="text-gray-400 font-normal">Téléphone</span>
                         <span className="text-gray-900 font-semibold">

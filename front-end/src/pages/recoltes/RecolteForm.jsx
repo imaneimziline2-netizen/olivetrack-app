@@ -72,7 +72,7 @@ function RecolteForm() {
             </button>
 
             <Card
-                title="Enregistrer une Récolte 🧺"
+                title="Enregistrer une Récolte "
                 subtitle="La quantité d'olives récoltées alimentera automatiquement le stock de la parcelle"
             >
                 {(formError || error) && (

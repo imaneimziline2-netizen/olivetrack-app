@@ -57,3 +57,61 @@ export const rendementToutesParcelles = async (userId, annee) => {
 
     return resultats;
 };
+
+
+
+export const rendementMensuelGlobal = async (userId, annee) => {
+    // 1. Parcelles dyal user
+    const parcelles = await Parcelle.find({ userId }).select("_id");
+    const parcelleIds = parcelles.map((p) => p._id);
+
+    // 2. Stocks dyal had parcelles
+    const stocks = await ParcelleStock.find({
+        parcelleId: { $in: parcelleIds },
+    }).select("_id");
+    const stockIds = stocks.map((s) => s._id);
+
+    // 3. Dates dyal l-année
+    const debut = new Date(`${annee}-01-01`);
+    const fin = new Date(`${annee}-12-31T23:59:59.999`);
+
+    // 4. Aggregation b $month
+    const result = await Trituration.aggregate([
+        {
+            $match: {
+                parcelleStockId: { $in: stockIds },
+                date: { $gte: debut, $lte: fin },
+            },
+        },
+        {
+            $group: {
+                _id: { $month: "$date" },
+                totalOlives: { $sum: "$quantite" },
+                totalHuile: { $sum: "$quantitéHuile" },
+                nbTriturations: { $sum: 1 },
+            },
+        },
+        { $sort: { _id: 1 } },
+    ]);
+
+    // 5. Rempli 12 mois b 0
+    const monthlyData = Array.from({ length: 12 }, (_, i) => {
+        const mois = i + 1;
+        const found = result.find((r) => r._id === mois);
+
+        return {
+            mois,
+            totalOlives: found?.totalOlives || 0,
+            totalHuile: found?.totalHuile || 0,
+            nbTriturations: found?.nbTriturations || 0,
+            rendement:
+                found && found.totalOlives > 0
+                    ? Math.round(
+                          (found.totalHuile / found.totalOlives) * 100 * 10
+                      ) / 10
+                    : 0,
+        };
+    });
+
+    return monthlyData;
+};

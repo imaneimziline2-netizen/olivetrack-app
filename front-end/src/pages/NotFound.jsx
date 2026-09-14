@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import Button from "../components/UI/Button.jsx";
 import logo from "../assets/image-removebg-preview.png";
 
 function NotFound() {
@@ -15,9 +14,13 @@ function NotFound() {
             <p className="text-sm text-gray-500 max-w-md mb-6">
                 La page que vous recherchez n'existe pas ou a été déplacée.
             </p>
-            <Button variant="primary" onClick={() => navigate("/")}>
+            <button
+                className="text-xs font-semibold text-[#059669] hover:text-[#047857] bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+                variant="primary"
+                onClick={() => navigate("/")}
+            >
                 ← Retour au tableau de bord
-            </Button>
+            </button>
         </div>
     );
 }

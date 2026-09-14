@@ -11,3 +11,9 @@ export const getParcelleRendementRequest = async (parcelleId, annee) => {
     const response = await api.get(`/parcelles/${parcelleId}/rendement`, { params });
     return response.data;
 };
+
+export const getMonthlyYieldRequest = async (annee) => {
+    const params = annee ? { annee } : {};
+    const response = await api.get("/dashboard/monthly", { params });
+    return response.data;
+};

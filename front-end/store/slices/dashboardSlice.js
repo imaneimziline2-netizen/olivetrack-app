@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
     getDashboardStatsRequest,
     getParcelleRendementRequest,
+    getMonthlyYieldRequest,
 } from "../../src/services/dashboardService.js";
 
 export const fetchDashboard = createAsyncThunk(
@@ -10,7 +11,9 @@ export const fetchDashboard = createAsyncThunk(
         try {
             return await getDashboardStatsRequest(annee);
         } catch (err) {
-            return rejectWithValue(err.response?.data?.message || "Erreur lors du chargement du tableau de bord");
+            return rejectWithValue(
+                err.response?.data?.message || "Erreur dashboard"
+            );
         }
     }
 );
@@ -21,17 +24,39 @@ export const fetchParcelleRendement = createAsyncThunk(
         try {
             return await getParcelleRendementRequest(parcelleId, annee);
         } catch (err) {
-            return rejectWithValue(err.response?.data?.message || "Erreur lors du calcul du rendement");
+            return rejectWithValue(
+                err.response?.data?.message || "Erreur rendement"
+            );
         }
     }
 );
+
+export const fetchMonthlyYield = createAsyncThunk(
+    "dashboard/fetchMonthlyYield",
+    async (annee, { rejectWithValue }) => {
+        try {
+            return await getMonthlyYieldRequest(annee);
+        } catch (err) {
+            return rejectWithValue(
+                err.response?.data?.message || "Erreur monthly"
+            );
+        }
+    }
+);
+
 
 const dashboardSlice = createSlice({
     name: "dashboard",
     initialState: {
         stats: [],
-        parcelleRendement: null,
         loading: false,
+
+        parcelleRendement: null,
+        rendementLoading: false,
+
+        monthlyYield: [],
+        monthlyLoading: false,
+
         error: null,
     },
     reducers: {
@@ -44,6 +69,7 @@ const dashboardSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // ===== fetchDashboard =====
             .addCase(fetchDashboard.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -56,8 +82,33 @@ const dashboardSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+
+            // ===== fetchParcelleRendement =====
+            .addCase(fetchParcelleRendement.pending, (state) => {
+                state.rendementLoading = true;
+                state.error = null;
+            })
             .addCase(fetchParcelleRendement.fulfilled, (state, action) => {
+                state.rendementLoading = false;
                 state.parcelleRendement = action.payload;
+            })
+            .addCase(fetchParcelleRendement.rejected, (state, action) => {
+                state.rendementLoading = false;
+                state.error = action.payload;
+            })
+
+            // ===== fetchMonthlyYield =====
+            .addCase(fetchMonthlyYield.pending, (state) => {
+                state.monthlyLoading = true;
+                state.error = null;
+            })
+            .addCase(fetchMonthlyYield.fulfilled, (state, action) => {
+                state.monthlyLoading = false;
+                state.monthlyYield = action.payload;
+            })
+            .addCase(fetchMonthlyYield.rejected, (state, action) => {
+                state.monthlyLoading = false;
+                state.error = action.payload;
             });
     },
 });

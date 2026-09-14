@@ -68,11 +68,30 @@ const venduSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+
+            .addCase(createVente.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(createVente.fulfilled, (state, action) => {
+                state.loading = false;
                 state.ventes.unshift(action.payload);
             })
+            .addCase(createVente.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+
+            .addCase(deleteVente.pending, (state) => {
+                state.loading = true;
+            })
             .addCase(deleteVente.fulfilled, (state, action) => {
+                state.loading = false;
                 state.ventes = state.ventes.filter((v) => v._id !== action.payload);
+            })
+            .addCase(deleteVente.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
             });
     },
 });

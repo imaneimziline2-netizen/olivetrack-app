@@ -51,7 +51,7 @@ function RecoltesList() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                        Suivi des Récoltes 🧺
+                        Suivi des Récoltes 
                     </h1>
                     <p className="text-sm text-gray-500 mt-1">
                         Consultez et enregistrez les récoltes d'olives qui
@@ -136,7 +136,7 @@ function RecoltesList() {
                                         className="hover:bg-gray-50/50 transition-colors"
                                     >
                                         <td className="py-3.5 px-4 font-medium text-gray-800">
-                                            📅{" "}
+                                            {" "}
                                             {new Date(
                                                 r.date,
                                             ).toLocaleDateString("fr-FR")}
@@ -163,7 +163,7 @@ function RecoltesList() {
                 ) : (
                     <div className="py-12 text-center text-gray-400 text-xs">
                         <p>
-                            🧺 Aucune récolte enregistrée pour cette parcelle.
+                             Aucune récolte enregistrée pour cette parcelle.
                         </p>
                         <Button
                             variant="primary"
