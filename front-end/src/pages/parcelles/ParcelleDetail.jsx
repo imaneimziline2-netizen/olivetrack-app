@@ -7,7 +7,6 @@ import {
 } from "../../../store/slices/parcelleSlice.js";
 import { fetchParcelleRendement } from "../../../store/slices/dashboardSlice.js";
 import Card from "../../components/UI/Card.jsx";
-import Button from "../../components/UI/Button.jsx";
 import AlertBadge from "../../components/UI/AlertBadge.jsx";
 
 function ParcelleDetail() {
@@ -19,7 +18,7 @@ function ParcelleDetail() {
     const [selectedYear, setSelectedYear] = useState(currentYear);
 
     const { currentParcelle, currentStock, loading, error } = useSelector(
-        (state) => state.parcelles
+        (state) => state.parcelles,
     );
     const { parcelleRendement } = useSelector((state) => state.dashboard);
 
@@ -27,21 +26,31 @@ function ParcelleDetail() {
         if (id) {
             dispatch(fetchParcelleById(id));
             dispatch(fetchParcelleStock(id));
-            dispatch(fetchParcelleRendement({ parcelleId: id, annee: selectedYear }));
+            dispatch(
+                fetchParcelleRendement({ parcelleId: id, annee: selectedYear }),
+            );
         }
     }, [dispatch, id, selectedYear]);
 
     if (loading && !currentParcelle) {
-        return <div className="py-20 text-center text-gray-400">Chargement des détails...</div>;
+        return (
+            <div className="py-20 text-center text-gray-400">
+                Chargement des détails...
+            </div>
+        );
     }
 
     if (error) {
         return (
             <div className="p-6 bg-red-50 border border-red-200 text-red-700 rounded-2xl">
                 <p className="font-semibold">Erreur : {error}</p>
-                <Button variant="secondary" onClick={() => navigate("/parcelles")} className="mt-4 text-xs">
+                <button
+                    className="text-xs text-green-700 mb-4"
+                    variant="secondary"
+                    onClick={() => navigate("/parcelles")}
+                >
                     ← Retour aux parcelles
-                </Button>
+                </button>
             </div>
         );
     }
@@ -50,12 +59,11 @@ function ParcelleDetail() {
 
     return (
         <div className="space-y-6">
-            {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <button
+                        className="text-xs font-semibold text-[#012419] hover:text-[#047857] bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
                         onClick={() => navigate("/parcelles")}
-                        className="text-xs font-semibold text-[#059669] hover:text-[#047857] mb-2 inline-flex items-center gap-1 cursor-pointer"
                     >
                         ← Retour aux parcelles
                     </button>
@@ -66,18 +74,19 @@ function ParcelleDetail() {
                         </span>
                     </h1>
                     <p className="text-xs text-gray-400 mt-1">
-                        📍 {currentParcelle.localisation} • Plantée en {currentParcelle.anneePlantation || "N/A"}
+                        📍 {currentParcelle.localisation} • Plantée en{" "}
+                        {currentParcelle.anneePlantation || "N/A"}
                     </p>
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <Button
+                    <button
+                        className="text-xs font-semibold text-[#059669] hover:text-[#047857] bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
                         variant="secondary"
                         onClick={() => navigate(`/parcelles/${id}/edit`)}
-                        className="text-xs"
                     >
-                        ✏️ Modifier la parcelle
-                    </Button>
+                        Modifier la parcelle
+                    </button>
                 </div>
             </div>
 
@@ -86,32 +95,33 @@ function ParcelleDetail() {
                 <span className="text-xs font-bold text-gray-700 uppercase tracking-wider mr-2">
                     Actions rapides :
                 </span>
-                <Button
+                <button
+                    className="text-xs font-semibold text-[#059669] hover:text-[#047857] bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
                     variant="primary"
                     onClick={() => navigate(`/recoltes/new?parcelleId=${id}`)}
-                    className="text-xs"
                 >
-                    🧺 Nouvelle Récolte
-                </Button>
-                <Button
+                    Nouvelle Récolte
+                </button>
+                <button
+                    className="text-xs font-semibold text-[#059669] hover:text-[#047857] bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
                     variant="outline"
-                    onClick={() => navigate(`/triturations/new?parcelleId=${id}`)}
-                    className="text-xs"
+                    onClick={() =>
+                        navigate(`/triturations/new?parcelleId=${id}`)
+                    }
                 >
-                    🫒 Nouvelle Trituration
-                </Button>
-                <Button
+                    Nouvelle Trituration
+                </button>
+                <button
+                    className="text-xs font-semibold text-[#059669] hover:text-[#047857] bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
                     variant="secondary"
                     onClick={() => navigate(`/ventes/new?parcelleId=${id}`)}
-                    className="text-xs"
+                    
                 >
-                    💰 Nouvelle Vente
-                </Button>
+                    Nouvelle Vente
+                </button>
             </div>
 
-            {/* Stock and Characteristics Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {/* Stock Widget */}
                 <Card
                     title="Stock d'Olives en Temps Réel"
                     subtitle="Alimenté automatiquement par les récoltes, déduit par triturations et ventes"
@@ -125,7 +135,9 @@ function ParcelleDetail() {
                                 </span>
                                 <span className="text-3xl font-black text-gray-900 mt-1 block">
                                     {currentStock.Stock?.toLocaleString() || 0}
-                                    <span className="text-sm font-bold text-[#059669] ml-1">kg</span>
+                                    <span className="text-sm font-bold text-[#059669] ml-1">
+                                        kg
+                                    </span>
                                 </span>
                                 <span className="text-[11px] text-gray-500 mt-1 block">
                                     Disponible pour transformation ou vente
@@ -137,8 +149,12 @@ function ParcelleDetail() {
                                     Total Entrant (Récoltes)
                                 </span>
                                 <span className="text-2xl font-bold text-gray-900 mt-1 block">
-                                    +{currentStock.quantiteEntrant?.toLocaleString() || 0}
-                                    <span className="text-xs font-bold ml-1">kg</span>
+                                    +
+                                    {currentStock.quantiteEntrant?.toLocaleString() ||
+                                        0}
+                                    <span className="text-xs font-bold ml-1">
+                                        kg
+                                    </span>
                                 </span>
                                 <span className="text-[11px] text-gray-500 mt-1 block">
                                     Cumul des récoltes enregistrées
@@ -150,8 +166,12 @@ function ParcelleDetail() {
                                     Total Sortant
                                 </span>
                                 <span className="text-2xl font-bold text-gray-900 mt-1 block">
-                                    -{currentStock.quantiteSortante?.toLocaleString() || 0}
-                                    <span className="text-xs font-bold ml-1">kg</span>
+                                    -
+                                    {currentStock.quantiteSortante?.toLocaleString() ||
+                                        0}
+                                    <span className="text-xs font-bold ml-1">
+                                        kg
+                                    </span>
                                 </span>
                                 <span className="text-[11px] text-gray-500 mt-1 block">
                                     Trituré en huile ou vendu
@@ -159,47 +179,68 @@ function ParcelleDetail() {
                             </div>
                         </div>
                     ) : (
-                        <p className="text-xs text-gray-400 py-4">Stock non initialisé.</p>
+                        <p className="text-xs text-gray-400 py-4">
+                            Stock non initialisé.
+                        </p>
                     )}
                 </Card>
 
-                {/* Characteristics */}
                 <Card title="Caractéristiques Agrologiques">
                     <div className="space-y-3 text-xs">
                         <div className="flex justify-between pb-2 border-b border-gray-100">
                             <span className="text-gray-400">Variété</span>
-                            <span className="font-semibold text-gray-800">{currentParcelle.variete}</span>
+                            <span className="font-semibold text-gray-800">
+                                {currentParcelle.variete}
+                            </span>
                         </div>
                         <div className="flex justify-between pb-2 border-b border-gray-100">
-                            <span className="text-gray-400">Mode de culture</span>
-                            <span className="font-semibold text-gray-800">{currentParcelle.modeCulture}</span>
+                            <span className="text-gray-400">
+                                Mode de culture
+                            </span>
+                            <span className="font-semibold text-gray-800">
+                                {currentParcelle.modeCulture}
+                            </span>
                         </div>
                         <div className="flex justify-between pb-2 border-b border-gray-100">
-                            <span className="text-gray-400">Type d'irrigation</span>
-                            <span className="font-semibold text-gray-800">{currentParcelle.typeIrrigation}</span>
+                            <span className="text-gray-400">
+                                Type d'irrigation
+                            </span>
+                            <span className="font-semibold text-gray-800">
+                                {currentParcelle.typeIrrigation}
+                            </span>
                         </div>
                         <div className="flex justify-between pb-2 border-b border-gray-100">
                             <span className="text-gray-400">Densité</span>
                             <span className="font-semibold text-gray-800">
                                 {currentParcelle.nombreArbres} arbres (~
-                                {Math.round(currentParcelle.nombreArbres / currentParcelle.superficie)} /Ha)
+                                {Math.round(
+                                    currentParcelle.nombreArbres /
+                                        currentParcelle.superficie,
+                                )}{" "}
+                                /Ha)
                             </span>
                         </div>
                     </div>
                 </Card>
             </div>
 
-            {/* Rendement & Anomaly Comparison */}
             <Card
                 title={`Analyse de Rendement (Campagne ${selectedYear})`}
                 subtitle="Calculé automatiquement à partir des triturations et comparé aux 3 années précédentes"
                 extra={
                     <select
                         value={selectedYear}
-                        onChange={(e) => setSelectedYear(Number(e.target.value))}
+                        onChange={(e) =>
+                            setSelectedYear(Number(e.target.value))
+                        }
                         className="py-1 px-3 bg-white border border-gray-200 rounded-lg text-xs font-semibold text-gray-800 cursor-pointer"
                     >
-                        {[currentYear, currentYear - 1, currentYear - 2, currentYear - 3].map((y) => (
+                        {[
+                            currentYear,
+                            currentYear - 1,
+                            currentYear - 2,
+                            currentYear - 3,
+                        ].map((y) => (
                             <option key={y} value={y}>
                                 {y}
                             </option>
@@ -232,10 +273,16 @@ function ParcelleDetail() {
                                 <span className="text-xs text-gray-500 uppercase block font-semibold">
                                     Écart relatif
                                 </span>
-                                <span className={`text-2xl font-bold mt-1 block ${
-                                    (parcelleRendement.ecart || 0) < -20 ? "text-red-600" : "text-[#059669]"
-                                }`}>
-                                    {parcelleRendement.ecart !== undefined ? `${parcelleRendement.ecart}%` : "0%"}
+                                <span
+                                    className={`text-2xl font-bold mt-1 block ${
+                                        (parcelleRendement.ecart || 0) < -20
+                                            ? "text-red-600"
+                                            : "text-[#059669]"
+                                    }`}
+                                >
+                                    {parcelleRendement.ecart !== undefined
+                                        ? `${parcelleRendement.ecart}%`
+                                        : "0%"}
                                 </span>
                             </div>
                             <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-100 flex flex-col justify-center">
@@ -246,10 +293,16 @@ function ParcelleDetail() {
                                     {parcelleRendement.alerte ? (
                                         <AlertBadge
                                             type="anomaly"
-                                            message={parcelleRendement.message || "Alerte baisse"}
+                                            message={
+                                                parcelleRendement.message ||
+                                                "Alerte baisse"
+                                            }
                                         />
                                     ) : (
-                                        <AlertBadge type="success" message="Rendement satisfaisant" />
+                                        <AlertBadge
+                                            type="success"
+                                            message="Rendement satisfaisant"
+                                        />
                                     )}
                                 </div>
                             </div>
@@ -257,8 +310,10 @@ function ParcelleDetail() {
 
                         {parcelleRendement.alerte && (
                             <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-xs text-red-800 leading-relaxed">
-                                <strong>⚠️ Diagnostic :</strong> {parcelleRendement.message}.
-                                Il est conseillé de vérifier les pratiques d'irrigation, de taille ou de consulter le{" "}
+                                <strong>⚠️ Diagnostic :</strong>{" "}
+                                {parcelleRendement.message}. Il est conseillé de
+                                vérifier les pratiques d'irrigation, de taille
+                                ou de consulter le{" "}
                                 <button
                                     onClick={() => navigate("/guide")}
                                     className="underline font-bold text-red-900 cursor-pointer"
@@ -271,7 +326,8 @@ function ParcelleDetail() {
                     </div>
                 ) : (
                     <div className="py-8 text-center text-gray-400 text-xs">
-                        Aucune trituration enregistrée pour l'année {selectedYear} sur cette parcelle.
+                        Aucune trituration enregistrée pour l'année{" "}
+                        {selectedYear} sur cette parcelle.
                     </div>
                 )}
             </Card>
