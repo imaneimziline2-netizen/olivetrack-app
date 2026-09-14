@@ -68,11 +68,30 @@ const triturationSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+
+            .addCase(createTrituration.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(createTrituration.fulfilled, (state, action) => {
+                state.loading = false;
                 state.triturations.unshift(action.payload);
             })
+            .addCase(createTrituration.rejected, (state, action) => {  
+                state.loading = false;
+                state.error = action.payload;
+            })
+
+            .addCase(deleteTrituration.pending, (state) => {
+                state.loading = true;
+            })
             .addCase(deleteTrituration.fulfilled, (state, action) => {
+                state.loading = false;
                 state.triturations = state.triturations.filter((t) => t._id !== action.payload);
+            })
+            .addCase(deleteTrituration.rejected, (state, action) => {  
+                state.loading = false;
+                state.error = action.payload;
             });
     },
 });

@@ -91,133 +91,139 @@ function Sidebar({ isOpen, onClose }) {
                             <span>Dashboard</span>
                         </NavLink>
 
-                        <NavLink
-                            to="/parcelles"
-                            onClick={() => onClose?.()}
-                            className={({ isActive }) =>
-                                `flex items-center gap-3.5 px-6 py-3 text-sm font-medium transition-colors border-l-4 ${
-                                    isActive
-                                        ? "bg-[#edf7ee] text-[#15803d] border-[#16a34a] font-semibold"
-                                        : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
-                                }`
-                            }
-                        >
-                            <svg
-                                className="w-4.5 h-4.5 shrink-0"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
+                        {user?.role !== "admin" && (
+                            <NavLink
+                                to="/parcelles"
+                                onClick={() => onClose?.()}
+                                className={({ isActive }) =>
+                                    `flex items-center gap-3.5 px-6 py-3 text-sm font-medium transition-colors border-l-4 ${
+                                        isActive
+                                            ? "bg-[#edf7ee] text-[#15803d] border-[#16a34a] font-semibold"
+                                            : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
+                                    }`
+                                }
                             >
-                                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
-                                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
-                            </svg>
-                            <span>Mes Parcelles</span>
-                        </NavLink>
-
-                        <div>
-                            <button
-                                type="button"
-                                onClick={() => setOperationsExpanded((prev) => !prev)}
-                                className={`w-full flex items-center justify-between px-6 py-3 text-sm font-medium transition-colors border-l-4 cursor-pointer ${
-                                    isOperationsActive
-                                        ? "bg-[#edf7ee] text-[#15803d] border-[#16a34a] font-semibold"
-                                        : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
-                                }`}
-                            >
-                                <div className="flex items-center gap-3.5">
-                                    <svg
-                                        className="w-4.5 h-4.5 shrink-0"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <rect x="2" y="4" width="20" height="16" rx="2" />
-                                        <path d="M6 8h12M6 12h8M6 16h5" />
-                                    </svg>
-                                    <span>Opérations</span>
-                                </div>
                                 <svg
-                                    className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                                        operationsExpanded ? "rotate-180 text-[#15803d]" : "text-gray-400"
-                                    }`}
-                                    fill="none"
+                                    className="w-4.5 h-4.5 shrink-0"
                                     viewBox="0 0 24 24"
+                                    fill="none"
                                     stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
                                 >
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
+                                    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
                                 </svg>
-                            </button>
+                                <span>Mes Parcelles</span>
+                            </NavLink>
+                        )}
 
-                            {operationsExpanded && (
-                                <div className="pl-14 pr-4 py-1.5 space-y-1 bg-gray-50/50">
-                                    <NavLink
-                                        to="/recoltes"
-                                        onClick={() => onClose?.()}
-                                        className={({ isActive }) =>
-                                            `block py-1.5 text-xs font-medium transition-colors ${
-                                                isActive ? "text-[#15803d] font-semibold" : "text-gray-500 hover:text-gray-800"
-                                            }`
-                                        }
+                        {user?.role !== "admin" && (
+                            <div>
+                                <button
+                                    type="button"
+                                    onClick={() => setOperationsExpanded((prev) => !prev)}
+                                    className={`w-full flex items-center justify-between px-6 py-3 text-sm font-medium transition-colors border-l-4 cursor-pointer ${
+                                        isOperationsActive
+                                            ? "bg-[#edf7ee] text-[#15803d] border-[#16a34a] font-semibold"
+                                            : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
+                                    }`}
+                                >
+                                    <div className="flex items-center gap-3.5">
+                                        <svg
+                                            className="w-4.5 h-4.5 shrink-0"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <rect x="2" y="4" width="20" height="16" rx="2" />
+                                            <path d="M6 8h12M6 12h8M6 16h5" />
+                                        </svg>
+                                        <span>Opérations</span>
+                                    </div>
+                                    <svg
+                                        className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                                            operationsExpanded ? "rotate-180 text-[#15803d]" : "text-gray-400"
+                                        }`}
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
                                     >
-                                        • Récoltes
-                                    </NavLink>
-                                    <NavLink
-                                        to="/triturations"
-                                        onClick={() => onClose?.()}
-                                        className={({ isActive }) =>
-                                            `block py-1.5 text-xs font-medium transition-colors ${
-                                                isActive ? "text-[#15803d] font-semibold" : "text-gray-500 hover:text-gray-800"
-                                            }`
-                                        }
-                                    >
-                                        • Triturations
-                                    </NavLink>
-                                    <NavLink
-                                        to="/ventes"
-                                        onClick={() => onClose?.()}
-                                        className={({ isActive }) =>
-                                            `block py-1.5 text-xs font-medium transition-colors ${
-                                                isActive ? "text-[#15803d] font-semibold" : "text-gray-500 hover:text-gray-800"
-                                            }`
-                                        }
-                                    >
-                                        • Ventes
-                                    </NavLink>
-                                </div>
-                            )}
-                        </div>
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
 
-                        <NavLink
-                            to="/guide"
-                            onClick={() => onClose?.()}
-                            className={({ isActive }) =>
-                                `flex items-center gap-3.5 px-6 py-3 text-sm font-medium transition-colors border-l-4 ${
-                                    isActive
-                                        ? "bg-[#edf7ee] text-[#15803d] border-[#16a34a] font-semibold"
-                                        : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
-                                }`
-                            }
-                        >
-                            <svg
-                                className="w-4.5 h-4.5 shrink-0"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
+                                {operationsExpanded && (
+                                    <div className="pl-14 pr-4 py-1.5 space-y-1 bg-gray-50/50">
+                                        <NavLink
+                                            to="/recoltes"
+                                            onClick={() => onClose?.()}
+                                            className={({ isActive }) =>
+                                                `block py-1.5 text-xs font-medium transition-colors ${
+                                                    isActive ? "text-[#15803d] font-semibold" : "text-gray-500 hover:text-gray-800"
+                                                }`
+                                            }
+                                        >
+                                            • Récoltes
+                                        </NavLink>
+                                        <NavLink
+                                            to="/triturations"
+                                            onClick={() => onClose?.()}
+                                            className={({ isActive }) =>
+                                                `block py-1.5 text-xs font-medium transition-colors ${
+                                                    isActive ? "text-[#15803d] font-semibold" : "text-gray-500 hover:text-gray-800"
+                                                }`
+                                            }
+                                        >
+                                            • Triturations
+                                        </NavLink>
+                                        <NavLink
+                                            to="/ventes"
+                                            onClick={() => onClose?.()}
+                                            className={({ isActive }) =>
+                                                `block py-1.5 text-xs font-medium transition-colors ${
+                                                    isActive ? "text-[#15803d] font-semibold" : "text-gray-500 hover:text-gray-800"
+                                                }`
+                                            }
+                                        >
+                                            • Ventes
+                                        </NavLink>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {user?.role !== "admin" && (
+                            <NavLink
+                                to="/guide"
+                                onClick={() => onClose?.()}
+                                className={({ isActive }) =>
+                                    `flex items-center gap-3.5 px-6 py-3 text-sm font-medium transition-colors border-l-4 ${
+                                        isActive
+                                            ? "bg-[#edf7ee] text-[#15803d] border-[#16a34a] font-semibold"
+                                            : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
+                                    }`
+                                }
                             >
-                                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
-                                <path d="M6 6h10M6 10h10" />
-                            </svg>
-                            <span>Guide Agronomique</span>
-                        </NavLink>
+                                <svg
+                                    className="w-4.5 h-4.5 shrink-0"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
+                                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
+                                    <path d="M6 6h10M6 10h10" />
+                                </svg>
+                                <span>Guide Agronomique</span>
+                            </NavLink>
+                        )}
 
                         <NavLink
                             to="/profile"
