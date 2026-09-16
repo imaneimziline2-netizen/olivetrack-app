@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-    fetchRecoltes,
-    deleteRecolte,
-} from "../../../store/slices/recolteSlice.js";
-import Card from "../../components/UI/Card.jsx";
-import Button from "../../components/UI/Button.jsx";
 import { fetchParcelles } from "../../../store/slices/parcelleSlice.js";
+import { fetchRecoltes, deleteRecolte } from "../../../store/slices/recolteSlice.js";
 
 function RecoltesList() {
     const dispatch = useDispatch();
@@ -19,10 +14,11 @@ function RecoltesList() {
     const [selectedParcelleId, setSelectedParcelleId] = useState("");
     const activeParcelleId = selectedParcelleId || parcelles?.[0]?._id || "";
 
+    const [deleteId, setDeleteId] = useState(null);
     const [deleteError, setDeleteError] = useState("");
 
-      useEffect(() => {
-        dispatch(fetchParcelles()); 
+    useEffect(() => {
+        dispatch(fetchParcelles());
     }, [dispatch]);
 
     useEffect(() => {
@@ -31,156 +27,109 @@ function RecoltesList() {
         }
     }, [dispatch, activeParcelleId]);
 
-    const handleDelete = async (id) => {
-        if (window.confirm("Voulez-vous vraiment supprimer cette récolte ?")) {
+    const handleDelete = async () => {
+        if (!deleteId) return;
+        const result = await dispatch(deleteRecolte(deleteId));
+        if (deleteRecolte.fulfilled.match(result)) {
+            setDeleteId(null);
             setDeleteError("");
-            const result = await dispatch(deleteRecolte(id));
-            if (deleteRecolte.rejected.match(result)) {
-                setDeleteError(
-                    result.payload || "Impossible de supprimer cette récolte",
-                );
-            }
+        } else {
+            setDeleteError(result.payload || "Impossible de supprimer cette récolte");
         }
     };
 
-    const totalRecolte =
-        recoltes?.reduce((sum, r) => sum + (r.quantiteOlives || 0), 0) || 0;
+    const totalRecolte = recoltes.reduce((sum, r) => sum + (r.quantiteOlives || 0), 0);
 
     return (
-        <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="p-6 space-y-6">
+            <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                        Suivi des Récoltes 
-                    </h1>
-                    <p className="text-sm text-gray-500 mt-1">
-                        Consultez et enregistrez les récoltes d'olives qui
-                        approvisionnent vos stocks
-                    </p>
+                    <h1 className="text-2xl font-bold text-gray-900">Suivi des Récoltes 🧺</h1>
+                    <p className="text-sm text-gray-500 mt-1">Historique des récoltes par parcelle</p>
                 </div>
-
-                <Button
-                    variant="primary"
-                    onClick={() =>
-                        navigate(
-                            activeParcelleId
-                                ? `/recoltes/new?parcelleId=${activeParcelleId}`
-                                : "/recoltes/new",
-                        )
-                    }
+                <button
+                    onClick={() => navigate(activeParcelleId ? `/recoltes/new?parcelleId=${activeParcelleId}` : "/recoltes/new")}
+                    className="bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
                 >
                     + Nouvelle Récolte
-                </Button>
+                </button>
             </div>
 
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-gray-100 shadow-xs">
+            <div className="flex items-center justify-between bg-white border border-gray-200 rounded-xl p-4">
                 <div className="flex items-center gap-3">
-                    <label className="text-xs font-bold text-gray-700 uppercase">
-                        Sélectionner la parcelle :
-                    </label>
+                    <label className="text-xs font-semibold text-gray-600">Parcelle :</label>
                     <select
                         value={activeParcelleId}
                         onChange={(e) => setSelectedParcelleId(e.target.value)}
-                        className="py-2 px-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-semibold text-gray-900 outline-none focus:border-[#059669] cursor-pointer"
+                        className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm"
                     >
                         {parcelles.map((p) => (
-                            <option key={p._id} value={p._id}>
-                                {p.nom} ({p.variete})
-                            </option>
+                            <option key={p._id} value={p._id}>{p.nom}</option>
                         ))}
                     </select>
                 </div>
-
-                <div className="text-xs text-[#059669] font-semibold bg-emerald-50 px-3 py-1.5 rounded-xl">
-                    Total récolté sur cette parcelle :{" "}
-                    <span className="text-sm font-extrabold text-gray-900">
-                        {totalRecolte.toLocaleString()} kg
-                    </span>
+                <div className="text-xs bg-emerald-50 text-green-700 font-semibold px-3 py-1.5 rounded-lg">
+                    Total : {totalRecolte.toLocaleString()} kg
                 </div>
             </div>
 
-            <Card title="Historique des Récoltes">
+            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
                 {error && (
-                    <div className="p-3 bg-red-50 text-red-700 text-xs rounded-xl mb-4">
-                        {error}
-                    </div>
+                    <div className="p-3 bg-red-50 text-red-700 text-xs">{error}</div>
+                )}
+                {deleteError && (
+                    <div className="p-3 bg-red-50 text-red-700 text-xs">{deleteError}</div>
                 )}
 
                 {loading ? (
-                    <div className="py-12 text-center text-gray-400">
-                        Chargement des récoltes...
-                    </div>
-                ) : recoltes && recoltes.length > 0 ? (
-                    <div className="overflow-x-auto">
-                        {deleteError && (
-                            <div className="p-3 bg-red-50 text-red-700 text-xs rounded-xl mb-4">
-                                {deleteError}
-                            </div>
-                        )}
-                        <table className="w-full text-left text-sm">
-                            <thead>
-                                <tr className="border-b border-gray-100 text-xs font-semibold text-gray-400 uppercase">
-                                    <th className="py-3 px-4">Date</th>
-                                    <th className="py-3 px-4">
-                                        Quantité d'olives (kg)
-                                    </th>
-                                    <th className="py-3 px-4 text-right">
-                                        Actions
-                                    </th>
+                    <p className="text-center text-gray-400 py-12">Chargement...</p>
+                ) : recoltes.length > 0 ? (
+                    <table className="w-full text-sm">
+                        <thead className="bg-gray-50 text-xs text-gray-400 uppercase">
+                            <tr>
+                                <th className="text-left px-4 py-2">Date</th>
+                                <th className="text-left px-4 py-2">Quantité (kg)</th>
+                                <th className="text-right px-4 py-2">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y">
+                            {recoltes.map((r) => (
+                                <tr key={r._id}>
+                                    <td className="px-4 py-2.5">{new Date(r.date).toLocaleDateString("fr-FR")}</td>
+                                    <td className="px-4 py-2.5 font-semibold">{r.quantiteOlives} kg</td>
+                                    <td className="px-4 py-2.5 text-right">
+                                        <button
+                                            onClick={() => setDeleteId(r._id)}
+                                            className="text-xs text-red-600 hover:text-red-800"
+                                        >
+                                            Supprimer
+                                        </button>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-50">
-                                {recoltes.map((r) => (
-                                    <tr
-                                        key={r._id}
-                                        className="hover:bg-gray-50/50 transition-colors"
-                                    >
-                                        <td className="py-3.5 px-4 font-medium text-gray-800">
-                                            {" "}
-                                            {new Date(
-                                                r.date,
-                                            ).toLocaleDateString("fr-FR")}
-                                        </td>
-                                        <td className="py-3.5 px-4 font-bold text-gray-900">
-                                            {r.quantiteOlives?.toLocaleString()}{" "}
-                                            kg
-                                        </td>
-                                        <td className="py-3.5 px-4 text-right">
-                                            <button
-                                                onClick={() =>
-                                                    handleDelete(r._id)
-                                                }
-                                                className="text-xs text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
-                                            >
-                                                Supprimer
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                            ))}
+                        </tbody>
+                    </table>
                 ) : (
-                    <div className="py-12 text-center text-gray-400 text-xs">
-                        <p>
-                             Aucune récolte enregistrée pour cette parcelle.
-                        </p>
-                        <Button
-                            variant="primary"
-                            onClick={() =>
-                                navigate(
-                                    activeParcelleId
-                                        ? `/recoltes/new?parcelleId=${activeParcelleId}`
-                                        : "/recoltes/new",
-                                )
-                            }
-                            className="mt-3 text-xs"
-                        >
-                            Enregistrer une récolte
-                        </Button>
-                    </div>
+                    <p className="text-center text-gray-400 py-12 text-sm">Aucune récolte enregistrée.</p>
                 )}
-            </Card>
+            </div>
+
+            {deleteId && (
+                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-xl p-6 w-80">
+                        <h3 className="font-semibold mb-2">Supprimer cette récolte ?</h3>
+                        <p className="text-xs text-gray-500 mb-4">Cette action peut être refusée si une partie de la quantité a déjà été triturée.</p>
+                        <div className="flex gap-3">
+                            <button onClick={() => { setDeleteId(null); setDeleteError(""); }} className="flex-1 border rounded-lg py-2 text-sm">
+                                Annuler
+                            </button>
+                            <button onClick={handleDelete} className="flex-1 bg-red-600 text-white rounded-lg py-2 text-sm">
+                                Supprimer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
