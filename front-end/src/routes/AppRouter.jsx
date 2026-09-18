@@ -14,6 +14,8 @@ import NotFound from "../pages/NotFound.jsx";
 import RecoltesList from "../pages/recoltes/RecoltesList.jsx";
 import TriturationForm from "../pages/triturations/TriturationForm.jsx";
 import TriturationsList from "../pages/triturations/TriturationsList.jsx";
+import VenteForm from "../pages/ventes/VenteForm.jsx";
+import VentesListe from "../pages/ventes/VentesList.jsx";
 
 function AppRouter() {
     return (
@@ -36,6 +38,8 @@ function AppRouter() {
                 <Route path="/recoltes" element={<RecoltesList/>}/>
                 <Route path="/triturations/new" element={<TriturationForm/>}/>
                 <Route path="/triturations" element={<TriturationsList/>}/>
+                <Route path="/ventes/new" element={<VenteForm/>}/>
+                <Route path="ventes" element={<VentesListe/>}/>
 
                 <Route path="*" element={<NotFound />} />
             </Route>
