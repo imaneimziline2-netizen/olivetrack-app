@@ -19,7 +19,7 @@ export const createTrituration = async (parcelleId, data) => {
         throw error;
     }
 
-    const rendement = calculerRendement(data.quantitéHuile, data.quantite);
+    const rendement = calculerRendement(data.quantiteHuile, data.quantite);
 
     const trituration = await Trituration.create({
         ...data,

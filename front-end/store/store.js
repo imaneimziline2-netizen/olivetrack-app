@@ -12,7 +12,7 @@ export const store = configureStore({
         parcelles: parcelleReducer,
         recoltes: recolteReducer,
         triturations: triturationReducer,
-        ventes: venduReducer,
+        ventes : venduReducer,
         dashboard: dashboardReducer,
     },
 });

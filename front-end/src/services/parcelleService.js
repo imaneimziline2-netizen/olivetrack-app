@@ -7,6 +7,7 @@ export const getParcellesRequest = async () => {
 
 export const getParcelleByIdRequest = async (id) => {
     const response = await api.get(`/parcelles/${id}`);
+
     return response.data;
 };
 
@@ -27,5 +28,13 @@ export const updateParcelleRequest = async (id, data) => {
 
 export const deleteParcelleRequest = async (id) => {
     const response = await api.delete(`/parcelles/${id}`);
+    return response.data;
+};
+
+export const getParcelleRendementRequest = async (parcelleId, annee) => {
+    const params = annee ? { annee } : {};
+    const response = await api.get(`/parcelles/${parcelleId}/rendement`,{ params });
+    console.log("Rendement response:", response.data);
+
     return response.data;
 };

@@ -6,6 +6,7 @@ import {
     update,
     remove,
     getStock,
+    getRendementParcelle,
 } from "./parcelleController.js";
 import { authMiddleware } from "../../middlewares/authMiddleware.js";
 import { checkOwnership } from "../../middlewares/ownershipMiddleware.js";
@@ -23,7 +24,6 @@ import {
     create as createVendu,
     list as listVentes,
 } from "../ventes/venduController.js";
-import { getRendementParcelle } from "../dashboard/dashboardController.js";
 import { paramIdCheck } from "../../middlewares/paramIdCheck.js";
 
 const router = Router();

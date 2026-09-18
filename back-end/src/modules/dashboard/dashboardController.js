@@ -1,8 +1,8 @@
 import { serverErrorResponse } from "../../utils/serverErrorResponse.js";
 import {
     rendementToutesParcelles,
-    comparerRendementParcelle,
     rendementMensuelGlobal,
+    comparerRendementDashboardParcelles,
 } from "./statsService.js";
 
 export async function getDashboard(req, res) {
@@ -18,10 +18,13 @@ export async function getDashboard(req, res) {
     }
 }
 
-export async function getRendementParcelle(req, res) {
+export async function getRendementDashboardParcelles(req, res) {
     try {
         const annee = parseInt(req.query.annee) || new Date().getFullYear();
-        const resultat = await comparerRendementParcelle(req.params.id, annee);
+        const resultat = await comparerRendementDashboardParcelles(
+            req.params.id,
+            annee,
+        );
         res.json(resultat);
     } catch (err) {
         serverErrorResponse(res, err);
@@ -38,4 +41,3 @@ export async function getMonthlyYield(req, res) {
         serverErrorResponse(res, err);
     }
 }
-

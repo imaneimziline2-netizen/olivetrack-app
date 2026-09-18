@@ -3,7 +3,7 @@ import ParcelleStock from "../parcelles/parcelleStock.model.js";
 import Parcelle from "../parcelles/parcelle.model.js";
 import { detecterAnomalie } from "../../utils/anomalyDetector.js";
 
-export const rendementAnnuelParcelle = async (parcelleId, annee) => {
+export const rendementAnnuelDashboardParcelles = async (parcelleId, annee) => {
     const stock = await ParcelleStock.findOne({ parcelleId });
     if (!stock) return { annee, rendement: null };
 
@@ -18,25 +18,50 @@ export const rendementAnnuelParcelle = async (parcelleId, annee) => {
     if (triturations.length === 0) return { annee, rendement: null };
 
     const totalOlives = triturations.reduce((sum, t) => sum + t.quantite, 0);
-    const totalHuile = triturations.reduce((sum, t) => sum + t.quantitéHuile, 0);
+    const totalHuile = triturations.reduce(
+        (sum, t) => sum + t.quantiteHuile,
+        0,
+    );
     const rendement = Math.round((totalHuile / totalOlives) * 100 * 10) / 10;
 
-    return { annee, rendement, totalOlives, totalHuile, nbTriturations: triturations.length };
+    return {
+        annee,
+        rendement,
+        totalOlives,
+        totalHuile,
+        nbTriturations: triturations.length,
+    };
 };
 
-export const comparerRendementParcelle = async (parcelleId, anneeActuelle) => {
-    const anneesPrecedentes = [anneeActuelle - 1, anneeActuelle - 2, anneeActuelle - 3];
+export const comparerRendementDashboardParcelles = async (
+    parcelleId,
+    anneeActuelle,
+) => {
+    const anneesPrecedentes = [
+        anneeActuelle - 1,
+        anneeActuelle - 2,
+        anneeActuelle - 3,
+    ];
 
     const historique = [];
     for (const annee of anneesPrecedentes) {
-        const result = await rendementAnnuelParcelle(parcelleId, annee);
+        const result = await rendementAnnuelDashboardParcelles(
+            parcelleId,
+            annee,
+        );
         if (result.rendement !== null) historique.push(result.rendement);
     }
 
-    const actuel = await rendementAnnuelParcelle(parcelleId, anneeActuelle);
+    const actuel = await rendementAnnuelDashboardParcelles(
+        parcelleId,
+        anneeActuelle,
+    );
     if (actuel.rendement === null) return actuel;
 
-    const { alerte, ecart, message, moyenneHistorique  } = detecterAnomalie(actuel.rendement, historique);
+    const { alerte, ecart, message, moyenneHistorique } = detecterAnomalie(
+        actuel.rendement,
+        historique,
+    );
 
     return { ...actuel, alerte, ecart, moyenneHistorique, message };
 };
@@ -52,13 +77,11 @@ export const rendementToutesParcelles = async (userId, annee) => {
                 nomParcelle: parcelle.nom,
                 ...stats,
             };
-        })
+        }),
     );
 
     return resultats;
 };
-
-
 
 export const rendementMensuelGlobal = async (userId, annee) => {
     // 1. Parcelles dyal user
@@ -87,7 +110,7 @@ export const rendementMensuelGlobal = async (userId, annee) => {
             $group: {
                 _id: { $month: "$date" },
                 totalOlives: { $sum: "$quantite" },
-                totalHuile: { $sum: "$quantitéHuile" },
+                totalHuile: { $sum: "$quantiteHuile" },
                 nbTriturations: { $sum: 1 },
             },
         },
@@ -107,7 +130,7 @@ export const rendementMensuelGlobal = async (userId, annee) => {
             rendement:
                 found && found.totalOlives > 0
                     ? Math.round(
-                          (found.totalHuile / found.totalOlives) * 100 * 10
+                          (found.totalHuile / found.totalOlives) * 100 * 10,
                       ) / 10
                     : 0,
         };

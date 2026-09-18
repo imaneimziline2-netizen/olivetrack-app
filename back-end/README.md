@@ -67,7 +67,7 @@ User (nom, email, motDePasse, role: agriculteur|admin — un seul admin dans le 
   └── Parcelle (nom, superficie, localisation, variete, typeIrrigation, modeCulture, nombreArbres, anneePlantation)
         ├── Recolte (date, quantiteOlives)                          → alimente automatiquement ParcelleStock
         └── ParcelleStock (nom, Stock, quantiteEntrant, quantiteSortante)   → 1 par parcelle
-              ├── Trituration (date, quantite, quantitéHuile, rendement)    → transforme le stock d'olives en huile
+              ├── Trituration (date, quantite, quantiteHuile, rendement)    → transforme le stock d'olives en huile
               └── Vendu (date, quantiteVendue, revenu)                      → vente d'olives depuis le stock
 ```
 

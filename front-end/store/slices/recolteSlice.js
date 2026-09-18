@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
     getRecoltesRequest,
     createRecolteRequest,
+    updateRecolteRequest,
     deleteRecolteRequest,
 } from "../../src/services/recolteService.js";
 
@@ -23,6 +24,17 @@ export const createRecolte = createAsyncThunk(
             return await createRecolteRequest(parcelleId, data);
         } catch (err) {
             return rejectWithValue(err.response?.data?.message || "Erreur lors de l'enregistrement de la récolte");
+        }
+    }
+);
+
+export const updateRecolte = createAsyncThunk(
+    "recoltes/update",
+    async ({ id, data }, { rejectWithValue }) => {
+        try {
+            return await updateRecolteRequest(id, data);
+        } catch (err) {
+            return rejectWithValue(err.response?.data?.message || "Erreur lors de la mise à jour");
         }
     }
 );
@@ -50,15 +62,11 @@ const recolteSlice = createSlice({
         clearRecoltes: (state) => {
             state.recoltes = [];
         },
-        clearRecolteError: (state) => {
-            state.error = null;
-        },
     },
     extraReducers: (builder) => {
         builder
             .addCase(fetchRecoltes.pending, (state) => {
                 state.loading = true;
-                state.error = null;
             })
             .addCase(fetchRecoltes.fulfilled, (state, action) => {
                 state.loading = false;
@@ -68,14 +76,40 @@ const recolteSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+
+            .addCase(createRecolte.pending, (state) => {
+                state.loading = true;
+            })
             .addCase(createRecolte.fulfilled, (state, action) => {
+                state.loading = false;
                 state.recoltes.unshift(action.payload);
             })
+            .addCase(createRecolte.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+
+            .addCase(updateRecolte.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(updateRecolte.fulfilled, (state, action) => {
+                state.loading = false;
+                const index = state.recoltes.findIndex((r) => r._id === action.payload._id);
+                if (index !== -1) state.recoltes[index] = action.payload;
+            })
+            .addCase(updateRecolte.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+
             .addCase(deleteRecolte.fulfilled, (state, action) => {
                 state.recoltes = state.recoltes.filter((r) => r._id !== action.payload);
+            })
+            .addCase(deleteRecolte.rejected, (state, action) => {
+                state.error = action.payload;
             });
     },
 });
 
-export const { clearRecoltes, clearRecolteError } = recolteSlice.actions;
+export const { clearRecoltes } = recolteSlice.actions;
 export default recolteSlice.reducer;
