@@ -4,7 +4,6 @@ import parcelleReducer from "./slices/parcelleSlice.js";
 import recolteReducer from "./slices/recolteSlice.js";
 import triturationReducer from "./slices/triturationSlice.js";
 import venduReducer from "./slices/venduSlice.js";
-import dashboardReducer from "./slices/dashboardSlice.js";
 
 export const store = configureStore({
     reducer: {
@@ -12,7 +11,6 @@ export const store = configureStore({
         parcelles: parcelleReducer,
         recoltes: recolteReducer,
         triturations: triturationReducer,
-        ventes: venduReducer,
-        dashboard: dashboardReducer,
+        ventes : venduReducer,
     },
 });

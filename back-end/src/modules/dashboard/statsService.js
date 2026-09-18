@@ -18,7 +18,7 @@ export const rendementAnnuelParcelle = async (parcelleId, annee) => {
     if (triturations.length === 0) return { annee, rendement: null };
 
     const totalOlives = triturations.reduce((sum, t) => sum + t.quantite, 0);
-    const totalHuile = triturations.reduce((sum, t) => sum + t.quantitéHuile, 0);
+    const totalHuile = triturations.reduce((sum, t) => sum + t.quantiteHuile, 0);
     const rendement = Math.round((totalHuile / totalOlives) * 100 * 10) / 10;
 
     return { annee, rendement, totalOlives, totalHuile, nbTriturations: triturations.length };
@@ -87,7 +87,7 @@ export const rendementMensuelGlobal = async (userId, annee) => {
             $group: {
                 _id: { $month: "$date" },
                 totalOlives: { $sum: "$quantite" },
-                totalHuile: { $sum: "$quantitéHuile" },
+                totalHuile: { $sum: "$quantiteHuile" },
                 nbTriturations: { $sum: 1 },
             },
         },

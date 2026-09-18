@@ -12,6 +12,8 @@ import RecolteForm from "../pages/recoltes/RecolteForm.jsx"
 
 import NotFound from "../pages/NotFound.jsx";
 import RecoltesList from "../pages/recoltes/RecoltesList.jsx";
+import TriturationForm from "../pages/triturations/TriturationForm.jsx";
+import TriturationsList from "../pages/triturations/TriturationsList.jsx";
 
 function AppRouter() {
     return (
@@ -32,6 +34,8 @@ function AppRouter() {
                 <Route path="/parcelles/:id/edit" element={<ParcelleForm />} />
                 <Route path="/recoltes/new" element={<RecolteForm/>}/>
                 <Route path="/recoltes" element={<RecoltesList/>}/>
+                <Route path="/triturations/new" element={<TriturationForm/>}/>
+                <Route path="/triturations" element={<TriturationsList/>}/>
 
                 <Route path="*" element={<NotFound />} />
             </Route>
