@@ -4,6 +4,7 @@ import {
     getParcelleById,
     updateParcelle,
     deleteParcelle,
+    comparerRendementParcelle,
 } from "./parcelleService.js";
 import {
     createParcelleValidator,
@@ -75,6 +76,16 @@ export async function getStock(req, res) {
             return res.status(404).json({ message: "Stock introuvable" });
         }
         res.json(stock);
+    } catch (err) {
+        serverErrorResponse(res, err);
+    }
+}
+
+export async function getRendementParcelle(req, res) {
+    try {
+        const annee = parseInt(req.query.annee) || new Date().getFullYear();
+        const resultat = await comparerRendementParcelle(req.params.id, annee);
+        res.json(resultat);
     } catch (err) {
         serverErrorResponse(res, err);
     }

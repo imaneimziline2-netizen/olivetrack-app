@@ -6,8 +6,8 @@ import {
     createParcelleRequest,
     updateParcelleRequest,
     deleteParcelleRequest,
+    getParcelleRendementRequest,
 } from "../../src/services/parcelleService.js";
-
 
 export const fetchParcelles = createAsyncThunk(
     "parcelles/fetchAll",
@@ -15,9 +15,12 @@ export const fetchParcelles = createAsyncThunk(
         try {
             return await getParcellesRequest();
         } catch (err) {
-            return rejectWithValue(err.response?.data?.message || "Erreur lors du chargement des parcelles");
+            return rejectWithValue(
+                err.response?.data?.message ||
+                    "Erreur lors du chargement des parcelles",
+            );
         }
-    }
+    },
 );
 
 export const fetchParcelleById = createAsyncThunk(
@@ -26,9 +29,11 @@ export const fetchParcelleById = createAsyncThunk(
         try {
             return await getParcelleByIdRequest(id);
         } catch (err) {
-            return rejectWithValue(err.response?.data?.message || "Parcelle introuvable");
+            return rejectWithValue(
+                err.response?.data?.message || "Parcelle introuvable",
+            );
         }
-    }
+    },
 );
 
 export const fetchParcelleStock = createAsyncThunk(
@@ -37,9 +42,11 @@ export const fetchParcelleStock = createAsyncThunk(
         try {
             return await getStockRequest(id);
         } catch (err) {
-            return rejectWithValue(err.response?.data?.message || "Impossible de charger le stock");
+            return rejectWithValue(
+                err.response?.data?.message || "Impossible de charger le stock",
+            );
         }
-    }
+    },
 );
 
 export const createParcelle = createAsyncThunk(
@@ -48,9 +55,11 @@ export const createParcelle = createAsyncThunk(
         try {
             return await createParcelleRequest(data);
         } catch (err) {
-            return rejectWithValue(err.response?.data?.message || "Erreur lors de la création");
+            return rejectWithValue(
+                err.response?.data?.message || "Erreur lors de la création",
+            );
         }
-    }
+    },
 );
 
 export const updateParcelle = createAsyncThunk(
@@ -59,9 +68,11 @@ export const updateParcelle = createAsyncThunk(
         try {
             return await updateParcelleRequest(id, data);
         } catch (err) {
-            return rejectWithValue(err.response?.data?.message || "Erreur lors de la mise à jour");
+            return rejectWithValue(
+                err.response?.data?.message || "Erreur lors de la mise à jour",
+            );
         }
-    }
+    },
 );
 
 export const deleteParcelle = createAsyncThunk(
@@ -71,11 +82,33 @@ export const deleteParcelle = createAsyncThunk(
             await deleteParcelleRequest(id);
             return id;
         } catch (err) {
-            return rejectWithValue(err.response?.data?.message || "Erreur lors de la suppression");
+            return rejectWithValue(
+                err.response?.data?.message || "Erreur lors de la suppression",
+            );
         }
-    }
+    },
 );
 
+export const fetchParcelleRendement = createAsyncThunk(
+    "parcelles/fetchParcelleRendement",
+    async ({ parcelleId, annee }, { rejectWithValue }) => {
+        console.log(
+            "Fetching rendement for parcelleId:",
+            parcelleId,
+            "and year:",
+            annee,
+        );
+
+        try {
+            return await getParcelleRendementRequest(parcelleId, annee);
+        } catch (err) {
+            return rejectWithValue(
+                err.response?.data?.message ||
+                    "Erreur lors du calcul du rendement",
+            );
+        }
+    },
+);
 
 const parcelleSlice = createSlice({
     name: "parcelles",
@@ -85,6 +118,7 @@ const parcelleSlice = createSlice({
         currentStock: null,
         loading: false,
         error: null,
+        currentParcelleRendement: null,
     },
     reducers: {
         clearCurrentParcelle: (state) => {
@@ -94,6 +128,7 @@ const parcelleSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // Fetch Parcelles
             .addCase(fetchParcelles.pending, (state) => {
                 state.loading = true;
             })
@@ -105,18 +140,18 @@ const parcelleSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-
+            // Fetch Parcelle Details
             .addCase(fetchParcelleById.fulfilled, (state, action) => {
                 state.currentParcelle = action.payload;
             })
             .addCase(fetchParcelleById.rejected, (state, action) => {
                 state.error = action.payload;
             })
-
+            // Fetch Parcelle Stock
             .addCase(fetchParcelleStock.fulfilled, (state, action) => {
                 state.currentStock = action.payload;
             })
-
+            // Create Parcelle
             .addCase(createParcelle.pending, (state) => {
                 state.loading = true;
             })
@@ -128,13 +163,15 @@ const parcelleSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-
+            // Update Parcelle
             .addCase(updateParcelle.pending, (state) => {
                 state.loading = true;
             })
             .addCase(updateParcelle.fulfilled, (state, action) => {
                 state.loading = false;
-                const index = state.parcelles.findIndex((p) => p._id === action.payload._id);
+                const index = state.parcelles.findIndex(
+                    (p) => p._id === action.payload._id,
+                );
                 if (index !== -1) state.parcelles[index] = action.payload;
                 state.currentParcelle = action.payload;
             })
@@ -142,11 +179,20 @@ const parcelleSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-
+            // Delete Parcelle
             .addCase(deleteParcelle.fulfilled, (state, action) => {
-                state.parcelles = state.parcelles.filter((p) => p._id !== action.payload);
+                state.parcelles = state.parcelles.filter(
+                    (p) => p._id !== action.payload,
+                );
             })
             .addCase(deleteParcelle.rejected, (state, action) => {
+                state.error = action.payload;
+            })
+            // Fetch Parcelle Rendement
+            .addCase(fetchParcelleRendement.fulfilled, (state, action) => {
+                state.currentParcelleRendement = action.payload;
+            })
+            .addCase(fetchParcelleRendement.rejected, (state, action) => {
                 state.error = action.payload;
             });
     },

@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { loginRequest, registerRequest } from "../../src/services/authService.js";
+import {
+    loginRequest,
+    registerRequest,
+} from "../../src/services/authService.js";
 
 export const registerUser = createAsyncThunk(
     "auth/register",
@@ -7,11 +10,14 @@ export const registerUser = createAsyncThunk(
         try {
             const data = await registerRequest(formData);
             localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
             return data;
         } catch (err) {
-            return rejectWithValue(err.response?.data?.message || "Erreur d'inscription");
+            return rejectWithValue(
+                err.response?.data?.message || "Erreur d'inscription",
+            );
         }
-    }
+    },
 );
 
 export const loginUser = createAsyncThunk(
@@ -20,17 +26,20 @@ export const loginUser = createAsyncThunk(
         try {
             const data = await loginRequest(formData);
             localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
             return data;
         } catch (err) {
-            return rejectWithValue(err.response?.data?.message || "Erreur de connexion");
+            return rejectWithValue(
+                err.response?.data?.message || "Erreur de connexion",
+            );
         }
-    }
+    },
 );
 
 const authSlice = createSlice({
     name: "auth",
     initialState: {
-        user: null,
+        user: JSON.parse(localStorage.getItem("user")) || null,
         token: localStorage.getItem("token") || null,
         loading: false,
         error: null,
@@ -58,7 +67,6 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-            
 
             .addCase(loginUser.pending, (state) => {
                 state.loading = true;
