@@ -11,9 +11,14 @@ export const fetchVentes = createAsyncThunk(
         try {
             return await getVentesRequest(parcelleId);
         } catch (err) {
-            return rejectWithValue(err.response?.data?.message || "Erreur lors du chargement des ventes");
+            console.log(err.response);
+
+            return rejectWithValue(
+                err.response?.data?.message ||
+                    "Erreur lors du chargement des ventes",
+            );
         }
-    }
+    },
 );
 
 export const createVente = createAsyncThunk(
@@ -22,9 +27,12 @@ export const createVente = createAsyncThunk(
         try {
             return await createVenteRequest(parcelleId, data);
         } catch (err) {
-            return rejectWithValue(err.response?.data?.message || "Erreur lors de l'enregistrement de la vente");
+            return rejectWithValue(
+                err.response?.data?.message ||
+                    "Erreur lors de l'enregistrement de la vente",
+            );
         }
-    }
+    },
 );
 
 export const deleteVente = createAsyncThunk(
@@ -34,9 +42,11 @@ export const deleteVente = createAsyncThunk(
             await deleteVenteRequest(id);
             return id;
         } catch (err) {
-            return rejectWithValue(err.response?.data?.message || "Erreur lors de la suppression");
+            return rejectWithValue(
+                err.response?.data?.message || "Erreur lors de la suppression",
+            );
         }
-    }
+    },
 );
 
 const venduSlice = createSlice({
@@ -87,7 +97,9 @@ const venduSlice = createSlice({
             })
             .addCase(deleteVente.fulfilled, (state, action) => {
                 state.loading = false;
-                state.ventes = state.ventes.filter((v) => v._id !== action.payload);
+                state.ventes = state.ventes.filter(
+                    (v) => v._id !== action.payload,
+                );
             })
             .addCase(deleteVente.rejected, (state, action) => {
                 state.loading = false;
