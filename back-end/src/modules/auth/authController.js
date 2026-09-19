@@ -30,11 +30,3 @@ export async function login(req, res) {
     }
 }
 
-// export function logout(req, res) {
-//     try {
-//         const result = logoutUser(res);
-//         res.status(200).json(result);
-//     } catch (err) {
-//         serverErrorResponse(res, err);
-//     }
-// }
