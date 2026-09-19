@@ -3,16 +3,23 @@ import {
     rendementToutesParcelles,
     rendementMensuelGlobal,
     comparerRendementDashboardParcelles,
+    getStatsGlobales,
 } from "./statsService.js";
 
 export async function getDashboard(req, res) {
     try {
         const annee = parseInt(req.query.annee) || new Date().getFullYear();
-        const resultats = await rendementToutesParcelles(
-            req.user.userId,
-            annee,
-        );
-        res.json(resultats);
+        const userId = req.user.userId;
+
+        const [statsGlobales, statsParcelles] = await Promise.all([
+            getStatsGlobales(userId, annee),
+            rendementToutesParcelles(userId, annee),
+        ]);
+
+        res.json({
+            statsGlobales,
+            statsParcelles,
+        });
     } catch (err) {
         serverErrorResponse(res, err);
     }
@@ -31,7 +38,6 @@ export async function getRendementDashboardParcelles(req, res) {
     }
 }
 
-// GET /api/dashboard/monthly?annee=2026
 export async function getMonthlyYield(req, res) {
     try {
         const annee = parseInt(req.query.annee) || new Date().getFullYear();

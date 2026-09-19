@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { getDashboard, getMonthlyYield } from "./dashboardController.js";
+import { getDashboard, getMonthlyYield, getRendementDashboardParcelles } from "./dashboardController.js";
 import { authMiddleware } from "../../middlewares/authMiddleware.js";
 
 const router = Router();
 
 router.get("/", authMiddleware, getDashboard);
 router.get("/monthly", authMiddleware, getMonthlyYield);
+router.get("/rendement", authMiddleware, getRendementDashboardParcelles);
 
 
 export default router;
