@@ -4,7 +4,8 @@ export const registerValidator = Joi.object({
     nom: Joi.string().min(2).required(),
     email: Joi.string().email().required(),
     motDePasse: Joi.string().min(8).required(),
-    // role: Joi.string().valid("agriculteur", "admin").required(),
+    telephone: Joi.string().optional(),
+    region: Joi.string().optional(),
 });
 
 export const loginValidator = Joi.object({
@@ -15,4 +16,6 @@ export const loginValidator = Joi.object({
 export const updateProfileValidator = Joi.object({
     nom: Joi.string().min(2),
     email: Joi.string().email(),
+    telephone: Joi.string().optional(),
+    region: Joi.string().optional(),
 });

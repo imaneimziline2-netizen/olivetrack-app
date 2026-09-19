@@ -2,7 +2,7 @@ import User from "../users/user.model.js";
 import bcrypt from "bcrypt";
 import { signToken } from "../../utils/jwtOpération.js";
 
-export const registerUser = async ({ nom, email, motDePasse }) => {
+export const registerUser = async ({ nom, email, motDePasse , telephone, region}) => {
     const existing = await User.findOne({ email });
     if (existing) {
         const error = new Error("Email déja utilisé");
@@ -17,6 +17,8 @@ export const registerUser = async ({ nom, email, motDePasse }) => {
         email,
         motDePasse: hashedPassword,
         role: "agriculteur",
+        telephone,
+        region,
     });
 
     const token = signToken(user);

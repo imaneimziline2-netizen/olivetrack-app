@@ -10,7 +10,7 @@ export const getProfile = async (userId) => {
     return user;
 };
 
-export const updateProfile = async (userId, { nom, email }) => {
+export const updateProfile = async (userId, { nom, email, telephone, region }) => {
     if (email) {
         const existing = await User.findOne({ email, _id: { $ne: userId } }); 
         if (existing) {
@@ -23,6 +23,8 @@ export const updateProfile = async (userId, { nom, email }) => {
     const updateData = {};
     if (nom) updateData.nom = nom;
     if (email) updateData.email = email;
+    if (telephone) updateData.telephone = telephone;
+    if (region) updateData.region = region;
 
     const user = await User.findByIdAndUpdate(userId, updateData, {
         new: true,
