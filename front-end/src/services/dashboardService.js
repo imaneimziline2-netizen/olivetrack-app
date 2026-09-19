@@ -7,11 +7,8 @@ export const getDashboardStatsRequest = async (annee) => {
     return response.data;
 };
 
-
-
 export const getMonthlyYieldRequest = async (annee) => {
     const params = annee ? { annee } : {};
-    const response = await api.get("/dashboard/monthly-yield", { params });
-
+    const response = await api.get("/dashboard/monthly", { params });  
     return response.data;
 };
