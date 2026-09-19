@@ -77,12 +77,12 @@ function Navbar({ onToggleSidebar }) {
             </div>
 
             <div className="flex items-center gap-4 sm:gap-5">
-                <button
+                {/* <button
                     onClick={() => navigate("/")}
                     className="inline-flex items-center px-3 py-1 bg-amber-50/90 border border-amber-200/70 text-amber-700 text-xs font-semibold rounded-full hover:bg-amber-100 transition-colors cursor-pointer"
                 >
                     {anomaliesCount} anomalies
-                </button>
+                </button> */}
 
                 <button
                     onClick={() => navigate("/")}
