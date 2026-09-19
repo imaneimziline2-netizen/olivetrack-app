@@ -1,4 +1,4 @@
-export const guideAgronomiqueData = [
+const guideAgronomiqueData = [
     {
         mois: 1,
         nom: "Janvier",
@@ -156,3 +156,5 @@ export const guideAgronomiqueData = [
         },
     },
 ];
+
+export default guideAgronomiqueData;
