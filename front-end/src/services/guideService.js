@@ -5,6 +5,9 @@ export const getGuideAgronomique = () => {
 };
 
 export const getGuideByMois = (mois) => {
-    const data = guideAgronomiqueData.find((item) => item.mois === parseInt(mois));
+    const data = guideAgronomiqueData.find(
+        (item) => item.mois === parseInt(mois, 10)
+    );
+
     return Promise.resolve(data || null);
 };
