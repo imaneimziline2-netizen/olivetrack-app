@@ -16,6 +16,9 @@ import TriturationForm from "../pages/triturations/TriturationForm.jsx";
 import TriturationsList from "../pages/triturations/TriturationsList.jsx";
 import VenteForm from "../pages/ventes/VenteForm.jsx";
 import VentesListe from "../pages/ventes/VentesList.jsx";
+import GuideAgronomique from "../pages/guide/GuideAgronomique.jsx";
+import Profile from "../pages/profile/Profile.jsx";
+import Dashboard from "../pages/dashboard/Dashboard.jsx";
 
 function AppRouter() {
     return (
@@ -39,10 +42,14 @@ function AppRouter() {
                 <Route path="/triturations/new" element={<TriturationForm/>}/>
                 <Route path="/triturations" element={<TriturationsList/>}/>
                 <Route path="/ventes/new" element={<VenteForm/>}/>
-                <Route path="ventes" element={<VentesListe/>}/>
-
+                <Route path="/ventes" element={<VentesListe/>}/>
+                <Route path="/profile" element={<Profile/>} />
+                <Route path="/guide" element={<GuideAgronomique/>} />
+                <Route path="/dashboard" element={<Dashboard/>} />
+                <Route path="/" element={<Dashboard/>} />
                 <Route path="*" element={<NotFound />} />
             </Route>
+
         </Routes>
     );
 }
