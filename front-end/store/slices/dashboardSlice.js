@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
     getDashboardStatsRequest,
+    getMonthlyYieldRequest,
 } from "../../src/services/dashboardService.js";
 
 export const fetchDashboard = createAsyncThunk(
@@ -9,18 +10,34 @@ export const fetchDashboard = createAsyncThunk(
         try {
             return await getDashboardStatsRequest(annee);
         } catch (err) {
-            return rejectWithValue(err.response?.data?.message || "Erreur lors du chargement du tableau de bord");
+            return rejectWithValue(
+                err.response?.data?.message ||
+                    "Erreur lors du chargement du tableau de bord",
+            );
         }
-    }
+    },
 );
 
-
+export const fetchMonthlyYield = createAsyncThunk(
+    "dashboard/fetchMonthlyYield",
+    async (annee, { rejectWithValue }) => {
+        try {
+            return await getMonthlyYieldRequest(annee);
+        } catch (err) {
+            return rejectWithValue(
+                err.response?.data?.message ||
+                    "Erreur lors du chargement du rendement mensuel",
+            );
+        }
+    },
+);
 
 const dashboardSlice = createSlice({
     name: "dashboard",
     initialState: {
-        stats: [],
-        parcelleRendement: null,
+        stats: [], 
+        statsGlobales: null, 
+        monthlyYield: [],
         loading: false,
         error: null,
     },
@@ -40,15 +57,19 @@ const dashboardSlice = createSlice({
             })
             .addCase(fetchDashboard.fulfilled, (state, action) => {
                 state.loading = false;
-                state.stats = action.payload;
+                state.statsGlobales = action.payload.statsGlobales;
+                state.stats = action.payload.statsParcelles;
             })
             .addCase(fetchDashboard.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
-            
+            .addCase(fetchMonthlyYield.fulfilled, (state, action) => {
+                state.monthlyYield = action.payload;
+            });
     },
 });
 
-export const { clearParcelleRendement, clearDashboardError } = dashboardSlice.actions;
+export const { clearParcelleRendement, clearDashboardError } =
+    dashboardSlice.actions;
 export default dashboardSlice.reducer;
