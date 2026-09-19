@@ -10,7 +10,7 @@ import {
     createParcelleValidator,
     updateParcelleValidator,
 } from "./parcelleValidator.js";
-import ParcelleStock from "./parcelleStock.model.js";
+import  ParcelleStock  from "./parcelleStock.model.js";
 import { serverErrorResponse } from "../../utils/serverErrorResponse.js";
 
 export async function create(req, res) {

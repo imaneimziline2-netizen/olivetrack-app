@@ -2,9 +2,9 @@ const SEUIL_ALERTE_PERCENT = -20;
 const HISTORIQUE_MIN = 2;
 
 export function detecterAnomalie(rendementActuel, rendementsHistoriques) {
-    if (rendementActuel.length < HISTORIQUE_MIN) {
+    if (rendementsHistoriques.length < HISTORIQUE_MIN) {
         return {
-            alert: false,
+            alerte: false,       
             ecart: null,
             moyenneHistorique: null,
             message: null,

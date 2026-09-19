@@ -3,7 +3,6 @@ import ParcelleStock from "../parcelles/parcelleStock.model.js";
 import { calculerRendement } from "../../utils/rendementCalculator.js";
 
 export const createTrituration = async (parcelleId, data) => {
-    
     const stock = await ParcelleStock.findOne({ parcelleId });
     if (!stock) {
         const error = new Error("Stock introuvable pour cette parcelle");
@@ -11,7 +10,17 @@ export const createTrituration = async (parcelleId, data) => {
         throw error;
     }
 
-    if (data.quantite > stock.Stock) {
+    const quantite = Number(data.quantite);
+    const quantiteHuile = Number(data.quantiteHuile);
+
+
+    if (isNaN(quantiteHuile) || quantiteHuile <= 0) {
+        const error = new Error("La quantité d'huile doit être un nombre supérieur à 0");
+        error.statusCode = 400;
+        throw error;
+    }
+
+    if (quantite > stock.Stock) {
         const error = new Error(
             `Quantité insuffisante en stock (disponible : ${stock.Stock} kg)`
         );
@@ -19,16 +28,18 @@ export const createTrituration = async (parcelleId, data) => {
         throw error;
     }
 
-    const rendement = calculerRendement(data.quantiteHuile, data.quantite);
+    const rendement = calculerRendement(quantiteHuile, quantite);
 
     const trituration = await Trituration.create({
         ...data,
+        quantite,
+        quantiteHuile,
         parcelleStockId: stock._id,
         rendement,
     });
 
-    stock.Stock -= data.quantite;
-    stock.quantiteSortante += data.quantite;
+    stock.Stock = Number(stock.Stock) - quantite;
+    stock.quantiteSortante = Number(stock.quantiteSortante) + quantite;
     await stock.save();
 
     return trituration;

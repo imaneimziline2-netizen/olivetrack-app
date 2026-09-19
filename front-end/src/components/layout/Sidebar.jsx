@@ -15,7 +15,8 @@ function Sidebar({ isOpen, onClose }) {
         location.pathname.startsWith("/triturations") ||
         location.pathname.startsWith("/ventes");
 
-    const [operationsExpanded, setOperationsExpanded] = useState(isOperationsActive);
+    const [operationsExpanded, setOperationsExpanded] =
+        useState(isOperationsActive);
 
     const handleLogout = () => {
         dispatch(logout());
@@ -33,7 +34,9 @@ function Sidebar({ isOpen, onClose }) {
 
             <aside
                 className={`fixed md:sticky top-0 left-0 z-40 h-screen w-64 bg-white border-r border-gray-200/80 transition-transform duration-300 ease-in-out flex flex-col justify-between shrink-0 ${
-                    isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+                    isOpen
+                        ? "translate-x-0"
+                        : "-translate-x-full md:translate-x-0"
                 }`}
             >
                 <div>
@@ -45,11 +48,16 @@ function Sidebar({ isOpen, onClose }) {
                             }}
                             className="flex items-center gap-3 cursor-pointer select-none"
                         >
-                            <div className="w-8 h-8 ">
-                                <img src={logo} alt="Logo" className="w-6 h-6" />
+                            <div className="w-10 h-10">
+                                <img
+                                    src={logo}
+                                    alt="Logo"
+                                    className="w-10 h-10"
+                                />
                             </div>
                             <span className="text-xl font-bold tracking-tight text-gray-900">
-                                Olive<span className="text-[#059669]">Grove</span>
+                                Olive
+                                <span className="text-[#49CCC3]">Grove</span>
                             </span>
                         </div>
 
@@ -69,7 +77,7 @@ function Sidebar({ isOpen, onClose }) {
                             className={({ isActive }) =>
                                 `flex items-center gap-3.5 px-6 py-3 text-sm font-medium transition-colors border-l-4 ${
                                     isActive
-                                        ? "bg-[#edf7ee] text-[#15803d] border-[#16a34a] font-semibold"
+                                        ? "bg-[#edf7ee] text-[#49CCC3] border-[#19525A] font-semibold"
                                         : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
                                 }`
                             }
@@ -83,10 +91,34 @@ function Sidebar({ isOpen, onClose }) {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                             >
-                                <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                                <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                                <rect x="14" y="14" width="7" height="7" rx="1.5" />
-                                <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                                <rect
+                                    x="3"
+                                    y="3"
+                                    width="7"
+                                    height="7"
+                                    rx="1.5"
+                                />
+                                <rect
+                                    x="14"
+                                    y="3"
+                                    width="7"
+                                    height="7"
+                                    rx="1.5"
+                                />
+                                <rect
+                                    x="14"
+                                    y="14"
+                                    width="7"
+                                    height="7"
+                                    rx="1.5"
+                                />
+                                <rect
+                                    x="3"
+                                    y="14"
+                                    width="7"
+                                    height="7"
+                                    rx="1.5"
+                                />
                             </svg>
                             <span>Dashboard</span>
                         </NavLink>
@@ -98,7 +130,7 @@ function Sidebar({ isOpen, onClose }) {
                                 className={({ isActive }) =>
                                     `flex items-center gap-3.5 px-6 py-3 text-sm font-medium transition-colors border-l-4 ${
                                         isActive
-                                            ? "bg-[#edf7ee] text-[#15803d] border-[#16a34a] font-semibold"
+                                            ? "bg-[#edf7ee] text-[#49CCC3] border-[#19525A] font-semibold"
                                             : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
                                     }`
                                 }
@@ -123,10 +155,12 @@ function Sidebar({ isOpen, onClose }) {
                             <div>
                                 <button
                                     type="button"
-                                    onClick={() => setOperationsExpanded((prev) => !prev)}
+                                    onClick={() =>
+                                        setOperationsExpanded((prev) => !prev)
+                                    }
                                     className={`w-full flex items-center justify-between px-6 py-3 text-sm font-medium transition-colors border-l-4 cursor-pointer ${
                                         isOperationsActive
-                                            ? "bg-[#edf7ee] text-[#15803d] border-[#16a34a] font-semibold"
+                                            ? "bg-[#edf7ee] text-[#49CCC3] border-[#19525A] font-semibold"
                                             : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
                                     }`}
                                 >
@@ -140,20 +174,33 @@ function Sidebar({ isOpen, onClose }) {
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
                                         >
-                                            <rect x="2" y="4" width="20" height="16" rx="2" />
+                                            <rect
+                                                x="2"
+                                                y="4"
+                                                width="20"
+                                                height="16"
+                                                rx="2"
+                                            />
                                             <path d="M6 8h12M6 12h8M6 16h5" />
                                         </svg>
                                         <span>Opérations</span>
                                     </div>
                                     <svg
                                         className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                                            operationsExpanded ? "rotate-180 text-[#15803d]" : "text-gray-400"
+                                            operationsExpanded
+                                                ? "rotate-180 text-[#19525A]"
+                                                : "text-gray-400"
                                         }`}
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
                                     >
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M19 9l-7 7-7-7"
+                                        />
                                     </svg>
                                 </button>
 
@@ -164,7 +211,9 @@ function Sidebar({ isOpen, onClose }) {
                                             onClick={() => onClose?.()}
                                             className={({ isActive }) =>
                                                 `block py-1.5 text-xs font-medium transition-colors ${
-                                                    isActive ? "text-[#15803d] font-semibold" : "text-gray-500 hover:text-gray-800"
+                                                    isActive
+                                                        ? "text-[#19525A] font-semibold"
+                                                        : "text-gray-500 hover:text-gray-800"
                                                 }`
                                             }
                                         >
@@ -175,7 +224,9 @@ function Sidebar({ isOpen, onClose }) {
                                             onClick={() => onClose?.()}
                                             className={({ isActive }) =>
                                                 `block py-1.5 text-xs font-medium transition-colors ${
-                                                    isActive ? "text-[#15803d] font-semibold" : "text-gray-500 hover:text-gray-800"
+                                                    isActive
+                                                        ? "text-[#19525A] font-semibold"
+                                                        : "text-gray-500 hover:text-gray-800"
                                                 }`
                                             }
                                         >
@@ -186,7 +237,9 @@ function Sidebar({ isOpen, onClose }) {
                                             onClick={() => onClose?.()}
                                             className={({ isActive }) =>
                                                 `block py-1.5 text-xs font-medium transition-colors ${
-                                                    isActive ? "text-[#15803d] font-semibold" : "text-gray-500 hover:text-gray-800"
+                                                    isActive
+                                                        ? "text-[#19525A] font-semibold"
+                                                        : "text-gray-500 hover:text-gray-800"
                                                 }`
                                             }
                                         >
@@ -204,7 +257,7 @@ function Sidebar({ isOpen, onClose }) {
                                 className={({ isActive }) =>
                                     `flex items-center gap-3.5 px-6 py-3 text-sm font-medium transition-colors border-l-4 ${
                                         isActive
-                                            ? "bg-[#edf7ee] text-[#15803d] border-[#16a34a] font-semibold"
+                                            ? "bg-[#edf7ee] text-[#49CCC3] border-[#19525A] font-semibold"
                                             : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
                                     }`
                                 }
@@ -231,7 +284,7 @@ function Sidebar({ isOpen, onClose }) {
                             className={({ isActive }) =>
                                 `flex items-center gap-3.5 px-6 py-3 text-sm font-medium transition-colors border-l-4 ${
                                     isActive
-                                        ? "bg-[#edf7ee] text-[#15803d] border-[#16a34a] font-semibold"
+                                        ? "bg-[#edf7ee] text-[#49CCC3] border-[#19525A] font-semibold"
                                         : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
                                 }`
                             }
@@ -258,7 +311,7 @@ function Sidebar({ isOpen, onClose }) {
                                 className={({ isActive }) =>
                                     `flex items-center gap-3.5 px-6 py-3 text-sm font-medium transition-colors border-l-4 ${
                                         isActive
-                                            ? "bg-[#edf7ee] text-[#15803d] border-[#16a34a] font-semibold"
+                                            ? "bg-[#edf7ee] text-[#49CCC3] border-[#19525A] font-semibold"
                                             : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
                                     }`
                                 }

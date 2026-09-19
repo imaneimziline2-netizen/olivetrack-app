@@ -13,6 +13,8 @@ function Register() {
         nom: "",
         email: "",
         motDePasse: "",
+        telephone: "",
+        region: "",
     });
 
     const handleChange = (e) => {
@@ -81,6 +83,34 @@ function Register() {
                             value={formData.email}
                             onChange={handleChange}
                             placeholder="you@example.com"
+                            className="w-full py-2.5 px-4 border-2 border-lime-50 rounded-xl text-sm bg-lime-50/40 text-lime-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-lime-400 focus:bg-white focus:ring-4 focus:ring-lime-300/20"
+                        />
+                    </div>
+
+                      <div className="mb-3">
+                        <label className="block text-[12px] font-semibold text-lime-800 mb-1">
+                            Téléphone
+                        </label>
+                        <input
+                            type="telephone"
+                            name="telephone"
+                            value={formData.telephone}
+                            onChange={handleChange}
+                            placeholder="+212 6 12 34 56 78"
+                            className="w-full py-2.5 px-4 border-2 border-lime-50 rounded-xl text-sm bg-lime-50/40 text-lime-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-lime-400 focus:bg-white focus:ring-4 focus:ring-lime-300/20"
+                        />
+                    </div>
+
+                      <div className="mb-3">
+                        <label className="block text-[12px] font-semibold text-lime-800 mb-1">
+                            Region
+                        </label>
+                        <input
+                            type="text"
+                            name="region"
+                            value={formData.region}
+                            onChange={handleChange}
+                            placeholder="Béni Mellal-Khénifra"
                             className="w-full py-2.5 px-4 border-2 border-lime-50 rounded-xl text-sm bg-lime-50/40 text-lime-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-lime-400 focus:bg-white focus:ring-4 focus:ring-lime-300/20"
                         />
                     </div>
