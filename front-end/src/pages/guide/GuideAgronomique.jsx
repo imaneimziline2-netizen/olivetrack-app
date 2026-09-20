@@ -6,11 +6,46 @@ import {
 } from "../../services/guideService";
 
 const ICONS = {
-    irrigation: "💧",
-    taille: "✂️",
-    fertilisation: "🌱",
-    protection: "🛡️",
-    recolte: "🫒",
+    irrigation: (
+        <img
+            width="48"
+            height="48"
+            src="https://img.icons8.com/fluency-systems-filled/48/watering.png"
+            alt="watering"
+        />
+    ),
+    taille: (
+        <img
+            width="32"
+            height="32"
+            src="https://img.icons8.com/stamp/32/cut.png"
+            alt="cut"
+        />
+    ),
+    fertilisation: (
+        <img
+            width="48"
+            height="48"
+            src="https://img.icons8.com/parakeet-filled/48/plant-under-sun.png"
+            alt="plant-under-sun"
+        />
+    ),
+    protection: (
+        <img
+            width="48"
+            height="48"
+            src="https://img.icons8.com/fluency-systems-filled/48/security-checked.png"
+            alt="security-checked"
+        />
+    ),
+    recolte: (
+        <img
+            width="50"
+            height="50"
+            src="https://img.icons8.com/external-others-pike-picture/50/external-Harvesting-Berries-olive-others-pike-picture-2.png"
+            alt="external-Harvesting-Berries-olive-others-pike-picture-2"
+        />
+    ),
 };
 
 const LABELS = {
@@ -55,12 +90,10 @@ export default function GuideAgronomique() {
             } catch (err) {
                 console.error(
                     "Erreur lors du chargement du guide agronomique :",
-                    err
+                    err,
                 );
 
-                setError(
-                    "Impossible de charger le guide agronomique."
-                );
+                setError("Impossible de charger le guide agronomique.");
             } finally {
                 setLoading(false);
             }
@@ -81,7 +114,7 @@ export default function GuideAgronomique() {
             } catch (err) {
                 console.error(
                     "Erreur lors du chargement du guide du mois :",
-                    err
+                    err,
                 );
 
                 setGuide(null);
@@ -118,13 +151,9 @@ export default function GuideAgronomique() {
                     <span className="text-2xl">⚠️</span>
 
                     <div>
-                        <h2 className="font-semibold text-red-800">
-                            Erreur
-                        </h2>
+                        <h2 className="font-semibold text-red-800">Erreur</h2>
 
-                        <p className="text-sm text-red-600 mt-1">
-                            {error}
-                        </p>
+                        <p className="text-sm text-red-600 mt-1">{error}</p>
                     </div>
                 </div>
             </div>
@@ -133,9 +162,6 @@ export default function GuideAgronomique() {
 
     return (
         <div>
-            {/* =========================
-                HEADER
-            ========================== */}
             <div className="mb-6">
                 <h1 className="text-2xl font-bold text-gray-800">
                     Guide Agronomique
@@ -146,9 +172,6 @@ export default function GuideAgronomique() {
                 </p>
             </div>
 
-            {/* =========================
-                MONTH PILLS
-            ========================== */}
             <div className="bg-white border border-gray-100 rounded-2xl shadow-xs p-4 mb-6 overflow-x-auto">
                 <div className="flex gap-2 min-w-max">
                     {guideAgronomiqueData.map((g) => {
@@ -170,10 +193,10 @@ export default function GuideAgronomique() {
                                     whitespace-nowrap
                                     ${
                                         isActive
-                                            ? "bg-[#059669] text-white shadow-sm"
+                                            ? "bg-[#49CCC3] text-white shadow-sm"
                                             : isCurrent
-                                            ? "bg-[#edf7ee] text-[#15803d] border border-[#059669]/30"
-                                            : "text-gray-500 hover:bg-gray-50"
+                                              ? "bg-[#edf7ee] text-[#15803d] border border-[#059669]/30"
+                                              : "text-gray-500 hover:bg-gray-50"
                                     }
                                 `}
                             >
@@ -190,26 +213,22 @@ export default function GuideAgronomique() {
                 </div>
             </div>
 
-            {/* =========================
-                GUIDE CONTENT
-            ========================== */}
             {guide ? (
                 <>
-
                     <div className="bg-[#edf7ee] border border-[#059669]/30 rounded-2xl p-4 mb-6 flex items-start gap-3">
-                        <span className="text-2xl mt-0.5">
-                            🌿
-                        </span>
-
+                        <img
+                            width="50"
+                            height="50"
+                            src="https://img.icons8.com/plasticine/100/olive.png"
+                            alt="olive"
+                        />
                         <div>
                             <div className="flex items-center gap-2 mb-1">
-                                <span className="text-xs font-medium text-[#059669] uppercase tracking-wide">
+                                <span className="text-xs font-medium text-[#19525A] uppercase tracking-wide">
                                     {guide.saison}
                                 </span>
 
-                                <span className="text-gray-300">
-                                    •
-                                </span>
+                                <span className="text-gray-300">•</span>
 
                                 <span className="text-xs text-gray-500">
                                     {guide.nom}
@@ -222,46 +241,39 @@ export default function GuideAgronomique() {
                         </div>
                     </div>
 
-             
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {Object.entries(guide.actions).map(
-                            ([key, value]) => (
-                                <div
-                                    key={key}
-                                    className="bg-white border border-gray-100 rounded-2xl shadow-xs p-5 flex gap-4"
-                                >
-                                    <div className="w-10 h-10 flex items-center justify-center bg-[#edf7ee] rounded-xl text-xl flex-shrink-0">
-                                        {ICONS[key] || "📌"}
-                                    </div>
-
-                                    <div>
-                                        <h3 className="font-semibold text-gray-800 text-sm mb-1">
-                                            {LABELS[key] || key}
-                                        </h3>
-
-                                        <p className="text-sm text-gray-500 leading-relaxed">
-                                            {value}
-                                        </p>
-                                    </div>
+                        {Object.entries(guide.actions).map(([key, value]) => (
+                            <div
+                                key={key}
+                                className="bg-white border border-gray-100 rounded-2xl shadow-xs p-5 flex gap-4"
+                            >
+                                <div className="w-10 h-10 flex items-center justify-center bg-[#edf7ee] rounded-xl text-xl flex-shrink-0">
+                                    {ICONS[key] || "📌"}
                                 </div>
-                            )
-                        )}
+
+                                <div>
+                                    <h3 className="font-semibold text-gray-800 text-sm mb-1">
+                                        {LABELS[key] || key}
+                                    </h3>
+
+                                    <p className="text-sm text-gray-500 leading-relaxed">
+                                        {value}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </>
             ) : (
-                
                 <div className="bg-white border border-gray-100 rounded-2xl p-8 text-center">
-                    <div className="text-4xl mb-3">
-                        🌿
-                    </div>
+                    <div className="text-4xl mb-3">🌿</div>
 
                     <h2 className="font-semibold text-gray-800">
                         Aucun guide disponible
                     </h2>
 
                     <p className="text-sm text-gray-500 mt-1">
-                        Aucun conseil agronomique n'est disponible
-                        pour ce mois.
+                        Aucun conseil agronomique n'est disponible pour ce mois.
                     </p>
                 </div>
             )}

@@ -58,12 +58,12 @@ function Profile() {
     }, [dispatch]);
 
     return (
-        <div className="max-w-3xl mx-auto space-y-6">
+        <div className="max-w-4xl mx-auto space-y-6 ">
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
                 Mon Profil
             </h1>
 
-            <div className="bg-white rounded-3xl p-6 sm:p-9 shadow-sm border border-gray-100">
+            <div className="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-gray-100">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-8">
                     <div className="flex items-center gap-4 sm:gap-5">
                         <img
@@ -92,7 +92,7 @@ function Profile() {
                     <button
                         type="button"
                         onClick={handleOpenEdit}
-                        className="bg-[#059669] hover:bg-[#047857] text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors self-start sm:self-center"
+                        className="bg-[#49CCC3] hover:bg-[#19525A] text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors self-start sm:self-center"
                     >
                         Modifier
                     </button>

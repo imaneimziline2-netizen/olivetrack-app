@@ -11,3 +11,8 @@ export const getUserByIdRequest = async (id) => {
     const response = await api.get(`/admin/users/${id}`);
     return response.data;
 };
+
+export const getAdminStatsRequest = async () => {
+    const response = await api.get("/admin/stats");
+    return response.data;
+};

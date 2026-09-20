@@ -17,7 +17,6 @@ function ParcelleVeu({ id, currentStock }) {
     }, [dispatch, id]);
 
     return (
-
         <div className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-white border border-gray-200 rounded-xl p-4">
@@ -84,10 +83,10 @@ function ParcelleVeu({ id, currentStock }) {
                 </div>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex gap-3 ">
                 <button
                     onClick={() => navigate(`/recoltes/new?parcelleId=${id}`)}
-                    className="bg-green-700 text-white rounded-lg px-4 py-2 text-xs"
+                    className="bg-[#49CCC3] text-white rounded-lg px-4 py-2 text-xs hover:bg-[#38b0a9] transition-colors "
                 >
                     Nouvelle Récolte
                 </button>
@@ -95,19 +94,19 @@ function ParcelleVeu({ id, currentStock }) {
                     onClick={() =>
                         navigate(`/triturations/new?parcelleId=${id}`)
                     }
-                    className="border rounded-lg px-4 py-2 text-xs"
+                    className="bg-[#49CCC3] text-white rounded-lg px-4 py-2 text-xs hover:bg-[#38b0a9] transition-colors "
                 >
                     Nouvelle Trituration
                 </button>
                 <button
                     onClick={() => navigate(`/ventes/new?parcelleId=${id}`)}
-                    className="border rounded-lg px-4 py-2 text-xs"
+                    className="bg-[#49CCC3] text-white rounded-lg px-4 py-2 text-xs hover:bg-[#38b0a9] transition-colors "
                 >
                     Nouvelle Vente
                 </button>
                 <button
                     onClick={() => navigate(`/parcelles/${id}/edit`)}
-                    className="border rounded-lg px-4 py-2 text-xs ml-auto"
+                    className="border border-gray-300 rounded-lg px-4 py-2 text-xs ml-auto hover:bg-[#38b0a9] hover:text-white hover:border-[#FF6464] transition-colors duration-200"
                 >
                     Modifier
                 </button>

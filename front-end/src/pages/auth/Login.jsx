@@ -20,7 +20,12 @@ function Login() {
         e.preventDefault();
         const result = await dispatch(loginUser(formData));
         if (loginUser.fulfilled.match(result)) {
-            navigate("/");
+            const user = result.payload.user;
+            if (user?.role === "admin") {
+                navigate("/admin/dashboard");
+            } else {
+                navigate("/");
+            }
         }
     };
     return (

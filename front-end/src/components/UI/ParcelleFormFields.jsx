@@ -121,7 +121,7 @@ function ParcelleFormFields({ initialData, onSubmit, loading, isEdit }) {
                 <button type="button" onClick={() => navigate("/parcelles")} className="border rounded-lg px-4 py-2 text-sm">
                     Annuler
                 </button>
-                <button type="submit" disabled={loading} className="bg-green-700 text-white rounded-lg px-4 py-2 text-sm disabled:opacity-50">
+                <button type="submit" disabled={loading} className="bg-[#38b0a9] text-white rounded-lg px-4 py-2 text-sm disabled:opacity-50">
                     {loading ? "Enregistrement..." : isEdit ? "Enregistrer" : "Créer la parcelle"}
                 </button>
             </div>

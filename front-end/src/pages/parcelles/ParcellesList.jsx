@@ -6,10 +6,29 @@ import {
     deleteParcelle,
 } from "../../../store/slices/parcelleSlice.js";
 import { fetchDashboard } from "../../../store/slices/dashboardSlice.js";
+import picholine from "../../assets/picholine.jpg";
+import haouzia from "../../assets/haouzia.jpg";
+import menara from "../../assets/menara.jpg";
+import arbequina from "../../assets/arbequina.jpg";
+import arbosana from "../../assets/arbosana.jpg";
+import koroneiki from "../../assets/koroneiki.jpg";
+import picual from "../../assets/picual.jpg";
 
 function ParcellesList() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const varietyImages = {
+        "Picholine Marocaine": picholine,
+        "Haouzia": haouzia,
+        "Menara": menara,
+        "Arbequina": arbequina,
+        "Arbosana": arbosana,
+        "Koroneiki": koroneiki,
+        "Picual": picual,
+        "Autre": picholine, // Default image for other varieties
+    };
+
     const currentYear = new Date().getFullYear();
 
     const { parcelles, loading, error } = useSelector(
@@ -58,7 +77,6 @@ function ParcellesList() {
 
     return (
         <div className="p-6 space-y-6">
-            {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-900">
@@ -72,20 +90,18 @@ function ParcellesList() {
                 </div>
                 <button
                     onClick={() => navigate("/parcelles/new")}
-                    className="bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-800"
+                    className="bg-[#49CCC3] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#38b0a9] transition-colors"
                 >
                     + Nouvelle Parcelle
                 </button>
             </div>
 
-            {/* Erreur */}
             {error && (
                 <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg">
                     {error}
                 </div>
             )}
 
-            {/* Liste */}
             {loading ? (
                 <p className="text-gray-400 text-center py-12">Chargement...</p>
             ) : parcelles.length > 0 ? (
@@ -99,15 +115,15 @@ function ParcellesList() {
                                 key={p._id}
                                 className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow"
                             >
-                                {/* Photo placeholder */}
-                                <div className="h-32 bg-gradient-to-br from-green-700 via-green-600 to-amber-700 flex items-center justify-center">
-                                    <span className="text-4xl opacity-80">
-                                        🫒
-                                    </span>
+                                <div className="h-40 flex items-center justify-center">
+                                    <img
+                                        src={varietyImages[p.variete]}
+                                        alt={`Oliviers ${p.variete}`}
+                                        className="w-full h-40 object-cover"
+                                    />
                                 </div>
 
                                 <div className="p-4">
-                                    {/* Nom + badge */}
                                     <div className="flex items-start justify-between gap-2">
                                         <h3 className="font-bold text-gray-900 truncate">
                                             {p.nom}
@@ -127,18 +143,14 @@ function ParcellesList() {
                                         )}
                                     </div>
 
-                                    {/* Superficie + variété */}
                                     <p className="text-xs text-gray-400 mt-1">
                                         {p.superficie} ha • {p.variete}
                                     </p>
 
-                                    {/* Localisation + irrigation */}
                                     <p className="text-xs text-gray-400 flex items-center gap-1 mt-1">
-                                        📍 {p.localisation} • 💧{" "}
-                                        {p.typeIrrigation}
+                                        {p.localisation} • {p.typeIrrigation}
                                     </p>
 
-                                    {/* Dernière récolte + Rendement total */}
                                     <div className="grid grid-cols-2 gap-2 mt-3">
                                         <div className="bg-gray-50 rounded-lg p-2">
                                             <p className="text-[10px] text-gray-400">
@@ -168,7 +180,6 @@ function ParcellesList() {
                                         </div>
                                     </div>
 
-                                    {/* Actions */}
                                     <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
                                         <div className="flex gap-2">
                                             <button
@@ -179,7 +190,7 @@ function ParcellesList() {
                                                 }
                                                 className="text-xs text-gray-500 hover:text-gray-700"
                                             >
-                                                ✏️ Modifier
+                                                Modifier
                                             </button>
                                             <button
                                                 onClick={() =>
@@ -187,14 +198,14 @@ function ParcellesList() {
                                                 }
                                                 className="text-xs text-red-500 hover:text-red-700"
                                             >
-                                                🗑️
+                                                Supprimer
                                             </button>
                                         </div>
                                         <button
                                             onClick={() =>
                                                 navigate(`/parcelles/${p._id}`)
                                             }
-                                            className="text-xs text-green-700 font-semibold hover:text-green-800"
+                                            className="text-xs text-[#19525A] font-semibold hover:text-green-800"
                                         >
                                             Ouvrir la parcelle →
                                         </button>
@@ -212,7 +223,7 @@ function ParcellesList() {
                     </p>
                     <button
                         onClick={() => navigate("/parcelles/new")}
-                        className="mt-4 text-sm text-green-700 font-semibold"
+                        className="mt-4 text-sm text-[#19525A] font-semibold"
                     >
                         + Créer ma première parcelle
                     </button>
