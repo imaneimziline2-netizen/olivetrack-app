@@ -22,10 +22,8 @@ function DonutChart({
         );
     }
 
-    // Total
     const total = data.reduce((sum, d) => sum + (d.value || 0), 0);
 
-    // Ajoute color ila makaynch
     const dataWithColors = data.map((d, i) => ({
         ...d,
         color: d.color || colors[i % colors.length],
@@ -64,7 +62,6 @@ function DonutChart({
                     </PieChart>
                 </ResponsiveContainer>
 
-                {/* Total f l'wasst */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                     <p className="text-2xl font-bold text-gray-900">
                         {total.toLocaleString("fr-FR")}
@@ -73,7 +70,6 @@ function DonutChart({
                 </div>
             </div>
 
-            {/* Légende */}
             <div className="flex flex-wrap justify-center gap-3 mt-4">
                 {dataWithColors.map((entry, index) => (
                     <div key={index} className="flex items-center gap-1">
