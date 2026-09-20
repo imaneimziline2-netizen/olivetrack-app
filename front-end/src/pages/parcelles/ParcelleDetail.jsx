@@ -71,9 +71,9 @@ function ParcelleDetail() {
             <div>
                 <button
                     onClick={() => navigate("/parcelles")}
-                    className="text-xs text-gray-400 hover:text-green-700"
+                    className="text-xs text-gray-400 hover:text-[#38b0a9] transition-colors"
                 >
-                    Mes Parcelles /{" "}
+                    Mes Parcellesj /{" "}
                     <span className="text-gray-700">{currentParcelle.nom}</span>
                 </button>
 
@@ -98,7 +98,7 @@ function ParcelleDetail() {
                         onClick={() => setActiveTab(tab)}
                         className={`pb-3 text-sm font-medium border-b-2 -mb-px transition-colors ${
                             activeTab === tab
-                                ? "border-green-700 text-green-700"
+                                ? "border-[#38b0a9] text-[#188e88]"
                                 : "border-transparent text-gray-400 hover:text-gray-600"
                         }`}
                     >
