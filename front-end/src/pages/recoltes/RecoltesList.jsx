@@ -44,12 +44,12 @@ function RecoltesList() {
         <div className="p-6 space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Suivi des Récoltes 🧺</h1>
+                    <h1 className="text-2xl font-bold text-gray-900">Suivi des Récoltes </h1>
                     <p className="text-sm text-gray-500 mt-1">Historique des récoltes par parcelle</p>
                 </div>
                 <button
                     onClick={() => navigate(activeParcelleId ? `/recoltes/new?parcelleId=${activeParcelleId}` : "/recoltes/new")}
-                    className="bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
+                    className="bg-[#19525A] text-white px-4 py-2 rounded-lg text-sm font-medium"
                 >
                     + Nouvelle Récolte
                 </button>

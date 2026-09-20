@@ -45,12 +45,12 @@ function VentesList() {
         <div className="p-6 space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Ventes 💰</h1>
+                    <h1 className="text-2xl font-bold text-gray-900">Ventes </h1>
                     <p className="text-sm text-gray-500 mt-1">Suivi des ventes d'olives</p>
                 </div>
                 <button
                     onClick={() => navigate(activeParcelleId ? `/ventes/new?parcelleId=${activeParcelleId}` : "/ventes/new")}
-                    className="bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
+                    className="bg-[#19525A] text-white px-4 py-2 rounded-lg text-sm font-medium"
                 >
                     + Nouvelle Vente
                 </button>

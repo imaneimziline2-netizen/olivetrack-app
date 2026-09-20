@@ -30,7 +30,7 @@ function Sidebar({ isOpen, onClose }) {
                     onClick={onClose}
                     className="fixed inset-0 z-40 bg-black/30 backdrop-blur-xs md:hidden"
                 />
-            )}
+            )} 
 
             <aside
                 className={`fixed md:sticky top-0 left-0 z-40 h-screen w-64 bg-white border-r border-gray-200/80 transition-transform duration-300 ease-in-out flex flex-col justify-between shrink-0 ${
@@ -55,7 +55,7 @@ function Sidebar({ isOpen, onClose }) {
                                     className="w-10 h-10"
                                 />
                             </div>
-                            <span className="text-xl font-bold tracking-tight text-gray-900">
+                            <span className="text-xl font-bold tracking-tight text-[#19525A]">
                                 Olive
                                 <span className="text-[#49CCC3]">Grove</span>
                             </span>
@@ -77,7 +77,7 @@ function Sidebar({ isOpen, onClose }) {
                             className={({ isActive }) =>
                                 `flex items-center gap-3.5 px-6 py-3 text-sm font-medium transition-colors border-l-4 ${
                                     isActive
-                                        ? "bg-[#edf7ee] text-[#49CCC3] border-[#19525A] font-semibold"
+                                        ? "bg-[#edf7ee] text-[#19525A] border-[#49CCC3]  font-semibold"
                                         : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
                                 }`
                             }
@@ -130,7 +130,7 @@ function Sidebar({ isOpen, onClose }) {
                                 className={({ isActive }) =>
                                     `flex items-center gap-3.5 px-6 py-3 text-sm font-medium transition-colors border-l-4 ${
                                         isActive
-                                            ? "bg-[#edf7ee] text-[#49CCC3] border-[#19525A] font-semibold"
+                                            ? "bg-[#edf7ee] text-[#19525A] border-[#49CCC3]  font-semibold"
                                             : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
                                     }`
                                 }
@@ -160,7 +160,7 @@ function Sidebar({ isOpen, onClose }) {
                                     }
                                     className={`w-full flex items-center justify-between px-6 py-3 text-sm font-medium transition-colors border-l-4 cursor-pointer ${
                                         isOperationsActive
-                                            ? "bg-[#edf7ee] text-[#49CCC3] border-[#19525A] font-semibold"
+                                            ? "bg-[#edf7ee] text-[#19525A] border-[#49CCC3] font-semibold"
                                             : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
                                     }`}
                                 >
@@ -257,7 +257,7 @@ function Sidebar({ isOpen, onClose }) {
                                 className={({ isActive }) =>
                                     `flex items-center gap-3.5 px-6 py-3 text-sm font-medium transition-colors border-l-4 ${
                                         isActive
-                                            ? "bg-[#edf7ee] text-[#49CCC3] border-[#19525A] font-semibold"
+                                            ? "bg-[#edf7ee] text-[#19525A] border-[#49CCC3]  font-semibold"
                                             : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
                                     }`
                                 }
@@ -284,7 +284,7 @@ function Sidebar({ isOpen, onClose }) {
                             className={({ isActive }) =>
                                 `flex items-center gap-3.5 px-6 py-3 text-sm font-medium transition-colors border-l-4 ${
                                     isActive
-                                        ? "bg-[#edf7ee] text-[#49CCC3] border-[#19525A] font-semibold"
+                                        ? "bg-[#edf7ee] text-[#19525A] border-[#49CCC3] font-semibold"
                                         : "text-gray-400 hover:text-gray-700 hover:bg-gray-50/80 border-transparent"
                                 }`
                             }
