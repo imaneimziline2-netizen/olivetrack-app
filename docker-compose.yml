@@ -1,27 +1,25 @@
-version: '3.9'
-
 services:
-  api:
-    build: ./back-end
-    container_name: olivetrack-backend
-    ports:
-      - "3000:3000"
-    env_file:
-      - .env
-    environment:
-      - MONGO_URI=mongodb://mongo:27017/olivetrack
-    depends_on:
-      - mongo
-    restart: unless-stopped
+    api:
+        build: ./back-end
+        container_name: olivetrack-backend
+        ports:
+            - "3000:3000"
+        env_file:
+            - .env
+        environment:
+            - MONGO_URI=mongodb://mongo:27017/olivetrack
+        depends_on:
+            - mongo
+        restart: unless-stopped
 
-  mongo:
-    image: mongo:6.0
-    container_name: olivetrack-mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-    restart: unless-stopped
+    mongo:
+        image: mongo:6.0
+        container_name: olivetrack-mongo
+        ports:
+            - "27017:27017"
+        volumes:
+            - mongo-data:/data/db
+        restart: unless-stopped
 
 volumes:
-  mongo-data:
+    mongo-data:
