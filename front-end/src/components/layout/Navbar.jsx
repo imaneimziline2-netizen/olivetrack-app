@@ -45,12 +45,14 @@ function Navbar({ onToggleSidebar }) {
             </div>
 
             <div className="flex items-center gap-4 sm:gap-8">
-                <button
-                    onClick={() => navigate("/")}
-                    className=" inline-flex items-center px-3 py-1 bg-[#FF6464] border border-[#cb290d] text-white text-xs font-semibold rounded-full hover:bg-[#FF6464] transition-colors"
-                >
-                    {anomaliesCount} anomalies
-                </button>
+             {user?.role === "agriculteur" && (
+                    <button
+                        onClick={() => navigate("/anomalies")}
+                        className=" inline-flex items-center px-3 py-1 bg-[#FF6464] border border-[#cb290d] text-white text-xs font-semibold rounded-full hover:bg-[#FF6464] transition-colors"
+                    >
+                        {anomaliesCount} anomalies
+                    </button>
+                )}
 
                 <div className="relative">
                     <div

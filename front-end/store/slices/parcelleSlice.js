@@ -146,6 +146,7 @@ const parcelleSlice = createSlice({
             })
             .addCase(fetchParcelleById.rejected, (state, action) => {
                 state.error = action.payload;
+                console.log("vvvvvv", state.error);
             })
             // Fetch Parcelle Stock
             .addCase(fetchParcelleStock.fulfilled, (state, action) => {

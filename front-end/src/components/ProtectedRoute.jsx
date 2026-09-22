@@ -20,9 +20,7 @@ function ProtectedRoute({ children, allowedRoles }) {
         return <Navigate to="/login" replace />;
     }
 
-    // Supports two usages:
-    // 1) <ProtectedRoute><SomeComponent /></ProtectedRoute>  -> renders children
-    // 2) <Route element={<ProtectedRoute allowedRoles={[...]} />}> -> renders <Outlet />
+    //  <Route element={<ProtectedRoute allowedRoles={[...]} />}> -> renders <Outlet />
     return children ? children : <Outlet />;
 }
 

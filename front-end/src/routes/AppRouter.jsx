@@ -28,7 +28,6 @@ function AppRouter() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            {/* Base layer: just checks the user is authenticated (any role) */}
             <Route
                 element={
                     <ProtectedRoute>
@@ -36,12 +35,10 @@ function AppRouter() {
                     </ProtectedRoute>
                 }
             >
-                {/* Routes shared by any authenticated role */}
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/profile/edit" element={<Profile />} />
                 <Route path="/guide" element={<GuideAgronomique />} />
 
-                {/* Agriculteur-only routes (sibling group, not nested inside admin's) */}
                 <Route element={<ProtectedRoute allowedRoles={["agriculteur"]} />}>
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/" element={<Dashboard />} />
@@ -61,7 +58,6 @@ function AppRouter() {
                     <Route path="/ventes" element={<VentesListe />} />
                 </Route>
 
-                {/* Admin-only routes (sibling group, no longer nested inside agriculteur's) */}
                 <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
                     <Route path="/admin/users" element={<UsersList />} />
                     <Route path="/admin/dashboard" element={<AdminDashboard />} />

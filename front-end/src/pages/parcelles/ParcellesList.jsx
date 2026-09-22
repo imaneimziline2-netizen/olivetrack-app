@@ -20,13 +20,13 @@ function ParcellesList() {
 
     const varietyImages = {
         "Picholine Marocaine": picholine,
-        "Haouzia": haouzia,
-        "Menara": menara,
-        "Arbequina": arbequina,
-        "Arbosana": arbosana,
-        "Koroneiki": koroneiki,
-        "Picual": picual,
-        "Autre": picholine, // Default image for other varieties
+        Haouzia: haouzia,
+        Menara: menara,
+        Arbequina: arbequina,
+        Arbosana: arbosana,
+        Koroneiki: koroneiki,
+        Picual: picual,
+        Autre: picholine, // Default image for other varieties
     };
 
     const currentYear = new Date().getFullYear();

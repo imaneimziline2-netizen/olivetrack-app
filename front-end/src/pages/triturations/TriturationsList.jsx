@@ -50,7 +50,7 @@ function TriturationsList() {
         0,
     );
     const totalHuile = triturations.reduce(
-        (sum, t) => sum + (t.quantitéHuile || 0),
+        (sum, t) => sum + (t.quantiteHuile || 0),
         0,
     );
     const avgRendement =

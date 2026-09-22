@@ -30,6 +30,7 @@ function ParcelleDetail() {
     } = useSelector((state) => state.parcelles);
 
     console.log(currentParcelleRendement);
+    console.log(loading);
 
     useEffect(() => {
         dispatch(fetchParcelleById(id));
@@ -50,7 +51,10 @@ function ParcelleDetail() {
         return <p className="p-6 text-center text-gray-400">Chargement...</p>;
     }
 
+    console.log("erroroooooooo", error);
     if (error) {
+        console.log("kaynnnnnn");
+
         return (
             <div className="p-6">
                 <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
