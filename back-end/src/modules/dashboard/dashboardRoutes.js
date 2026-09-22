@@ -6,7 +6,7 @@ const router = Router();
 
 router.get("/", authMiddleware, getDashboard);
 router.get("/monthly", authMiddleware, getMonthlyYield);
-router.get("/rendement", authMiddleware, getRendementDashboardParcelles);
+router.get("/rendement/:id", authMiddleware, getRendementDashboardParcelles);
 
 
 export default router;

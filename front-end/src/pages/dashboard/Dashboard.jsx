@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    fetchMonthlyYield,
-} from "../../../store/slices/dashboardSlice.js";
+import { fetchMonthlyYield } from "../../../store/slices/dashboardSlice.js";
 import {
     BarChart,
     Bar,
@@ -18,7 +16,7 @@ function Dashboard() {
     const dispatch = useDispatch();
     const currentYear = new Date().getFullYear();
 
-    const {statsGlobales, monthlyYield, loading, error } = useSelector(
+    const { statsGlobales, monthlyYield, loading, error } = useSelector(
         (state) => state.dashboard,
     );
     const user = useSelector((state) => state.auth);

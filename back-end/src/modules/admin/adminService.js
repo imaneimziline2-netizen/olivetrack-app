@@ -40,7 +40,6 @@ export const getAdminStats = async () => {
         { $group: { _id: null, total: { $sum: "$superficie" } } },
     ]);
 
-    // Production
     const triturations = await Trituration.find({
         date: { $gte: debut, $lte: fin },
     });
@@ -49,13 +48,11 @@ export const getAdminStats = async () => {
         0,
     );
 
-    // Revenu
     const ventes = await Vendu.find({
         date: { $gte: debut, $lte: fin },
     });
     const revenuTotal = ventes.reduce((sum, v) => sum + (v.revenu || 0), 0);
 
-    // ✅ Activité — nb récoltes, triturations, ventes
     const nbRecoltes = await Recolte.countDocuments({
         date: { $gte: debut, $lte: fin },
     });

@@ -56,8 +56,3 @@ export const loginUser = async ({ email, motDePasse }) => {
     };
 };
 
-// export const logoutUser = (res) => {
-
-
-//     return { message: "Déconnexion réussie" };
-// };
