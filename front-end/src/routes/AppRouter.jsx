@@ -28,6 +28,7 @@ function AppRouter() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
+            {/* Base layer: just checks the user is authenticated (any role) */}
             <Route
                 element={
                     <ProtectedRoute>
@@ -35,23 +36,38 @@ function AppRouter() {
                     </ProtectedRoute>
                 }
             >
-                <Route path="/parcelles" element={<ParcellesList />} />
-                <Route path="/parcelles/new" element={<ParcelleForm />} />
-                <Route path="/parcelles/:id" element={<ParcelleDetail />} />
-                <Route path="/parcelles/:id/edit" element={<ParcelleForm />} />
-                <Route path="/recoltes/new" element={<RecolteForm />} />
-                <Route path="/recoltes" element={<RecoltesList />} />
-                <Route path="/triturations/new" element={<TriturationForm />} />
-                <Route path="/triturations" element={<TriturationsList />} />
-                <Route path="/ventes/new" element={<VenteForm />} />
-                <Route path="/ventes" element={<VentesListe />} />
+                {/* Routes shared by any authenticated role */}
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/profile/edit" element={<Profile />} />
                 <Route path="/guide" element={<GuideAgronomique />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/" element={<Dashboard />} />
+
+                {/* Agriculteur-only routes (sibling group, not nested inside admin's) */}
+                <Route element={<ProtectedRoute allowedRoles={["agriculteur"]} />}>
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/" element={<Dashboard />} />
+
+                    <Route path="/parcelles" element={<ParcellesList />} />
+                    <Route path="/parcelles/new" element={<ParcelleForm />} />
+                    <Route path="/parcelles/:id" element={<ParcelleDetail />} />
+                    <Route path="/parcelles/:id/edit" element={<ParcelleForm />} />
+
+                    <Route path="/recoltes/new" element={<RecolteForm />} />
+                    <Route path="/recoltes" element={<RecoltesList />} />
+
+                    <Route path="/triturations/new" element={<TriturationForm />} />
+                    <Route path="/triturations" element={<TriturationsList />} />
+
+                    <Route path="/ventes/new" element={<VenteForm />} />
+                    <Route path="/ventes" element={<VentesListe />} />
+                </Route>
+
+                {/* Admin-only routes (sibling group, no longer nested inside agriculteur's) */}
+                <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+                    <Route path="/admin/users" element={<UsersList />} />
+                    <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                </Route>
+
                 <Route path="*" element={<NotFound />} />
-                <Route path="/admin/users" element={<UsersList />} />
-                <Route path="/admin/dashboard" element={<AdminDashboard />} />
             </Route>
         </Routes>
     );
