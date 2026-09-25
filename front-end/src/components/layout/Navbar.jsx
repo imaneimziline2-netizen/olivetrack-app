@@ -47,7 +47,6 @@ function Navbar({ onToggleSidebar }) {
             <div className="flex items-center gap-4 sm:gap-8">
              {user?.role === "agriculteur" && (
                     <button
-                        onClick={() => navigate("/anomalies")}
                         className=" inline-flex items-center px-3 py-1 bg-[#FF6464] border border-[#cb290d] text-white text-xs font-semibold rounded-full hover:bg-[#FF6464] transition-colors"
                     >
                         {anomaliesCount} anomalies
@@ -119,15 +118,17 @@ function Navbar({ onToggleSidebar }) {
                                 >
                                     Mon Profil
                                 </button>
-                                <button
-                                    onClick={() => {
-                                        navigate("/parcelles");
-                                        setUserMenuOpen(false);
-                                    }}
-                                    className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 flex items-center gap-2 cursor-pointer font-medium"
-                                >
-                                    Mes Parcelles
-                                </button>
+                                {user?.role === "agriculteur" && (
+                                    <button
+                                        onClick={() => {
+                                            navigate("/parcelles");
+                                            setUserMenuOpen(false);
+                                        }}
+                                        className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 flex items-center gap-2 cursor-pointer font-medium"
+                                    >
+                                        Mes Parcelles
+                                    </button>
+                                )}
                                 <div className="border-t border-gray-100 my-1"></div>
                                 <button
                                     onClick={() => {

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchRecoltes } from "../../../store/slices/recolteSlice";
-import { fetchTriturations } from "../../../store/slices/triturationSlice";
+import { fetchRecoltes } from "../../../../store/slices/recolteSlice";
+import { fetchTriturations } from "../../../../store/slices/triturationSlice";
 
 function ParcelleVeu({ id, currentStock }) {
     const navigate = useNavigate();

@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMonthlyYield } from "../../../store/slices/dashboardSlice.js";
+import {
+    fetchMonthlyYield,
+    fetchDashboard,
+} from "../../../store/slices/dashboardSlice.js";
 import {
     BarChart,
     Bar,
@@ -10,20 +13,23 @@ import {
     ResponsiveContainer,
     Cell,
 } from "recharts";
-import DonutChart from "../../components/UI/DonutChart.jsx";
+import DonutChart from "../../components/UI/parcelle/DonutChart.jsx";
 
 function Dashboard() {
     const dispatch = useDispatch();
     const currentYear = new Date().getFullYear();
 
-    const { statsGlobales, monthlyYield, loading, error } = useSelector(
+    const { stats, statsGlobales, monthlyYield, loading, error } = useSelector(
         (state) => state.dashboard,
     );
     const user = useSelector((state) => state.auth);
 
     useEffect(() => {
         dispatch(fetchMonthlyYield(currentYear));
+        dispatch(fetchDashboard(currentYear));
     }, [dispatch, currentYear]);
+
+    const alertes = (stats || []).filter((s) => s.alerte === true);
 
     if (loading) return <p className="p-6 text-gray-400">Chargement...</p>;
     if (error) return <p className="p-6 text-red-500">{error}</p>;
@@ -48,9 +54,6 @@ function Dashboard() {
                             0}{" "}
                         kg
                     </p>
-                    <p className="text-xs text-[#19525A] mt-1">
-                        ↑ +8.2% ce mois
-                    </p>
                 </div>
                 <div className="bg-white border border-gray-200 rounded-xl p-4">
                     <p className="text-xs text-gray-400">Production Huile</p>
@@ -60,17 +63,11 @@ function Dashboard() {
                         ) || 0}{" "}
                         L
                     </p>
-                    <p className="text-xs text-[#19525A] mt-1">
-                        ↑ +7.4% ce mois
-                    </p>
                 </div>
                 <div className="bg-white border border-gray-200 rounded-xl p-4">
                     <p className="text-xs text-gray-400">Rendement Moyen</p>
                     <p className="text-2xl font-bold text-gray-900 mt-1">
                         {statsGlobales?.rendementMoyen || 0}%
-                    </p>
-                    <p className="text-xs text-[#19525A] mt-1">
-                        ↑ +3.5% ce mois
                     </p>
                 </div>
                 <div className="bg-white border border-gray-200 rounded-xl p-4">
@@ -79,9 +76,6 @@ function Dashboard() {
                         {statsGlobales?.revenuTotal?.toLocaleString("fr-FR") ||
                             0}{" "}
                         MAD
-                    </p>
-                    <p className="text-xs text-[#19525A] mt-1">
-                        ↑ +12.5% ce mois
                     </p>
                 </div>
             </div>
@@ -137,28 +131,43 @@ function Dashboard() {
                 />
             </div>
 
-            {/* Table Opérations */}
-            <div className="bg-white border border-gray-200 rounded-xl p-4">
-                <h3 className="font-semibold text-gray-900 mb-3">
-                    Opérations récentes
-                </h3>
-                <table className="w-full text-sm">
-                    <thead>
-                        <tr className="text-left text-xs text-gray-400 border-b">
-                            <th className="py-2">Opération</th>
-                            <th className="py-2">Parcelle</th>
-                            <th className="py-2">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr className="border-b">
-                            <td className="py-2">Taille d'entretien</td>
-                            <td className="py-2">Aïn Asserdoun</td>
-                            <td className="py-2">08 Sep 2025</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            {alertes.length > 0 && (
+                <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                    <div className="flex items-center justify-between mb-3">
+                        <h3 className="font-semibold text-red-700">
+                            ⚠️ Alertes actives ({alertes.length})
+                        </h3>
+                        <span className="text-xs text-red-500">
+                            Rendement en baisse significative
+                        </span>
+                    </div>
+                    <div className="space-y-2">
+                        {alertes.map((s) => (
+                            <div
+                                key={s.parcelleId}
+                                className="flex items-center justify-between bg-white rounded-lg p-3 border border-red-100"
+                            >
+                                <div>
+                                    <p className="font-medium text-gray-900">
+                                        {s.nomParcelle}
+                                    </p>
+                                    <p className="text-xs text-gray-500 mt-0.5">
+                                        {s.message}
+                                    </p>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-lg font-bold text-red-600">
+                                        {s.rendement}%
+                                    </p>
+                                    <p className="text-xs text-gray-400">
+                                        écart {s.ecart}%
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

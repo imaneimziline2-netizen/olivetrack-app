@@ -8,10 +8,11 @@ import {
     clearCurrentParcelle,
     fetchParcelleRendement,
 } from "../../../store/slices/parcelleSlice.js";
-import ParcelleVeu from "../../components/UI/ParcelleVeu.jsx";
-import RecoltDetails from "../../components/UI/RecoltDetails.jsx";
-import TriturationsDetails from "../../components/UI/TriturationsDetails.jsx";
-import VenteDetails from "../../components/UI/VenteDetails.jsx";
+import ParcelleVeu from "../../components/UI/parcelle/ParcelleVeu.jsx";
+import RecoltDetails from "../../components/UI/opérations/RecoltDetails.jsx";
+import TriturationsDetails from "../../components/UI/opérations/TriturationsDetails.jsx";
+import VenteDetails from "../../components/UI/opérations/VenteDetails.jsx";
+import NotFound from "../NotFound.jsx";
 
 function ParcelleDetail() {
     const TABS = ["Vue d'ensemble", "Récoltes", "Trituration", "Ventes"];
@@ -47,8 +48,12 @@ function ParcelleDetail() {
 
     console.log(currentParcelleRendement);
 
-    if (loading || !currentParcelle) {
+    if (loading) {
         return <p className="p-6 text-center text-gray-400">Chargement...</p>;
+    }
+
+    if (!currentParcelle) {
+        return <NotFound />;
     }
 
     console.log("erroroooooooo", error);

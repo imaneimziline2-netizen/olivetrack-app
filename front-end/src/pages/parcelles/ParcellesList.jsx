@@ -26,7 +26,7 @@ function ParcellesList() {
         Arbosana: arbosana,
         Koroneiki: koroneiki,
         Picual: picual,
-        Autre: picholine, // Default image for other varieties
+        Autre: picholine,
     };
 
     const currentYear = new Date().getFullYear();
@@ -38,6 +38,8 @@ function ParcellesList() {
 
     const [selectedToDelete, setSelectedToDelete] = useState(null);
     const [deleteError, setDeleteError] = useState("");
+
+    const [filterVariete, setFilterVariete] = useState("");
 
     useEffect(() => {
         dispatch(fetchParcelles());
@@ -56,6 +58,14 @@ function ParcellesList() {
             );
         }
     };
+
+    const varietesDisponibles = [
+        ...new Set(parcelles.map((p) => p.variete).filter(Boolean)),
+    ];
+
+    const filteredParcelles = parcelles.filter(
+        (p) => filterVariete === "" || p.variete === filterVariete,
+    );
 
     const totalHectares = parcelles.reduce(
         (sum, p) => sum + (p.superficie || 0),
@@ -102,119 +112,173 @@ function ParcellesList() {
                 </div>
             )}
 
+            <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+                <img
+                    width="20"
+                    height="20"
+                    src="https://img.icons8.com/sf-black-filled/64/filter.png"
+                    alt="filter"
+                />
+                <select
+                    value={filterVariete}
+                    onChange={(e) => setFilterVariete(e.target.value)}
+                    className="flex-1 bg-transparent text-sm font-medium text-gray-700 
+                   focus:outline-none cursor-pointer"
+                >
+                    <option value="">Toutes les variétés</option>
+                    {varietesDisponibles.map((v) => (
+                        <option key={v} value={v}>
+                            {v}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
             {loading ? (
                 <p className="text-gray-400 text-center py-12">Chargement...</p>
             ) : parcelles.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {parcelles.map((p) => {
-                        const parcelleStats = getStatsForParcelle(p._id);
-                        const isAlerte = parcelleStats?.alerte === true;
+                filteredParcelles.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        {filteredParcelles.map((p) => {
+                            const parcelleStats = getStatsForParcelle(p._id);
+                            const isAlerte = parcelleStats?.alerte === true;
 
-                        return (
-                            <div
-                                key={p._id}
-                                className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow"
-                            >
-                                <div className="h-40 flex items-center justify-center">
-                                    <img
-                                        src={varietyImages[p.variete]}
-                                        alt={`Oliviers ${p.variete}`}
-                                        className="w-full h-40 object-cover"
-                                    />
-                                </div>
-
-                                <div className="p-4">
-                                    <div className="flex items-start justify-between gap-2">
-                                        <h3 className="font-bold text-gray-900 truncate">
-                                            {p.nom}
-                                        </h3>
-                                        {parcelleStats && (
-                                            <span
-                                                className={`text-[10px] font-semibold px-2 py-1 rounded-full whitespace-nowrap ${
-                                                    isAlerte
-                                                        ? "bg-red-50 text-red-600"
-                                                        : "bg-emerald-50 text-green-700"
-                                                }`}
-                                            >
-                                                {isAlerte
-                                                    ? "À surveiller"
-                                                    : "Bonne santé"}
-                                            </span>
-                                        )}
+                            return (
+                                <div
+                                    key={p._id}
+                                    className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow"
+                                >
+                                    <div className="h-40 flex items-center justify-center">
+                                        <img
+                                            src={varietyImages[p.variete]}
+                                            alt={`Oliviers ${p.variete}`}
+                                            className="w-full h-40 object-cover"
+                                        />
                                     </div>
 
-                                    <p className="text-xs text-gray-400 mt-1">
-                                        {p.superficie} ha • {p.variete}
-                                    </p>
-
-                                    <p className="text-xs text-gray-400 flex items-center gap-1 mt-1">
-                                        {p.localisation} • {p.typeIrrigation}
-                                    </p>
-
-                                    <div className="grid grid-cols-2 gap-2 mt-3">
-                                        <div className="bg-gray-50 rounded-lg p-2">
-                                            <p className="text-[10px] text-gray-400">
-                                                Dernière récolte
-                                            </p>
-                                            <p className="text-sm font-bold text-gray-900">
-                                                {parcelleStats?.derniereRecolte
-                                                    ?.date
-                                                    ? formatDate(
-                                                          parcelleStats
-                                                              .derniereRecolte
-                                                              .date,
-                                                      )
-                                                    : "—"}
-                                            </p>
+                                    <div className="p-4">
+                                        <div className="flex items-start justify-between gap-2">
+                                            <h3 className="font-bold text-gray-900 truncate">
+                                                {p.nom}
+                                            </h3>
+                                            {parcelleStats && (
+                                                <span
+                                                    className={`text-[10px] font-semibold px-2 py-1 rounded-full whitespace-nowrap ${
+                                                        isAlerte
+                                                            ? "bg-red-50 text-red-600"
+                                                            : "bg-emerald-50 text-green-700"
+                                                    }`}
+                                                >
+                                                    {isAlerte
+                                                        ? "À surveiller"
+                                                        : "Bonne santé"}
+                                                </span>
+                                            )}
                                         </div>
-                                        <div className="bg-gray-50 rounded-lg p-2">
-                                            <p className="text-[10px] text-gray-400">
-                                                Rendement total
-                                            </p>
-                                            <p className="text-sm font-bold text-gray-900">
-                                                {parcelleStats?.derniereRecolte
-                                                    ?.quantite_kg !== undefined
-                                                    ? `${parcelleStats.derniereRecolte.quantite_kg.toLocaleString("fr-FR")} kg`
-                                                    : "—"}
-                                            </p>
-                                        </div>
-                                    </div>
 
-                                    <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
-                                        <div className="flex gap-2">
+                                        <p className="text-xs text-gray-400 mt-1">
+                                            {p.superficie} ha • {p.variete}
+                                        </p>
+
+                                        <p className="text-xs text-gray-400 flex items-center gap-1 mt-1">
+                                            {p.localisation} •{" "}
+                                            {p.typeIrrigation}
+                                        </p>
+
+                                        <div className="grid grid-cols-2 gap-2 mt-3">
+                                            <div className="bg-gray-50 rounded-lg p-2">
+                                                <p className="text-[10px] text-gray-400">
+                                                    Dernière récolte
+                                                </p>
+                                                <p className="text-sm font-bold text-gray-900">
+                                                    {parcelleStats
+                                                        ?.derniereRecolte?.date
+                                                        ? formatDate(
+                                                              parcelleStats
+                                                                  .derniereRecolte
+                                                                  .date,
+                                                          )
+                                                        : "—"}
+                                                </p>
+                                            </div>
+                                            <div className="bg-gray-50 rounded-lg p-2">
+                                                <p className="text-[10px] text-gray-400">
+                                                    Rendement total
+                                                </p>
+                                                <p className="text-sm font-bold text-gray-900">
+                                                    {parcelleStats
+                                                        ?.derniereRecolte
+                                                        ?.quantite_kg !==
+                                                    undefined
+                                                        ? `${parcelleStats.derniereRecolte.quantite_kg.toLocaleString(
+                                                              "fr-FR",
+                                                          )} kg`
+                                                        : "—"}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
+                                            <div className="flex gap-2">
+                                                <button
+                                                    onClick={() =>
+                                                        navigate(
+                                                            `/parcelles/${p._id}/edit`,
+                                                        )
+                                                    }
+                                                    className="text-xs text-gray-500 hover:text-gray-700"
+                                                >
+                                                    <img
+                                                        width="20"
+                                                        height="20"
+                                                        src="https://img.icons8.com/forma-light-filled/24/edit.png"
+                                                        alt="edit"
+                                                    />
+                                                </button>
+                                                <button
+                                                    onClick={() =>
+                                                        setSelectedToDelete(p)
+                                                    }
+                                                    className="text-xs text-red-500 hover:text-red-700"
+                                                >
+                                                    <img
+                                                        width="20"
+                                                        height="20"
+                                                        src="https://img.icons8.com/color/48/delete-forever.png"
+                                                        alt="delete-forever"
+                                                    />
+                                                </button>
+                                            </div>
                                             <button
                                                 onClick={() =>
                                                     navigate(
-                                                        `/parcelles/${p._id}/edit`,
+                                                        `/parcelles/${p._id}`,
                                                     )
                                                 }
-                                                className="text-xs text-gray-500 hover:text-gray-700"
+                                                className="text-xs text-[#19525A] font-semibold hover:text-green-800"
                                             >
-                                                Modifier
-                                            </button>
-                                            <button
-                                                onClick={() =>
-                                                    setSelectedToDelete(p)
-                                                }
-                                                className="text-xs text-red-500 hover:text-red-700"
-                                            >
-                                                Supprimer
+                                                Ouvrir la parcelle →
                                             </button>
                                         </div>
-                                        <button
-                                            onClick={() =>
-                                                navigate(`/parcelles/${p._id}`)
-                                            }
-                                            className="text-xs text-[#19525A] font-semibold hover:text-green-800"
-                                        >
-                                            Ouvrir la parcelle →
-                                        </button>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })}
-                </div>
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <div className="text-center py-16 border-2 border-dashed border-gray-200 rounded-xl">
+                        <p className="text-4xl mb-3">🔍</p>
+                        <p className="text-gray-400">
+                            Aucune parcelle ne correspond à cette variété.
+                        </p>
+                        <button
+                            onClick={() => setFilterVariete("")}
+                            className="mt-4 text-sm text-[#19525A] font-semibold"
+                        >
+                            Réinitialiser le filtre
+                        </button>
+                    </div>
+                )
             ) : (
                 <div className="text-center py-16 border-2 border-dashed border-gray-200 rounded-xl">
                     <p className="text-4xl mb-3">🌱</p>

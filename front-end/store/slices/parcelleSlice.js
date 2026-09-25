@@ -124,6 +124,7 @@ const parcelleSlice = createSlice({
         clearCurrentParcelle: (state) => {
             state.currentParcelle = null;
             state.currentStock = null;
+            state.error = null;
         },
     },
     extraReducers: (builder) => {
@@ -141,12 +142,18 @@ const parcelleSlice = createSlice({
                 state.error = action.payload;
             })
             // Fetch Parcelle Details
+            .addCase(fetchParcelleById.pending, (state) => {
+                state.loading = true;
+            })
             .addCase(fetchParcelleById.fulfilled, (state, action) => {
                 state.currentParcelle = action.payload;
+                state.loading = false;
+                state.error = null;
             })
             .addCase(fetchParcelleById.rejected, (state, action) => {
                 state.error = action.payload;
-                console.log("vvvvvv", state.error);
+                state.loading = false;
+                state.error = null;
             })
             // Fetch Parcelle Stock
             .addCase(fetchParcelleStock.fulfilled, (state, action) => {

@@ -7,7 +7,7 @@ import {
     fetchParcelleById,
     clearCurrentParcelle,
 } from "../../../store/slices/parcelleSlice.js";
-import ParcelleFormFields from "../../components/UI/ParcelleFormFields.jsx";
+import ParcelleFormFields from "../../components/UI/parcelle/ParcelleFormFields.jsx";
 
 function ParcelleForm() {
     const { id } = useParams();
