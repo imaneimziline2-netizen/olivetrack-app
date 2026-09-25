@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../../../store/slices/adminSlice.js";
+import { useNavigate } from "react-router-dom";
 
 function UsersList() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { users, page, totalPages, total, loading, error } = useSelector(
         (state) => state.admin,
     );
@@ -74,6 +76,7 @@ function UsersList() {
                             {users.map((u, index) => (
                                 <tr
                                     key={u._id}
+                                    onClick={() => navigate(`/admin/users/${u._id}`)}  
                                     className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
                                     style={{
                                         backgroundColor:

@@ -16,3 +16,4 @@ export const getAdminStatsRequest = async () => {
     const response = await api.get("/admin/stats");
     return response.data;
 };
+

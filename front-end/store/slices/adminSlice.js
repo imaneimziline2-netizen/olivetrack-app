@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
     getAdminStatsRequest,
     getAllUsersRequest,
+    getUserByIdRequest,
 } from "../../src/services/adminService";
 
 export const fetchUsers = createAsyncThunk(
@@ -31,11 +32,23 @@ export const fetchAdminStats = createAsyncThunk(
     },
 );
 
+export const fetchUserById = createAsyncThunk(
+    "admin/fetchUser",
+    async (_id, { rejectWithValue }) => {
+        try{
+            return await getUserByIdRequest(_id);
+        }catch(error){
+                return rejectWithValue(error.response?.data?.message || "Utilisateur introuvable ")
+        }
+    },
+);
+
 const adminSlice = createSlice({
     name: "admin",
     initialState: {
         stats: null,
         users: [],
+        currentUser:null,
         total: 0,
         page: 1,
         totalPages: 1,
@@ -71,7 +84,19 @@ const adminSlice = createSlice({
             .addCase(fetchAdminStats.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
-            });
+            })
+            .addCase(fetchUserById.pending, (state)=>{
+                state.loading = true;
+                state.error = null
+            })
+            .addCase(fetchUserById.fulfilled, (state, action) => {
+                state.loading = false;
+                state.currentUser = action.payload;
+            })
+            .addCase(fetchUserById.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
     },
 });
 

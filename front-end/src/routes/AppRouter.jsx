@@ -21,6 +21,7 @@ import Profile from "../pages/profile/Profile.jsx";
 import Dashboard from "../pages/dashboard/Dashboard.jsx";
 import UsersList from "../pages/admin/UsersList.jsx";
 import AdminDashboard from "../pages/admin/AdminDashboard.jsx";
+import UserDetail from "../pages/admin/UserDetail.jsx";
 
 function AppRouter() {
     return (
@@ -61,6 +62,7 @@ function AppRouter() {
                 <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
                     <Route path="/admin/users" element={<UsersList />} />
                     <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                    <Route path="/admin/users/:id" element={<UserDetail />} />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />
