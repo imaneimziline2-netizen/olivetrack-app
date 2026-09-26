@@ -30,20 +30,18 @@ const RecoltDetails = ({ id }) => {
 
     return (
         <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            {/* Header */}
             <div className="flex justify-between items-center p-4 border-b border-[#00B894]/20 bg-gradient-to-r from-[#1B5E5A]/5 to-[#00B894]/5">
                 <h3 className="text-sm font-semibold text-[#1B5E5A]">
                     Historique des récoltes
                 </h3>
                 <button
                     onClick={() => navigate(`/recoltes/new?parcelleId=${id}`)}
-                    className="text-xs font-semibold text-[#F08C5A] hover:text-[#F5D76E] transition"
+                    className="text-xs font-semibold text-[#F08C5A] hover:text-[#F5D76E] transition "
                 >
                     + Ajouter
                 </button>
             </div>
 
-            {/* Barre de recherche + Choix */}
             <div className="flex items-center gap-2 p-4 border-b border-gray-100">
                 <select
                     value={searchType}

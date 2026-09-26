@@ -77,7 +77,7 @@ function UsersList() {
                                 <tr
                                     key={u._id}
                                     onClick={() => navigate(`/admin/users/${u._id}`)}  
-                                    className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
+                                    className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors cursor-pointer"
                                     style={{
                                         backgroundColor:
                                             index % 2 === 0

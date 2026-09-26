@@ -63,7 +63,7 @@ La solution proposée permet d'enregistrer les parcelles et les récoltes (qui a
 ## 6. Modèle de données
 
 ```
-User (nom, email, motDePasse, role: agriculteur|admin — un seul admin dans le système)
+User (nom, email, motDePasse, role, region, telephone : agriculteur|admin — un seul admin dans le système)
   └── Parcelle (nom, superficie, localisation, variete, typeIrrigation, modeCulture, nombreArbres, anneePlantation)
         ├── Recolte (date, quantiteOlives)                          → alimente automatiquement ParcelleStock
         └── ParcelleStock (nom, Stock, quantiteEntrant, quantiteSortante)   → 1 par parcelle
@@ -101,7 +101,6 @@ Créer un fichier `.env` à la racine :
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/olivetrack
 JWT_SECRET=votre_secret_jwt
-JWT_EXPIRES_IN=1d
 ```
 
 ### 7.5 Lancer le projet
@@ -168,35 +167,29 @@ npm test
 
 ---
 
-## 11. Captures d'écran
+### structure  
 
-> ⚠️ À compléter avec des captures Postman des principaux flux (register, création parcelle, trituration avec rendement, dashboard).
+.
+├── src
+│   ├── config
+│   ├── middlewares
+│   ├── modules
+│   │   ├── admin
+│   │   ├── auth
+│   │   ├── dashboard
+│   │   ├── parcelles
+│   │   ├── recoltes
+│   │   ├── triturations
+│   │   ├── users
+│   │   └── ventes
+│   └── utils
+└── tests
+    ├── integration
+    └── unit
 
-### Capture 1
-**Titre :** _______________________________________________
-```md
-![Titre](chemin-vers-image.png)
-```
-**Explication :** _______________________________________________
 
-### Capture 2
-**Titre :** _______________________________________________
-```md
-![Titre](chemin-vers-image.png)
-```
-**Explication :** _______________________________________________
 
----
-
-## 12. Contribution personnelle
-
-> ⚠️ À compléter selon ta situation réelle.
-
-Ma contribution principale a porté sur _______________________________________________.
-
----
-
-## 13. Difficultés rencontrées
+## 11. Difficultés rencontrées
 
 ### Difficulté 1 — Erreurs de résolution de modules ES Modules (`ERR_MODULE_NOT_FOUND`)
 **Problème rencontré :** Le serveur crashait au démarrage avec des erreurs `Cannot find module`.
@@ -220,7 +213,7 @@ Ma contribution principale a porté sur ________________________________________
 
 ---
 
-## 14. Améliorations possibles
+## 12. Améliorations possibles
 
 - Étendre la couverture de tests (endpoints Parcelles/Trituration/Vendu, tests de sécurité supplémentaires).
 - Documenter l'API avec Swagger/OpenAPI.

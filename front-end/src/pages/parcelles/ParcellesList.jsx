@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Trash } from "lucide-react";
 import {
     fetchParcelles,
     deleteParcelle,
@@ -241,12 +242,7 @@ function ParcellesList() {
                                                     }
                                                     className="text-xs text-red-500 hover:text-red-700"
                                                 >
-                                                    <img
-                                                        width="20"
-                                                        height="20"
-                                                        src="https://img.icons8.com/color/48/delete-forever.png"
-                                                        alt="delete-forever"
-                                                    />
+                                                    <Trash size={16} />
                                                 </button>
                                             </div>
                                             <button
