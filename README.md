@@ -18,3 +18,7 @@ Voir le README de chaque dossier séparément.
 ## diagramme use case
 
 ![USE Case giagram](./front-end/src/assets/diagrammeUseCase.png)
+
+## diagramme de sequence 
+
+![sequence giagram](./front-end/src/assets/diagrammeDeSequence.png)
