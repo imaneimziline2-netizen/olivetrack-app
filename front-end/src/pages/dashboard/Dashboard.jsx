@@ -33,6 +33,8 @@ function Dashboard() {
 
     if (loading) return <p className="p-6 text-gray-400">Chargement...</p>;
     if (error) return <p className="p-6 text-red-500">{error}</p>;
+    
+    console.log("statsGlobales", statsGlobales);
 
     return (
         <div className="p-6 space-y-6">

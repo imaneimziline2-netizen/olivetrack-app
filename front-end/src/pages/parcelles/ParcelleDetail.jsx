@@ -58,7 +58,6 @@ function ParcelleDetail() {
 
     console.log("erroroooooooo", error);
     if (error) {
-        console.log("kaynnnnnn");
 
         return (
             <div className="p-6">

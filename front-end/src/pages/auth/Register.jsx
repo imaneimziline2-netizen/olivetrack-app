@@ -117,12 +117,12 @@ function Register() {
 
                     <div className="mb-3">
                         <label className="block text-[12px] font-semibold text-lime-800 mb-1">
-                            Password
+                            motDePasse
                         </label>
                         <input
-                            type="password"
+                            type="motDePasse"
                             name="motDePasse"
-                            value={formData.password}
+                            value={formData.motDePasse}
                             onChange={handleChange}
                             placeholder="••••••••"
                             className="w-full py-2.5 px-4 border-2 border-lime-50 rounded-xl text-sm bg-lime-50/40 text-lime-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-lime-400 focus:bg-white focus:ring-4 focus:ring-lime-300/20"

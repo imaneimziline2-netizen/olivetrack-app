@@ -101,9 +101,10 @@ function ParcellesList() {
                 </div>
                 <button
                     onClick={() => navigate("/parcelles/new")}
-                    className="bg-[#49CCC3] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#38b0a9] transition-colors"
+                    className="bg-[#49CCC3] text-white px-3 sm:px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#38b0a9] transition-colors flex items-center justify-center gap-1"
                 >
-                    + Nouvelle Parcelle
+                    <span>+</span>
+                    <span className="hidden sm:inline">Nouvelle Parcelle</span>
                 </button>
             </div>
 

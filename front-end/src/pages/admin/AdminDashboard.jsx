@@ -31,8 +31,8 @@ function AdminDashboard() {
     const heroStats = [
         {
             label: "Utilisateurs totaux",
-            value: stats?.totalUsers || 0,
-            sub: `${stats?.totalAdmins || 0} admins · ${stats?.totalAgriculteurs || 0} agriculteurs`,
+            value: stats?.totalUsers,
+            sub: `${stats?.totalAdmins} admins · ${stats?.totalAgriculteurs } agriculteurs`,
             icon: (
                 <img
                     width="40"

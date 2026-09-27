@@ -52,7 +52,7 @@ function VentesList() {
                             Ventes
                         </h1>
                         <p className="text-sm text-gray-500 mt-0.5">
-                            Suivi des ventes d'huile
+                            Suivi des ventes d'olives (kg)
                         </p>
                     </div>
                 </div>
@@ -116,7 +116,7 @@ function VentesList() {
                         </p>
                         <p className="text-lg font-bold leading-tight">
                             {totalQte.toLocaleString()}{" "}
-                            <span className="text-xs font-normal">L</span>
+                            <span className="text-xs font-normal">kg</span>
                         </p>
                     </div>
                 </div>
@@ -164,7 +164,7 @@ function VentesList() {
                                 <th className="text-left px-5 py-3 font-semibold"> Date</th>
                                 <th className="text-left px-5 py-3 font-semibold"> Quantité</th>
                                 <th className="text-left px-5 py-3 font-semibold"> Revenu</th>
-                                <th className="text-left px-5 py-3 font-semibold"> Prix/L</th>
+                                <th className="text-left px-5 py-3 font-semibold"> Prix/kg</th>
                                 <th className="text-right px-5 py-3 font-semibold">Actions</th>
                             </tr>
                         </thead>
@@ -186,7 +186,7 @@ function VentesList() {
                                             <span className="inline-flex items-center gap-1.5 
                                                              bg-[#00B894]/10 text-[#1B5E5A] 
                                                              font-semibold text-xs px-3 py-1 rounded-full">
-                                                {v.quantiteVendue} L
+                                                {v.quantiteVendue} kg
                                             </span>
                                         </td>
                                         <td className="px-5 py-3.5">
@@ -197,7 +197,7 @@ function VentesList() {
                                             </span>
                                         </td>
                                         <td className="px-5 py-3.5 text-gray-500 text-xs">
-                                            {prixUnitaire} MAD/L
+                                            {prixUnitaire} MAD/kg
                                         </td>
                                         <td className="px-5 py-3.5 text-right">
                                             <button

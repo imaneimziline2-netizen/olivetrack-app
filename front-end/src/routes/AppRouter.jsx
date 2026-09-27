@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "../pages/auth/Login.jsx";
 import Register from "../pages/auth/Register.jsx";
+import LandingPage from "../pages/LandingPage.jsx";
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
 import Layout from "../components/layout/Layout.jsx";
 
@@ -26,6 +27,7 @@ import UserDetail from "../pages/admin/UserDetail.jsx";
 function AppRouter() {
     return (
         <Routes>
+            <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
@@ -40,20 +42,31 @@ function AppRouter() {
                 <Route path="/profile/edit" element={<Profile />} />
                 <Route path="/guide" element={<GuideAgronomique />} />
 
-                <Route element={<ProtectedRoute allowedRoles={["agriculteur"]} />}>
+                <Route
+                    element={<ProtectedRoute allowedRoles={["agriculteur"]} />}
+                >
                     <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/" element={<Dashboard />} />
+                    {/* <Route path="/" element={<Dashboard />} /> */}
 
                     <Route path="/parcelles" element={<ParcellesList />} />
                     <Route path="/parcelles/new" element={<ParcelleForm />} />
                     <Route path="/parcelles/:id" element={<ParcelleDetail />} />
-                    <Route path="/parcelles/:id/edit" element={<ParcelleForm />} />
+                    <Route
+                        path="/parcelles/:id/edit"
+                        element={<ParcelleForm />}
+                    />
 
                     <Route path="/recoltes/new" element={<RecolteForm />} />
                     <Route path="/recoltes" element={<RecoltesList />} />
 
-                    <Route path="/triturations/new" element={<TriturationForm />} />
-                    <Route path="/triturations" element={<TriturationsList />} />
+                    <Route
+                        path="/triturations/new"
+                        element={<TriturationForm />}
+                    />
+                    <Route
+                        path="/triturations"
+                        element={<TriturationsList />}
+                    />
 
                     <Route path="/ventes/new" element={<VenteForm />} />
                     <Route path="/ventes" element={<VentesListe />} />
@@ -61,7 +74,10 @@ function AppRouter() {
 
                 <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
                     <Route path="/admin/users" element={<UsersList />} />
-                    <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                    <Route
+                        path="/admin/dashboard"
+                        element={<AdminDashboard />}
+                    />
                     <Route path="/admin/users/:id" element={<UserDetail />} />
                 </Route>
 

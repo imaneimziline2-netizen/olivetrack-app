@@ -44,7 +44,7 @@ export const getAdminStats = async () => {
         date: { $gte: debut, $lte: fin },
     });
     const totalHuile = triturations.reduce(
-        (sum, t) => sum + (t.quantiteHuile || 0),
+        (sum, t) => sum + (t.quantiteHuile),
         0,
     );
 

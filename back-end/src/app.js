@@ -8,13 +8,17 @@ import venduRoutes from "./modules/ventes/venduRoutes.js";
 import dashboardRoutes from "./modules/dashboard/dashboardRoutes.js";
 import adminRoutes from "./modules/admin/adminRoutes.js";
 import cors from "cors";
+import swaggerSetup from "../swagger.js";
 
 
 const app = express();
 
+swaggerSetup(app);
+
 app.use(cors());
 
 app.use(express.json());
+
 
 app.get("/health", (req, res) => {
     res.status(200).json({ status: "ok" });
