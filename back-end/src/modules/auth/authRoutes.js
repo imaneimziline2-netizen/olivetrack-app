@@ -4,8 +4,6 @@ import { checkSingleAdmin } from "../admin/checkSingleAdmin.js";
 
 const router = Router();
 
-
-
 router.post("/register", checkSingleAdmin, register);
 
 /**
@@ -32,9 +30,13 @@ router.post("/register", checkSingleAdmin, register);
  *             schema:
  *               type: object
  *               properties:
- *                 message: { type: string }
  *                 token: { type: string }
- *                 user: { $ref: '#/components/schemas/User' }
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                       id: { type: string, example: 6ab7b7fabe76cbf3213e8df7 }
+ *                       nom: { type: string, example: imane imziline }
+ *                       role: { type: string, example: agriculteur }
  *       400: { description: Validation error }
  *       401: { description: Invalid email or password }
  */
