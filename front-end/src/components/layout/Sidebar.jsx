@@ -72,7 +72,7 @@ function Sidebar({ isOpen, onClose }) {
                     <nav className="pt-5 space-y-1">
                         {user?.role !== "admin" && (
                             <NavLink
-                                to="/"
+                                to="/Dashboard"
                                 end
                                 onClick={() => onClose?.()}
                                 className={({ isActive }) =>

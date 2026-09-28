@@ -25,7 +25,11 @@ function Register() {
         e.preventDefault();
         const result = await dispatch(registerUser(formData));
         if (registerUser.fulfilled.match(result)) {
-            navigate("/");
+           if (result.payload.user?.role === "admin") {
+                navigate("/admin/dashboard");
+            } else {
+                navigate("/dashboard");
+            }
         }
     };
     return (
