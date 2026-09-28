@@ -214,8 +214,7 @@ Cette capture montre l'interface permettant de consulter, filtrer par variété,
 
 ### Image
 
-![Détail d'une parcelle](./front-end/src/assets/screencapture-localhost-5173-Dashboard-2026-09-28-12_39_52.png)
-
+![Détail d'une parcelle](./front-end/src/assets/screencapture-localhost-5173-parcelles-6ab7d402be76cbf3213e8e00-2026-09-28-12_40_48.png)
 ### Explication
 
 Cette capture montre la page de détail d'une parcelle : ses informations (variété, superficie, irrigation), le total récolté, l'huile produite, le rendement et le stock actuel avec ses entrées et sorties. Elle affiche aussi l'alerte automatique en cas de baisse de rendement (seuil de -20 %) et les boutons pour enregistrer une récolte, une trituration ou une vente.
