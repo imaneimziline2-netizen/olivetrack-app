@@ -17,6 +17,7 @@ export function detecterAnomalie(rendementActuel, rendementsHistoriques) {
 
     const ecart =
         ((rendementActuel - moyenneHistorique) / moyenneHistorique) * 100;
+        
     const alerte = ecart <= SEUIL_ALERTE_PERCENT;
 
     return {

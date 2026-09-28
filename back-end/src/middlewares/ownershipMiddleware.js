@@ -12,7 +12,7 @@ export const checkOwnership = (Model, paramName = "id") => {
             const isOwner = resource.userId?.toString() === req.user.userId;
             const isAdmin = req.user.role === "admin";
 
-            if (!isOwner) {
+            if (!isOwner && !isAdmin) {
                 return res.status(403).json({ message: "Accès refusé : ressource non autorisée" });
             }
 

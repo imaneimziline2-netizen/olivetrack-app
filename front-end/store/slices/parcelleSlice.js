@@ -148,7 +148,7 @@ const parcelleSlice = createSlice({
             .addCase(fetchParcelleById.fulfilled, (state, action) => {
                 state.currentParcelle = action.payload;
                 state.loading = false;
-                state.error = null;
+                // state.error = null;
             })
             .addCase(fetchParcelleById.rejected, (state, action) => {
                 state.error = action.payload;
