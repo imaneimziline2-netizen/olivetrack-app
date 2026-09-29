@@ -88,21 +88,12 @@ function Login() {
                         </div>
                     </div>
 
-                    <div className="text-right mb-6">
-                        <a
-                            href="/forgot-password"
-                            className="text-[13px] text-lime-600 font-semibold no-underline border-b-2 border-transparent transition-colors duration-300 hover:border-lime-400"
-                        >
-                            Forgot Password?
-                        </a>
-                    </div>
-
                     {error && <p className="text-red-600 text-sm">{error}</p>}
 
                     <button
                         type="submit"
                         onClick={handleSubmit}
-                        className="w-full py-3.5 bg-gradient-to-br from-lime-400 to-lime-600 text-white border-none rounded-xl text-base font-semibold cursor-pointer tracking-wide shadow-lg shadow-lime-400/40 transition-all duration-300 hover:from-lime-500 hover:to-lime-700 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-lime-500/50"
+                        className="w-full py-3.5 bg-gradient-to-br from-[#49CCC3] to-[#38b0a9] text-white border-none rounded-xl text-base font-semibold cursor-pointer tracking-wide shadow-lg shadow-lime-[#38b0a9] transition-all duration-300 hover:from-[#49CCC3] hover:to-[#2a8c84] hover:-translate-y-0.5 hover:shadow-xl hover:shadow-lime-500/50"
                     >
                         {status === "loading" ? "Logging in..." : "🌱 Log In"}
                     </button>

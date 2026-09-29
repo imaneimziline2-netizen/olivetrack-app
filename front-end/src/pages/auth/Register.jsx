@@ -132,27 +132,13 @@ function Register() {
                             className="w-full py-2.5 px-4 border-2 border-lime-50 rounded-xl text-sm bg-lime-50/40 text-lime-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-lime-400 focus:bg-white focus:ring-4 focus:ring-lime-300/20"
                         />
                     </div>
-                    {/* 
-                    <div className="mb-4">
-                        <label className="block text-[12px] font-semibold text-lime-800 mb-1">
-                            Confirm Password
-                        </label>
-                        <input
-                            type="motDePasse"
-                            name="confirmPassword"
-                            value={formData.confirmPassword}
-                            onChange={handleChange}
-                            placeholder="••••••••"
-                            className="w-full py-2.5 px-4 border-2 border-lime-50 rounded-xl text-sm bg-lime-50/40 text-lime-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-lime-400 focus:bg-white focus:ring-4 focus:ring-lime-300/20"
-                        />
-                    </div> */}
 
                     {error && <p className="text-red-600 text-sm">{error}</p>}
 
                     <button
                         type="submit"
                         onClick={handleSubmit}
-                        className="w-full py-3 bg-gradient-to-br from-lime-400 to-lime-600 text-white border-none rounded-xl text-[15px] font-semibold cursor-pointer tracking-wide shadow-lg shadow-lime-400/40 transition-all duration-300 hover:from-lime-500 hover:to-lime-700 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-lime-500/50"
+                        className="w-full py-3.5 bg-gradient-to-br from-[#49CCC3] to-[#38b0a9] text-white border-none rounded-xl text-base font-semibold cursor-pointer tracking-wide shadow-lg shadow-lime-[#38b0a9] transition-all duration-300 hover:from-[#49CCC3] hover:to-[#2a8c84] hover:-translate-y-0.5 hover:shadow-xl hover:shadow-lime-500/50"
                     >
                         {status === "loading"
                             ? "Processing..."

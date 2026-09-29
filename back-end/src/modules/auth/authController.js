@@ -9,7 +9,7 @@ export async function register(req, res) {
             return res.status(400).json({ message: error.details[0].message });
         }
 
-        const result = await registerUser(req.body, res);
+        const result = await registerUser(req.body);
         res.status(201).json(result);
     } catch (err) {
         serverErrorResponse(res, err);
@@ -23,7 +23,7 @@ export async function login(req, res) {
             return res.status(400).json({ message: error.message });
         }
 
-        const result = await loginUser(req.body, res);
+        const result = await loginUser(req.body);
         res.status(200).json(result);
     } catch (err) {
         serverErrorResponse(res, err);

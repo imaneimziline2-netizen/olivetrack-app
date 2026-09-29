@@ -49,9 +49,6 @@ function LandingPage() {
                         <a href="#pourquoi" className="hover:text-[#1B5E5A]">
                             Pourquoi {BRAND_NAME}
                         </a>
-                        <a href="#avis" className="hover:text-[#1B5E5A]">
-                            Témoignages
-                        </a>
                     </nav>
                     <div className="flex items-center gap-3">
                         <button

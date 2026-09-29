@@ -22,25 +22,25 @@ function Dashboard() {
     const { stats, statsGlobales, monthlyYield, loading, error } = useSelector(
         (state) => state.dashboard,
     );
-    const user = useSelector((state) => state.auth);
+    const {user} = useSelector((state) => state.auth);
 
     useEffect(() => {
         dispatch(fetchMonthlyYield(currentYear));
         dispatch(fetchDashboard(currentYear));
     }, [dispatch, currentYear]);
 
+
     const alertes = (stats || []).filter((s) => s.alerte === true);
 
     if (loading) return <p className="p-6 text-gray-400">Chargement...</p>;
     if (error) return <p className="p-6 text-red-500">{error}</p>;
-    
-    console.log("statsGlobales", statsGlobales);
+   
 
     return (
         <div className="p-6 space-y-6">
             <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                    Bonjour {user?.name || "Utilisateur"}, vos oliviers vous
+                    Bonjour {user?.nom || "Utilisateur"}, vos oliviers vous
                     attendent
                 </h1>
                 <p className="text-xs text-gray-400 mt-1">
@@ -82,7 +82,6 @@ function Dashboard() {
                 </div>
             </div>
 
-            {/* Chart + Image */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <div className="lg:col-span-2 bg-white border border-gray-200 rounded-xl p-4">
                     <h3 className="font-semibold text-gray-900 mb-3">
