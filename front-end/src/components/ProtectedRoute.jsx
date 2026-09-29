@@ -14,13 +14,12 @@ function ProtectedRoute({ children, allowedRoles }) {
         }
 
         if (user?.role === "agriculteur") {
-            return <Navigate to="/" replace />;
+            return <Navigate to="/Dashboard" replace />;
         }
 
         return <Navigate to="/login" replace />;
     }
 
-    //  <Route element={<ProtectedRoute allowedRoles={[...]} />}> -> renders <Outlet />
     return children ? children : <Outlet />;
 }
 

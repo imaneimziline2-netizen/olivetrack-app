@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import User from "../modules/users/user.model.js";
 
 export const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -19,17 +18,3 @@ export const authMiddleware = (req, res, next) => {
     }
 };
 
-// export const emailExiste = async (req, res, next) => {
-//     try {
-//         const { email } = req.body;
-//         const existEmail = await User.findOne({ email });
-
-//         if (existEmail) {
-//             return res.status(409).json({ message: "Email already exists" });
-//         }
-
-//         next();
-//     } catch (error) {
-//         return res.status(500).json({ message: error.message });
-//     }
-// };
