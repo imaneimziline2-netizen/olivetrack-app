@@ -5,6 +5,7 @@ export const createRecolteValidator = Joi.object({
         "date.max": "La date de récolte ne peut pas être dans le futur",
     }),
     quantiteOlives: Joi.number().positive().required(),
+    variete : joi.string().required(),
 });
 
 export const updateRecolteValidator = Joi.object({

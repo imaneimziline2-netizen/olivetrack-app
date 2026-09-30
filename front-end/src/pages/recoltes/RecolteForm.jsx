@@ -9,6 +9,16 @@ function RecolteForm() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
 
+    const VARIETES_COURANTES = [
+        "Picholine",
+        "Picholine Marocaine",
+        "Arbequina",
+        "Koroneiki",
+        "Haouzia",
+        "Menara",
+        "Dahbia",
+    ];
+
     const { parcelles } = useSelector((state) => state.parcelles);
     const { loading, error } = useSelector((state) => state.recoltes);
 
@@ -124,6 +134,16 @@ function RecolteForm() {
                             required
                             className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm"
                         />
+                    </div>
+
+                    <div>
+                        <select value={""}>
+                            {VARIETES_COURANTES.map((val, i) => (
+                                <option key={i} value={val}>
+                                    {val}
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
                     <div className="flex justify-end gap-3 pt-4 border-t">

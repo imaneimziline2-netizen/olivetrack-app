@@ -1,9 +1,9 @@
 import Recolte from "./recolte.model.js";
 import ParcelleStock from "../parcelles/parcelleStock.model.js";
 
-export const createRecolte = async (parcelleId, data) => {
+export const createRecolte = async (parcelleId, data ,variete) => {
     
-    const recolte = await Recolte.create({ ...data, parcelleId });
+    const recolte = await Recolte.create({ ...data, parcelleId, variete });
 
     await ParcelleStock.findOneAndUpdate(
         { parcelleId },

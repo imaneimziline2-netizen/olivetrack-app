@@ -9,8 +9,8 @@ const recolteSchema = new mongoose.Schema(
             ref: "Parcelle",
             required: true,
         },
+        variete: { type: String, required: true },
     },
-    { timestamps: true }
+    { timestamps: true },
 );
-
 export default mongoose.model("Recolte", recolteSchema);
